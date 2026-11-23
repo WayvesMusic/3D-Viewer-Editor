@@ -323,6 +323,8 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
 
   const scene = new THREE.Scene();
   const measurementGroup = new THREE.Group(); measurementGroup.name = 'Measurements'; scene.add(measurementGroup);
+  // Tracks generated measurement helpers so they can be safely cleared between model imports.
+  const measurementObjects = [];
   const camera = new THREE.PerspectiveCamera(45, 1, 0.01, 10000);
   camera.position.set(5.6, 3.8, 6.4);
   const controls = new OrbitControls(camera, renderer.domElement);
