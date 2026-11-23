@@ -1696,18 +1696,20 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
     }
   }
 
-  const DEMO_FBX_URL = 'https://raw.githubusercontent.com/WayvesMusic/3D-Viewer-Editor/main/Demo.fbx';
+  // Demo.fbx is stored beside index.html in the deployed website/repository.
+  // Resolve it relative to the page so GitHub Pages project paths work too.
+  const DEMO_FBX_URL = new URL('./Demo.fbx', document.baseURI);
   $('demoButton').addEventListener('click', async () => {
     const button = $('demoButton');
     if (button.disabled) return;
     button.disabled = true;
     const previousLabel = button.textContent;
     button.textContent = 'Loading Demo.fbx…';
-    setStatus('Downloading Demo.fbx…', true);
+    setStatus('Loading Demo.fbx from this website…', true);
     const ticket = ++loadTicket;
     try {
-      const response = await fetch(DEMO_FBX_URL, { mode: 'cors', cache: 'no-cache' });
-      if (!response.ok) throw new Error(`GitHub returned HTTP ${response.status}.`);
+      const response = await fetch(DEMO_FBX_URL, { cache: 'no-cache' });
+      if (!response.ok) throw new Error(`The website returned HTTP ${response.status} for ${DEMO_FBX_URL.pathname}. Check that Demo.fbx is beside index.html.`);
       const buffer = await response.arrayBuffer();
       if (ticket !== loadTicket) return;
       if (buffer.byteLength < 32) throw new Error('The repository returned an empty or invalid FBX file.');
@@ -1719,13 +1721,13 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
       if (parsed.usedFallback) {
         showToast(`Demo.fbx loaded with FBX recovery. ${parsed.removedNodes} texture/video entries skipped; animation data retained.`, true);
       } else {
-        showToast(`Loaded Demo.fbx from WayvesMusic/3D-Viewer-Editor with ${animations.length} animation clip${animations.length === 1 ? '' : 's'}.`, true);
+        showToast(`Loaded the local Demo.fbx with ${animations.length} animation clip${animations.length === 1 ? '' : 's'}.`, true);
       }
     } catch (error) {
       if (ticket !== loadTicket) return;
       console.error('Demo.fbx download/import failed:', error);
       setStatus(modelRoot ? 'Previous model retained' : 'Demo import failed');
-      showToast(`Could not load Demo.fbx from GitHub. ${error?.message || 'Check your connection and try again.'} You can also download it from the repository and import the file manually.`);
+      showToast(`Could not load Demo.fbx from this website. ${error?.message || 'Check that Demo.fbx exists beside index.html.'}`);
     } finally {
       button.disabled = false;
       button.textContent = previousLabel;
