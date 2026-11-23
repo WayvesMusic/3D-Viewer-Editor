@@ -3,79 +3,175 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="color-scheme" content="dark" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#05070f" />
 <title>Model Editor</title>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem("me-theme")||"midnight";document.documentElement.dataset.mode=localStorage.getItem("me-mode")||"basic"}catch(e){document.documentElement.dataset.theme="midnight";document.documentElement.dataset.mode="basic"}</script>
 <style>
-:root{--bg:#1e1f22;--panel:#2a2b2e;--field:#1a1b1d;--line:#3a3b40;--btn:#3a3b40;--text:#d9dadd;--muted:#8c8e94;--accent:#e8873a;--blue:#4772b3}
+:root,[data-theme=midnight]{--bg:#05070f;--panel:#0b1022;--panel2:#0f1630;--field:#070b19;--line:#1a2547;--btn:#121b3a;--btnh:#1a2650;--text:#e6ebff;--muted:#8791b8;--accent:#3b6bff;--accent2:#6f9bff;--onaccent:#fff;--glow:#2b4cff55;--view:#070b1c;--grid1:#2a3a7a;--grid2:#141c3d;--sel:#16245a;--ok:#4ade80;--warn:#fbbf24;--err:#2a1220;--errl:#7a2b45;--info:#0f1d45;--infol:#2f4fb0;--hl:0x6f9bff;--vcol:0x070b1c;--g1:0x2a3a7a;--g2:0x141c3d}
+[data-theme=violet]{--bg:#08050f;--panel:#120a22;--panel2:#190f30;--field:#0a0615;--line:#2b1b4d;--btn:#1d1238;--btnh:#2a1b52;--text:#efe9ff;--muted:#9a8cc0;--accent:#8b5cf6;--accent2:#b79bff;--glow:#7c3aed55;--view:#0b0618;--grid1:#4b2f8a;--grid2:#1f1340;--sel:#2a1b5a;--info:#1d1240;--infol:#6b46d6;--hl:0xb79bff;--vcol:0x0b0618;--g1:0x4b2f8a;--g2:0x1f1340}
+[data-theme=emerald]{--bg:#040c0a;--panel:#08181a;--panel2:#0c2124;--field:#051214;--line:#12383a;--btn:#0e2a2c;--btnh:#143a3c;--text:#e4fff6;--muted:#7fb3a6;--accent:#10b981;--accent2:#5eead4;--glow:#10b98155;--view:#041012;--grid1:#17605a;--grid2:#0c2a2c;--sel:#0f3a34;--info:#0a2a2a;--infol:#14907a;--hl:0x5eead4;--vcol:0x041012;--g1:0x17605a;--g2:0x0c2a2c}
+[data-theme=daylight]{--bg:#eef2fb;--panel:#ffffff;--panel2:#f4f7fe;--field:#f1f4fb;--line:#d5dcf0;--btn:#e8edfa;--btnh:#d9e2f8;--text:#101938;--muted:#5a6690;--accent:#2f5bff;--accent2:#2f5bff;--onaccent:#fff;--glow:#2f5bff30;--view:#dfe6f7;--grid1:#9aabd8;--grid2:#c3cee9;--sel:#dbe5ff;--err:#ffe8ee;--errl:#e08ba3;--info:#e5edff;--infol:#8fa8f0;--hl:0x2f5bff;--vcol:0xdfe6f7;--g1:0x9aabd8;--g2:0xc3cee9}
+:root{--onaccent:#fff;--ok:#4ade80;--warn:#fbbf24;--r:8px}
 *{box-sizing:border-box}
 html,body{height:100%;margin:0}
-body{font:12px/1.4 Inter,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);overflow:hidden}
+body{font:13px/1.45 Inter,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:radial-gradient(1200px 500px at 50% -10%,var(--glow),transparent 70%),var(--bg);color:var(--text);overflow:hidden;-webkit-tap-highlight-color:transparent}
 button,input,select{font:inherit;color:inherit}
 button{cursor:pointer}
 button:disabled,select:disabled{opacity:.4;cursor:not-allowed}
-:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+:focus-visible{outline:2px solid var(--accent2);outline-offset:1px}
 svg{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .hidden{display:none!important}
-.app{height:100%;display:grid;grid-template-rows:44px minmax(0,1fr) 24px}
-.top{display:flex;align-items:center;gap:6px;padding:0 10px;background:var(--panel);border-bottom:1px solid var(--line)}
-.brand{display:flex;align-items:center;gap:8px;font-weight:650;font-size:13px;margin-right:10px}
+.app{height:100%;height:100dvh;display:grid;grid-template-rows:52px minmax(0,1fr) 26px}
+.top{display:flex;align-items:center;gap:8px;padding:0 12px;background:linear-gradient(180deg,var(--panel2),var(--panel));border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.top::-webkit-scrollbar{display:none}
+.brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:14px;letter-spacing:.06em;margin-right:8px;color:var(--text)}
+.brand svg{color:var(--accent2);filter:drop-shadow(0 0 6px var(--accent))}
 .sp{flex:1}
-.btn,select{height:28px;padding:0 10px;background:var(--btn);border:1px solid #4a4b51;border-radius:5px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
-.btn:hover:not(:disabled){background:#46474d}
-.btn.primary,.btn.on,.seg button.on{background:var(--blue);border-color:#5f8bcf;color:#fff}
-.btn.ico{width:28px;padding:0;justify-content:center;font-size:15px}
-.main{display:grid;grid-template-columns:44px minmax(0,1fr) 290px;grid-template-rows:minmax(0,1fr) 112px;min-height:0}
-.noside .main{grid-template-columns:44px minmax(0,1fr) 0}
+.btn,select{height:32px;padding:0 12px;background:var(--btn);border:1px solid var(--line);border-radius:var(--r);display:inline-flex;align-items:center;gap:6px;white-space:nowrap;transition:background .15s,box-shadow .15s,border-color .15s}
+select{padding-right:6px}
+.btn:hover:not(:disabled),select:hover:not(:disabled){background:var(--btnh);border-color:var(--accent)}
+.btn.primary,.btn.on,.seg button.on{background:linear-gradient(180deg,var(--accent2),var(--accent));border-color:var(--accent2);color:var(--onaccent);box-shadow:0 0 14px var(--glow)}
+.btn.ico{width:32px;padding:0;justify-content:center;font-size:15px}
+.lbl{display:inline}
+.main{position:relative;display:grid;grid-template-columns:52px minmax(0,1fr) 300px;grid-template-rows:minmax(0,1fr) auto;min-height:0}
+.noside .main{grid-template-columns:52px minmax(0,1fr) 0}
 .noside .side{display:none}
-.tools{grid-row:1/3;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 0}
-.tools .btn{width:34px;height:34px;padding:0;justify-content:center}
-.tools hr{width:24px;border:0;border-top:1px solid var(--line);margin:4px 0}
-.viewer{position:relative;min-width:0;min-height:0;background:#2b2d31;overflow:hidden}
-.viewer.dragover::after{content:"Drop to import";position:absolute;inset:10px;border:2px dashed var(--accent);border-radius:8px;display:grid;place-items:center;font-size:16px;background:#e8873a1a;pointer-events:none}
+.tools{grid-row:1/3;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 0;overflow-y:auto}
+.tools .btn{width:38px;height:38px;padding:0;justify-content:center}
+.tools hr{width:26px;border:0;border-top:1px solid var(--line);margin:4px 0}
+.viewer{position:relative;min-width:0;min-height:0;background:radial-gradient(700px 360px at 50% 100%,var(--glow),transparent 75%),var(--view);overflow:hidden}
+.viewer.dragover::after{content:"Drop to import";position:absolute;inset:12px;border:2px dashed var(--accent2);border-radius:14px;display:grid;place-items:center;font-size:18px;background:var(--glow);pointer-events:none;z-index:6}
 #canvasHost{position:absolute;inset:0}
-#canvasHost canvas{display:block;width:100%;height:100%}
-.vbar{position:absolute;top:10px;left:10px;display:flex;gap:8px;pointer-events:none;flex-wrap:wrap}
-.vbar.r{left:auto;right:10px}
-.seg{display:inline-flex;pointer-events:auto;background:#1e1f22e6;border:1px solid #4a4b51;border-radius:5px;overflow:hidden}
-.seg button{height:26px;padding:0 10px;border:0;background:none}
-.seg button+button{border-left:1px solid #3a3b40}
-.seg button:hover:not(.on){background:#3a3b40}
-.welcome{position:absolute;top:44%;left:50%;transform:translate(-50%,-50%);text-align:center;width:min(380px,calc(100% - 32px))}
-.welcome h1{font-size:20px;margin:0 0 6px}
-.welcome p{color:var(--muted);margin:0 0 16px;font-size:13px}
+#canvasHost canvas{display:block;width:100%;height:100%;touch-action:none}
+.vbar{position:absolute;top:12px;left:12px;display:flex;gap:8px;pointer-events:none;flex-wrap:wrap;z-index:2;max-width:calc(100% - 24px)}
+.vbar.r{left:auto;right:12px}
+.seg{display:inline-flex;pointer-events:auto;background:color-mix(in srgb,var(--panel) 85%,transparent);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.seg button{height:30px;padding:0 11px;border:0;background:none}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button:hover:not(.on){background:var(--btnh)}
+.welcome{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;width:min(440px,calc(100% - 32px));padding:28px 22px;background:color-mix(in srgb,var(--panel) 80%,transparent);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:18px;box-shadow:0 0 60px var(--glow);z-index:1}
+.welcome h1{font-size:22px;margin:0 0 8px;line-height:1.25}
+.welcome p{color:var(--muted);margin:0 0 18px;font-size:13px}
 .welcome .acts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-#toast{position:absolute;top:48px;left:50%;transform:translateX(-50%);max-width:min(520px,calc(100% - 24px));background:#3a2626;border:1px solid #8a4b4b;border-radius:6px;padding:9px 12px;display:none;z-index:5;box-shadow:0 8px 24px #0006}
-#toast.info{background:#26323f;border-color:#4f6a88}
-.timeline{grid-column:2;grid-row:2;background:var(--panel);border-top:1px solid var(--line);padding:10px 12px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.chips span{font-size:11px;padding:2px 9px;border:1px solid var(--line);border-radius:99px;color:var(--muted)}
+#toast{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);max-width:min(560px,calc(100% - 24px));background:var(--err);border:1px solid var(--errl);border-radius:10px;padding:10px 36px 10px 14px;display:none;z-index:7;box-shadow:0 10px 30px #0008;cursor:pointer}
+#toast.info{background:var(--info);border-color:var(--infol)}
+#toast::after{content:"×";position:absolute;right:12px;top:6px;font-size:18px;opacity:.7}
+.timeline{grid-column:2;grid-row:2;background:var(--panel);border-top:1px solid var(--line);padding:10px 12px;display:flex;flex-direction:column;gap:8px;min-width:0}
 .tl-row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.tl-row select{max-width:240px}
+.tl-row select{max-width:240px;min-width:0}
 .time{margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums}
 #timeline{width:100%;margin:0;accent-color:var(--accent)}
+.timeline{max-height:min(340px,42vh);overflow:hidden}
+.keyframe-editor{display:flex;flex-direction:column;gap:7px;min-height:0;border-top:1px solid var(--line);padding-top:8px}
+.keyframe-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}
+.keyframe-title{font-weight:700;color:var(--text);white-space:nowrap}
+#keyframeSummary{color:var(--muted);font-size:11px}
+.keyframe-actions{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-left:auto}
+.keyframe-actions .btn{height:27px;padding:0 8px;font-size:11px}
+.keyframe-tracks{min-height:36px;max-height:145px;overflow:auto;border:1px solid var(--line);border-radius:7px;background:var(--field);scrollbar-color:var(--line) transparent}
+.keyframe-empty{color:var(--muted);padding:9px 10px;margin:0;font-size:11px}
+.keyframe-row{display:grid;grid-template-columns:minmax(120px,205px) minmax(90px,1fr);gap:8px;align-items:center;min-height:29px;padding:2px 8px;border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+.keyframe-row:last-child{border-bottom:0}
+.keyframe-row.active{background:var(--sel)}
+.keyframe-track-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:11px;cursor:pointer}
+.keyframe-row.active .keyframe-track-name{color:var(--text)}
+.keyframe-lane{position:relative;height:23px;min-width:0;cursor:crosshair;background:linear-gradient(90deg,transparent 24.8%,var(--line) 25%,transparent 25.2%,transparent 49.8%,var(--line) 50%,transparent 50.2%,transparent 74.8%,var(--line) 75%,transparent 75.2%)}
+.keyframe-lane:before{content:"";position:absolute;left:0;right:0;top:11px;height:1px;background:var(--line)}
+.key-playhead{position:absolute;top:0;bottom:0;width:1px;background:var(--warn);pointer-events:none;z-index:1}
+.keyframe-dot{position:absolute;top:7px;width:9px;height:9px;padding:0;border:1px solid var(--accent2);border-radius:2px;background:var(--accent);transform:translateX(-50%) rotate(45deg);z-index:2;min-width:0}
+.keyframe-dot:hover{filter:brightness(1.35);box-shadow:0 0 0 3px var(--glow)}
+.keyframe-dot.selected{background:var(--warn);border-color:var(--warn);width:11px;height:11px;top:6px;z-index:3}
+@media(max-width:720px){.timeline{max-height:45vh}.keyframe-row{grid-template-columns:minmax(90px,125px) minmax(70px,1fr);gap:5px}.keyframe-actions{margin-left:0}.keyframe-actions .btn{height:25px}}
 .side{grid-column:3;grid-row:1/3;background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
-.panel{padding:10px 12px;border-bottom:1px solid var(--line)}
-.panel h2{font-size:12px;font-weight:650;margin:0 0 8px}
+.panel{padding:12px;border-bottom:1px solid var(--line)}
+.panel h2{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent2);margin:0 0 10px}
 .outl{flex:1;min-height:0;display:flex;flex-direction:column}
-.olist{flex:1;min-height:0;overflow:auto;margin:8px -12px -10px;scrollbar-color:#55565c transparent}
-.orow{display:flex;align-items:center;gap:5px;height:24px;padding-right:8px;color:#c9cacf;white-space:nowrap}
-.orow:hover{background:#34353a}
-.orow.sel{background:#4a331f;color:#fff;box-shadow:inset 2px 0 var(--accent)}
+.olist{flex:1;min-height:0;overflow:auto;margin:10px -12px -12px;scrollbar-color:var(--line) transparent}
+.orow{display:flex;align-items:center;gap:6px;height:28px;padding-right:8px;color:var(--text);white-space:nowrap;cursor:pointer}
+.orow:hover{background:var(--btn)}
+.orow.sel{background:var(--sel);box-shadow:inset 3px 0 var(--accent2)}
 .orow.off{opacity:.45}
-.caret{width:10px;color:var(--muted);text-align:center}
-.k{color:var(--muted);width:14px;text-align:center}
+.caret{width:14px;color:var(--muted);text-align:center}
+.k{color:var(--accent2);width:14px;text-align:center}
 .nm{flex:1;overflow:hidden;text-overflow:ellipsis}
-.eye{border:0;background:none;color:var(--muted);padding:0 2px}
+.eye{border:0;background:none;color:var(--muted);padding:0 4px}
 .empty{color:var(--muted);padding:6px 12px;margin:0;line-height:1.6}
 .panel .empty{padding:0}
-input[type=number],.name,.search{background:var(--field);border:1px solid var(--line);border-radius:4px;height:26px;padding:0 6px;width:100%;min-width:0}
-.name{margin-bottom:8px}
-.row{display:grid;grid-template-columns:54px repeat(3,1fr);gap:4px;align-items:center;margin-bottom:5px;color:var(--muted);font-size:11px}
+input[type=number],.name,.search{background:var(--field);border:1px solid var(--line);border-radius:6px;height:30px;padding:0 8px;width:100%;min-width:0}
+input:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--glow)}
+.name{margin-bottom:10px}
+.row{display:grid;grid-template-columns:62px repeat(3,1fr);gap:5px;align-items:center;margin-bottom:6px;color:var(--muted);font-size:11px}
 .kv{display:flex;justify-content:space-between;padding:3px 0;color:var(--muted)}
 .kv b{font-weight:500;color:var(--text);font-variant-numeric:tabular-nums}
-.status{display:flex;align-items:center;gap:12px;padding:0 10px;background:var(--panel);border-top:1px solid var(--line);color:var(--muted);font-size:11px;white-space:nowrap;overflow:hidden}
-.dot{width:7px;height:7px;border-radius:50%;background:#6fae85}
-#selLabel{color:var(--accent)}
-@media(max-width:720px){.main{grid-template-columns:44px minmax(0,1fr);grid-template-rows:minmax(0,1fr) 112px 200px}.side{grid-column:1/3;grid-row:3;border-left:0;border-top:1px solid var(--line)}.brand span,#folderTop,#shotBtn,.hint{display:none}.vbar.r{top:44px}}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.status{display:flex;align-items:center;gap:12px;padding:0 12px;background:var(--panel);border-top:1px solid var(--line);color:var(--muted);font-size:11px;white-space:nowrap;overflow:hidden}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px currentColor}
+#selLabel{color:var(--accent2)}
+dialog{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:16px;padding:20px;max-width:min(460px,calc(100% - 24px));box-shadow:0 0 60px var(--glow)}
+dialog::backdrop{background:#000a}
+dialog h3{margin:0 0 12px}
+dialog table{width:100%;border-collapse:collapse}
+dialog td{padding:4px 0;border-bottom:1px solid var(--line)}
+dialog td:first-child{color:var(--accent2);width:42%;font-variant-numeric:tabular-nums}
+#sideToggle{display:none}
+@media(max-width:1000px){.main{grid-template-columns:52px minmax(0,1fr) 240px}.noside .main{grid-template-columns:52px minmax(0,1fr) 0}.hint{display:none}}
+@media(max-width:720px){
+.app{grid-template-rows:52px minmax(0,1fr) 24px}
+.main{grid-template-columns:48px minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto auto}
+.noside .main{grid-template-columns:48px minmax(0,1fr)}
+.tools{grid-row:1/4}
+.timeline{grid-column:2}
+.side{grid-column:2;grid-row:3;border-left:0;max-height:38vh}
+.noside .side{display:none}
+.brand span,.lbl,#folderTop,#shotBtn,.hint{display:none}
+.vbar.r{top:50px}
+.time{margin-left:0;width:100%}
+#sideToggle{display:inline-flex}
+.welcome{padding:20px 14px}
+.welcome h1{font-size:18px}
+}
+@media(max-width:420px){.seg button{padding:0 8px}.vbar{gap:6px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+[data-mode=basic] .cx{display:none!important}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.grid2 .btn{justify-content:center;padding:0 6px;font-size:12px}
+.field{display:grid;grid-template-columns:78px 1fr 38px;gap:6px;align-items:center;margin-bottom:6px;color:var(--muted);font-size:11px}
+.field b{font-weight:500;color:var(--text);text-align:right}
+input[type=range]{accent-color:var(--accent);width:100%;min-width:0}
+input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);border-radius:6px;background:var(--field)}
+.side{overflow-y:auto}
+[data-mode=complex] .outl{flex:none;height:230px}
+#modeSeg{flex:none}
+#modeSeg button{height:30px}
+#addSelect{width:84px}
+@media(max-width:720px){.side{max-height:44vh}}
+
+/* Complex-mode extension browser and tool shelf */
+.addon-dialog{width:min(900px,calc(100% - 24px));max-width:min(900px,calc(100% - 24px));max-height:88vh;overflow:auto}
+.addon-dialog h3{margin:0;font-size:18px}
+.addon-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.addon-head .sp{flex:1}
+.addon-toolbar{display:grid;grid-template-columns:minmax(180px,1fr) 180px;gap:8px;margin:12px 0}
+.addon-catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:10px;max-height:50vh;overflow:auto;padding:2px}
+.addon-card{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:158px}
+.addon-card-top{display:flex;align-items:flex-start;gap:9px}
+.addon-icon{width:34px;height:34px;display:grid;place-items:center;border-radius:9px;background:var(--btn);font-size:18px;flex:none}
+.addon-card h4{margin:0;font-size:13px}
+.addon-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}
+.addon-meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:11px}
+.addon-tag{padding:2px 7px;border:1px solid var(--line);border-radius:99px}
+.addon-card .btn{margin-top:auto;align-self:flex-start}
+.addon-footer{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.addon-notice{color:var(--muted);font-size:11px;line-height:1.55;margin:10px 0 0}
+.addon-tools-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.addon-tools-grid .btn{justify-content:center;padding:0 6px;font-size:11px;min-width:0}
+#addonToolsPanel[hidden]{display:none!important}
+#uvCanvas{display:block;width:min(100%,620px);height:auto;aspect-ratio:1;background:#111827;border:1px solid var(--line);border-radius:8px;margin:12px auto}
+.uv-dialog{width:min(700px,calc(100% - 24px));max-width:min(700px,calc(100% - 24px))}
+#measureToggleBtn.on{background:linear-gradient(180deg,var(--accent2),var(--accent));color:var(--onaccent)}
+@media(max-width:620px){.addon-toolbar{grid-template-columns:1fr}.addon-catalog{grid-template-columns:1fr}.addon-footer .sp{display:none}}
 </style>
 <script type="importmap">
 {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}
@@ -85,11 +181,19 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
 <div class="app" id="app">
   <header class="top">
     <div class="brand"><svg viewBox="0 0 24 24"><path d="m12 2 9 5v10l-9 5-9-5V7z"/><path d="m3 7 9 5 9-5M12 12v10"/></svg><span>Model Editor</span></div>
-    <button class="btn primary" id="importTop">Import</button>
+    <div class="seg" id="modeSeg" style="pointer-events:auto" role="group" aria-label="Mode"><button data-mode="basic" title="Simple tools">Basic</button><button data-mode="complex" title="Advanced Blender-style tools">Complex</button></div>
+    <button class="btn primary" id="importTop" title="Import a model (Ctrl+O)">Import</button>
     <button class="btn" id="folderTop">Open folder</button>
     <button class="btn" id="exportBtn" disabled title="Export the edited model as GLB">Export GLB</button>
+    <select id="addSelect" class="cx" aria-label="Add object" title="Add object"><option value="">＋ Add</option><option value="cube">Cube</option><option value="sphere">Sphere</option><option value="cylinder">Cylinder</option><option value="cone">Cone</option><option value="torus">Torus</option><option value="plane">Plane</option><option value="light">Point light</option><option value="empty">Empty</option><optgroup label="Extra Objects" id="extraPrimitiveOptions"><option value="icosphere">Icosphere</option><option value="dodecahedron">Dodecahedron</option><option value="octahedron">Octahedron</option><option value="tetrahedron">Tetrahedron</option><option value="torusKnot">Torus Knot</option><option value="ring">Ring</option><option value="capsule">Capsule</option></optgroup></select>
+    <button class="btn cx" id="objBtn" title="Export as OBJ">OBJ</button>
+    <button class="btn cx" id="stlBtn" title="Export as STL">STL</button>
+    <button class="btn cx" id="addonsBtn" title="Browse and manage extensions">Extensions</button>
     <button class="btn" id="shotBtn" title="Save a PNG of the viewport">Screenshot</button>
     <span class="sp"></span>
+    <select id="themeSelect" aria-label="Theme" title="Theme"><option value="midnight">Midnight</option><option value="violet">Violet</option><option value="emerald">Emerald</option><option value="daylight">Daylight</option></select>
+    <button class="btn ico" id="helpBtn" title="Shortcuts (?)" aria-label="Shortcuts">?</button>
+    <button class="btn ico" id="sideToggle" title="Toggle panel (N)" aria-label="Toggle panel">☰</button>
     <button class="btn ico" id="undoBtn" disabled title="Undo (Ctrl+Z)" aria-label="Undo">↶</button>
     <button class="btn ico" id="redoBtn" disabled title="Redo (Ctrl+Shift+Z)" aria-label="Redo">↷</button>
   </header>
@@ -102,6 +206,8 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
       <hr>
       <button class="btn" id="snapBtn" title="Snap to steps" aria-label="Snap"><svg viewBox="0 0 24 24"><path d="M6 3v8a6 6 0 0 0 12 0V3h-4v8a2 2 0 0 1-4 0V3z"/></svg></button>
       <button class="btn" id="frameBtn" title="Frame selected (F)" aria-label="Frame selected"><svg viewBox="0 0 24 24"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button>
+      <hr class="cx">
+      <button class="btn cx" id="measureToggleBtn" title="Measure distance" aria-label="Measure distance">⌖</button>
     </nav>
     <main class="viewer" id="viewer">
       <div id="canvasHost"></div>
@@ -113,13 +219,24 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
       <div class="welcome" id="welcome">
         <h1>Drop a model to start editing</h1>
         <p>FBX, GLB, GLTF, OBJ, STL or Blender (.blend). Textures and .bin files can be dropped together with the model.</p>
-        <div class="acts"><button class="btn primary" id="importWelcome">Import model</button><button class="btn" id="folderWelcome">Open folder</button><button class="btn" id="demoButton">Try demo</button></div>
+        <div class="chips"><span>1 Import</span><span>2 Select &amp; edit</span><span>3 Export GLB</span></div>
+        <div class="acts" style="margin-top:16px"><button class="btn primary" id="importWelcome">Import model</button><button class="btn" id="folderWelcome">Open folder</button><button class="btn" id="demoButton">Load Demo.fbx</button></div>
       </div>
-      <div id="toast" role="alert"></div>
+      <div id="toast" role="alert" title="Click to dismiss"></div>
+      <dialog id="addonDlg" class="addon-dialog">
+        <div class="addon-head"><div><h3>Blender-style Extensions</h3><div class="addon-meta">Manage tools and editor add-ons</div></div><span class="sp"></span><button class="btn ico" id="addonClose" aria-label="Close extensions">×</button></div>
+        <div class="addon-toolbar"><input class="search" id="addonSearch" placeholder="Search extensions" aria-label="Search extensions"><select id="addonCategory" aria-label="Filter extensions"><option value="all">All categories</option><option value="Modeling">Modeling</option><option value="Viewport">Viewport</option><option value="UV & Materials">UV &amp; Materials</option><option value="Animation">Animation</option><option value="Utilities">Utilities</option><option value="Custom">Custom</option></select></div>
+        <div id="addonCatalog" class="addon-catalog"></div>
+        <div class="addon-footer"><button class="btn" id="installLocalAddon">Install JavaScript extension…</button><button class="btn" id="openBlenderExtensions">Browse Blender Extensions ↗</button><span class="sp"></span><button class="btn primary" id="addonDone">Done</button></div>
+        <p class="addon-notice">Bundled extensions run inside this editor. Native Blender Python add-ons cannot run in a browser. A custom .js/.mjs file must default-export an object like { id, name, version, description, activate(api) }. The activate function can call api.registerTool({ id, label, description, run(context) }) and return a cleanup function. Custom JavaScript runs with this page's permissions, so only install code you trust. Third-party extensions are session-only and must be re-selected after refreshing.</p>
+      </dialog>
+      <dialog id="uvDlg" class="uv-dialog"><h3>UV Layout Inspector</h3><p class="addon-notice" id="uvInfo">Selected mesh UV map</p><canvas id="uvCanvas" width="800" height="800"></canvas><p style="text-align:right;margin:10px 0 0"><button class="btn primary" id="uvClose">Close</button></p></dialog>
+      <dialog id="helpDlg"><h3>Keyboard shortcuts</h3><table><tr><td>Q / G / R / S</td><td>Select / Move / Rotate / Scale</td></tr><tr><td>F or Home</td><td>Frame selection / reset view</td></tr><tr><td>1 / 3 / 7</td><td>Front / Right / Top view</td></tr><tr><td>Space</td><td>Play or pause</td></tr><tr><td>Keyframe Editor</td><td>New Animation creates a clip. Set Key records the selected object transform at the playhead. Select a diamond to remove a key.</td></tr><tr><td>← →</td><td>Step one frame</td></tr><tr><td>H</td><td>Hide selected</td></tr><tr><td>Delete</td><td>Delete selected</td></tr><tr><td>Shift+D / Ctrl+D</td><td>Duplicate (Complex)</td></tr><tr><td>/</td><td>Isolate selection (Complex)</td></tr><tr><td>Extensions</td><td>Install and manage editor add-ons (Complex)</td></tr><tr><td>Ctrl+Z / Ctrl+Shift+Z</td><td>Undo / Redo</td></tr><tr><td>Ctrl+O</td><td>Import</td></tr><tr><td>N</td><td>Toggle side panel</td></tr><tr><td>T</td><td>Next theme</td></tr><tr><td>?</td><td>This help</td></tr></table><p style="text-align:right;margin:14px 0 0"><button class="btn primary" id="helpClose">Close</button></p></dialog>
     </main>
-    <section class="timeline" aria-label="Animation timeline">
+    <section class="timeline" aria-label="Animation timeline and keyframe editor">
       <div class="tl-row">
         <select id="clipSelect" disabled aria-label="Animation clip"></select>
+        <button class="btn" id="newClipBtn" disabled title="Create a new animation clip">＋ New Animation</button>
         <button class="btn ico" id="restartButton" title="Jump to start" aria-label="Jump to start" disabled>⏮</button>
         <button class="btn ico" id="stepBack" title="Back one frame (←)" aria-label="Back one frame" disabled>◂</button>
         <button class="btn primary" id="playButton" style="min-width:84px;justify-content:center" disabled title="Play / pause (Space)">▶ Play</button>
@@ -129,16 +246,55 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
         <span class="time" id="timeText">0.00s / 0.00s · frame 0</span>
       </div>
       <input type="range" id="timeline" min="0" max="1000" step="1" value="0" disabled aria-label="Animation time">
+      <div class="keyframe-editor">
+        <div class="keyframe-toolbar">
+          <span class="keyframe-title">Keyframe Editor</span><span id="keyframeSummary">No animation selected</span>
+          <div class="keyframe-actions">
+            <button class="btn primary" id="addKeyframeBtn" disabled title="Record the selected object's position, rotation and scale at the playhead">＋ Set Key</button>
+            <button class="btn" id="deleteKeyframeBtn" disabled title="Delete the selected keyframe">Delete Key</button>
+            <button class="btn" id="deleteTrackBtn" disabled title="Remove the selected animation track">Remove Track</button>
+            <button class="btn" id="deleteClipBtn" disabled title="Remove this animation from the model">Remove Animation</button>
+          </div>
+        </div>
+        <div class="keyframe-tracks" id="keyframeTracks" aria-label="Animation tracks"><p class="keyframe-empty">Import a model with animations to edit its keyframes.</p></div>
+      </div>
     </section>
     <aside class="side">
-      <section class="panel outl"><h2>Outliner</h2><input class="search" id="filter" placeholder="Search objects" aria-label="Search objects"><div class="olist" id="outliner"></div></section>
-      <section class="panel" id="propsPanel"><h2>Properties</h2><div id="props"></div></section>
+      <section class="panel outl"><h2>Scene</h2><input class="search" id="filter" placeholder="Search objects" aria-label="Search objects"><div class="olist" id="outliner"></div></section>
+      <section class="panel" id="propsPanel"><h2>Selected object</h2><div id="props"></div></section>
+      <section class="panel cx"><h2>Edit tools</h2><div class="grid2">
+        <button class="btn" data-act="dup" title="Duplicate (Shift+D)">Duplicate</button>
+        <button class="btn" data-act="del" title="Delete (Del)">Delete</button>
+        <button class="btn" data-act="reset">Reset transform</button>
+        <button class="btn" data-act="applyScale">Apply scale</button>
+        <button class="btn" data-act="applyRotation">Apply rotation</button>
+        <button class="btn" data-act="hide">Hide selected</button>
+        <button class="btn" id="revealAllBtn">Reveal all</button>
+        <button class="btn" data-act="floor">Drop to floor</button>
+        <button class="btn" data-act="unparent" title="Move to model root">Unparent</button>
+        <button class="btn" data-act="mx">Mirror X</button>
+        <button class="btn" data-act="my">Mirror Y</button>
+        <button class="btn" data-act="mz">Mirror Z</button>
+        <button class="btn" data-act="origin" title="Move origin to geometry center">Origin to center</button>
+        <button class="btn" data-act="smooth">Smooth shade</button>
+        <button class="btn" data-act="flat">Flat shade</button>
+        <button class="btn" data-act="isolate" title="Isolate selection (/)">Isolate</button>
+        <button class="btn" id="spaceBtn" title="Gizmo local space">Local space</button>
+      </div></section>
+      <section class="panel cx" id="addonToolsPanel" hidden><h2>Extension tools</h2><div id="addonTools" class="addon-tools-grid"></div></section>
+      <section class="panel cx"><h2>Scene settings</h2>
+        <div class="field"><span>Exposure</span><input type="range" id="expRange" min="0.2" max="3" step="0.1" value="1.3"><b id="expVal">1.3</b></div>
+        <div class="field"><span>Lighting</span><input type="range" id="lightRange" min="0.2" max="2.5" step="0.1" value="1"><b id="lightVal">1.0</b></div>
+        <div class="field"><span>Field of view</span><input type="range" id="fovRange" min="15" max="100" step="1" value="45"><b id="fovVal">45</b></div>
+        <div class="grid2" style="margin-top:8px"><button class="btn" id="axesBtn">Axes</button></div>
+      </section>
     </aside>
   </div>
   <footer class="status"><span class="dot" id="statusDot"></span><span id="statusLabel">Ready</span><span id="selLabel"></span><span class="sp"></span><span id="stats"></span><span class="hint">Q select · G move · R rotate · S scale · F frame · H hide · N panel</span></footer>
 </div>
 <input id="fileInput" type="file" accept=".fbx,.glb,.gltf,.obj,.stl,.blend,.mtl,.bin,.png,.jpg,.jpeg,.webp,.tga,.bmp,.gif,.ktx2" multiple hidden>
 <input id="folderInput" type="file" webkitdirectory directory multiple hidden>
+<input id="addonFileInput" type="file" accept=".js,.mjs,text/javascript" hidden>
 <script type="module">
   import * as THREE from 'three';
   import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -150,11 +306,15 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
   import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
   import { STLLoader } from 'three/addons/loaders/STLLoader.js';
   import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+  import { OBJExporter } from 'three/addons/exporters/OBJExporter.js';
+  import { STLExporter } from 'three/addons/exporters/STLExporter.js';
+  import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
+  import { SimplifyModifier } from 'three/addons/modifiers/SimplifyModifier.js';
 
   const $ = (id) => document.getElementById(id);
   const supported = new Set(['glb', 'gltf', 'fbx', 'obj', 'stl', 'blend']);
   const viewer = $('viewer');
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -162,7 +322,7 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
   $('canvasHost').appendChild(renderer.domElement);
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x2b2d31);
+  const measurementGroup = new THREE.Group(); measurementGroup.name = 'Measurements'; scene.add(measurementGroup);
   const camera = new THREE.PerspectiveCamera(45, 1, 0.01, 10000);
   camera.position.set(5.6, 3.8, 6.4);
   const controls = new OrbitControls(camera, renderer.domElement);
@@ -170,37 +330,57 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
   controls.dampingFactor = 0.08;
   controls.minDistance = 0.05;
   controls.maxDistance = 300;
-  scene.add(new THREE.HemisphereLight(0xe2f0ff, 0x5b6170, 2.6));
+  const hemi = new THREE.HemisphereLight(0xe2f0ff, 0x5b6170, 2.6); scene.add(hemi);
   const sun = new THREE.DirectionalLight(0xffffff, 3.1); sun.position.set(5, 9, 7); scene.add(sun);
   const rim = new THREE.DirectionalLight(0x9bbded, 1.7); rim.position.set(-7, 5, -7); scene.add(rim);
-  const grid = new THREE.GridHelper(100, 100, 0x4a4d54, 0x383b41);
+  let grid = new THREE.GridHelper(100, 100, 0x2a3a7a, 0x141c3d);
   scene.add(grid);
 
+  const axes = new THREE.AxesHelper(2); axes.visible = false; scene.add(axes);
   const tc = new TransformControls(camera, renderer.domElement);
   const tcHelper = tc.getHelper();
   scene.add(tcHelper);
-  const box = new THREE.BoxHelper(new THREE.Object3D(), 0xe8873a);
+  const box = new THREE.BoxHelper(new THREE.Object3D(), 0x6f9bff);
   box.material.depthTest = false; box.visible = false; scene.add(box);
 
   let modelFrame = null, modelRoot = null, skeletonHelper = null, mixer = null, info = null;
   let clips = [], activeAction = null, activeIndex = -1, playing = false, loop = true, speed = 1;
-  let assetUrls = [], loadTicket = 0, toastTimeout;
+  let selectedTrackIndex = -1, selectedKeyframe = null;
+  let assetUrls = [], loadTicket = 0, toastTimeout, isolated = null, matBefore = null;
   let selected = null, tool = 'select', shading = 'material', past = [], future = [], dragBefore = null;
+  let measurementMode = false, measureFirstPoint = null, pingPongPlayback = false;
+  const externalAddons = new Map(), externalAddonTools = new Map();
   const expanded = new Set();
   const clock = new THREE.Clock();
-  const clay = new THREE.MeshStandardMaterial({ color: 0xb9bcc2, roughness: 0.8, side: THREE.DoubleSide });
+  const clay = new THREE.MeshStandardMaterial({ color: 0xb9c3e0, roughness: 0.8, side: THREE.DoubleSide });
   const wireM = new THREE.MeshBasicMaterial({ color: 0xcfd3da, wireframe: true });
 
   const ext = (name) => String(name).split('.').pop().toLowerCase();
   const safeText = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  const themes = ['midnight', 'violet', 'emerald', 'daylight'];
+  const cssNum = (n) => Number(getComputedStyle(document.documentElement).getPropertyValue(n).trim());
+  function applyTheme(name, persist = true) {
+    if (!themes.includes(name)) name = 'midnight';
+    document.documentElement.dataset.theme = name;
+    $('themeSelect').value = name;
+    if (persist) { try { localStorage.setItem('me-theme', name); } catch (e) {} }
+    const v = grid.visible, y = grid.position.y;
+    scene.remove(grid); grid.geometry.dispose(); grid.material.dispose();
+    grid = new THREE.GridHelper(100, 100, cssNum('--g1'), cssNum('--g2'));
+    grid.visible = v; grid.position.y = y; scene.add(grid);
+    box.material.color.set(cssNum('--hl'));
+    document.querySelector('meta[name=theme-color]')?.setAttribute('content', getComputedStyle(document.documentElement).getPropertyValue('--bg').trim());
+  }
   function showToast(message, isInfo = false) {
     const t = $('toast');
     t.textContent = message; t.classList.toggle('info', isInfo); t.style.display = 'block';
-    clearTimeout(toastTimeout); toastTimeout = setTimeout(() => { t.style.display = 'none'; }, 7000);
+    clearTimeout(toastTimeout); toastTimeout = setTimeout(() => { t.style.display = 'none'; }, isInfo ? 6000 : 10000);
   }
   function setStatus(message, loading = false) {
     $('statusLabel').textContent = message;
-    $('statusDot').style.background = loading ? '#e5ae73' : '#6fae85';
+    $('statusDot').style.background = loading ? 'var(--warn)' : 'var(--ok)';
+    $('statusDot').style.color = loading ? 'var(--warn)' : 'var(--ok)';
   }
   function download(blob, name) {
     const a = document.createElement('a');
@@ -237,7 +417,18 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
   /* ---------- undo / redo ---------- */
   const snapOf = (o) => ({ p: o.position.clone(), q: o.quaternion.clone(), s: o.scale.clone() });
   const restore = (o, s) => { o.position.copy(s.p); o.quaternion.copy(s.q); o.scale.copy(s.s); };
-  function commit(undoFn, redoFn) { past.push({ undoFn, redoFn }); if (past.length > 100) past.shift(); future = []; updateHistoryUi(); }
+  function commit(undoFn, redoFn) { past.push({ undoFn, redoFn }); if (past.length > 100) past.shift(); future = []; updateHistoryUi(); refreshStats(); }
+  function refreshStats() {
+    if (!modelRoot || !info) return;
+    const st = { meshes: 0, vertices: 0, triangles: 0 };
+    modelRoot.traverse(o => {
+      if (!o.isMesh || !o.geometry) return;
+      const n = o.geometry.getAttribute('position')?.count || 0;
+      st.meshes++; st.vertices += n; st.triangles += o.geometry.index ? Math.floor(o.geometry.index.count / 3) : Math.floor(n / 3);
+    });
+    Object.assign(info, st);
+    $('stats').textContent = `${st.meshes} meshes · ${st.vertices.toLocaleString()} verts · ${st.triangles.toLocaleString()} tris`;
+  }
   function commitTransform(o, before) {
     const after = snapOf(o);
     if (before.p.equals(after.p) && before.q.equals(after.q) && before.s.equals(after.s)) return;
@@ -246,7 +437,7 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
   function updateHistoryUi() { $('undoBtn').disabled = !past.length; $('redoBtn').disabled = !future.length; }
   function stepHistory(from, to, key) {
     const c = from.pop(); if (!c) return;
-    c[key](); to.push(c); updateHistoryUi();
+    c[key](); to.push(c); updateHistoryUi(); refreshStats();
     if (selected) box.update(); renderProps(); renderOutliner();
   }
   const undo = () => stepHistory(past, future, 'undoFn');
@@ -267,6 +458,7 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
     } else { box.visible = false; tc.detach(); }
     $('selLabel').textContent = selected ? (selected.name || selected.type) : '';
     renderOutliner(); renderProps();
+    if (typeof updateKeyframeButtons === 'function') updateKeyframeButtons();
   }
   tc.addEventListener('dragging-changed', (e) => {
     controls.enabled = !e.value;
@@ -286,6 +478,17 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
     ndc.set((e.clientX - r.left) / r.width * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     ray.setFromCamera(ndc, camera);
     const hit = ray.intersectObject(modelRoot, true).find(h => h.object.isMesh && h.object.visible);
+    if (measurementMode) {
+      if (!hit) { showToast('Click directly on a mesh surface to measure.', true); return; }
+      if (!measureFirstPoint) {
+        measureFirstPoint = hit.point.clone();
+        showToast('First point set. Click a second point.', true);
+      } else {
+        addMeasurement(measureFirstPoint, hit.point.clone());
+        measureFirstPoint = null;
+      }
+      return;
+    }
     select(hit ? hit.object : null);
   });
   function deleteSelected() {
@@ -350,8 +553,48 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
     el.innerHTML = `<input class="name" id="nameInput" value="${safeText(o.name || '')}" placeholder="${o.type}" aria-label="Name">`
       + row('Location', 'p', o.position.toArray(), 0.1)
       + row('Rotation', 'r', ['x', 'y', 'z'].map(a => THREE.MathUtils.radToDeg(o.rotation[a])), 5)
-      + row('Scale', 's', o.scale.toArray(), 0.1);
+      + row('Scale', 's', o.scale.toArray(), 0.1)
+      + extra(o);
   }
+  const isComplex = () => document.documentElement.dataset.mode === 'complex';
+  const matOf = (o) => { const m = o.userData.mat || o.material; return Array.isArray(m) ? m[0] : m; };
+  function extra(o) {
+    if (!isComplex()) return '';
+    let h = '';
+    if (o.isMesh && o.geometry) {
+      const n = o.geometry.getAttribute('position')?.count || 0;
+      h += '<div style="margin-top:8px">' + kv('Vertices', n.toLocaleString()) + kv('Triangles', (o.geometry.index ? Math.floor(o.geometry.index.count / 3) : Math.floor(n / 3)).toLocaleString()) + '</div>';
+      const m = matOf(o);
+      if (m) {
+        h += '<h2 style="margin-top:14px">Material</h2>';
+        if (m.color) h += `<div class="field"><span>Color</span><input type="color" data-m="color" value="#${m.color.getHexString()}" aria-label="Color"><span></span></div>`;
+        for (const k of ['roughness', 'metalness', 'opacity']) if (typeof m[k] === 'number') h += `<div class="field"><span>${k[0].toUpperCase() + k.slice(1)}</span><input type="range" min="0" max="1" step="0.01" data-m="${k}" value="${m[k]}" aria-label="${k}"><b>${m[k].toFixed(2)}</b></div>`;
+      }
+    }
+    return h;
+  }
+  const matState = (m) => ({ c: m.color?.clone(), r: m.roughness, m: m.metalness, o: m.opacity });
+  const matApply = (m, st) => {
+    if (st.c) m.color.copy(st.c);
+    if (st.r !== undefined) m.roughness = st.r;
+    if (st.m !== undefined) m.metalness = st.m;
+    m.opacity = st.o; if (st.o < 1) m.transparent = true; m.needsUpdate = true;
+  };
+  $('props').addEventListener('input', (e) => {
+    const t = e.target, k = t.dataset.m;
+    if (!k || !selected?.isMesh) return;
+    const m = matOf(selected);
+    if (!matBefore) matBefore = { m, st: matState(m) };
+    if (k === 'color') m.color.set(t.value);
+    else { m[k] = parseFloat(t.value); if (k === 'opacity' && m.opacity < 1) m.transparent = true; const b = t.parentElement.querySelector('b'); if (b) b.textContent = m[k].toFixed(2); }
+    m.needsUpdate = true;
+  });
+  $('props').addEventListener('change', (e) => {
+    if (!e.target.dataset.m || !matBefore) return;
+    const { m, st } = matBefore; matBefore = null;
+    const after = matState(m);
+    commit(() => matApply(m, st), () => matApply(m, after));
+  });
   $('props').addEventListener('change', (e) => {
     const t = e.target, o = selected;
     if (!o) return;
@@ -366,13 +609,115 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
     commitTransform(o, before); box.update(); renderProps();
   });
 
-  /* ---------- timeline ---------- */
+  /* ---------- animation timeline & keyframe editor ---------- */
   function renderClips() {
-    const s = $('clipSelect'); s.replaceChildren();
-    if (!clips.length) { s.add(new Option(modelRoot ? 'No animations in this model' : 'No animation', '')); s.disabled = true; return; }
-    clips.forEach((c, i) => s.add(new Option(`${c.name?.trim() || 'Animation ' + (i + 1)} (${c.duration.toFixed(1)}s)`, i)));
-    s.disabled = false; s.value = activeIndex;
+    const selectEl = $('clipSelect');
+    selectEl.replaceChildren();
+    if (!clips.length) {
+      selectEl.add(new Option(modelRoot ? 'No animations in this model' : 'No animation', ''));
+      selectEl.disabled = true;
+      activeIndex = -1;
+    } else {
+      clips.forEach((clip, index) => selectEl.add(new Option(`${clip.name?.trim() || 'Animation ' + (index + 1)} (${clip.duration.toFixed(1)}s)`, index)));
+      selectEl.disabled = false;
+      if (activeIndex < 0 || activeIndex >= clips.length) activeIndex = 0;
+      selectEl.value = String(activeIndex);
+    }
+    $('deleteClipBtn').disabled = activeIndex < 0;
   }
+
+  function currentAnimationTime() {
+    return activeAction ? Math.max(0, activeAction.time) : 0;
+  }
+
+  function updateKeyframeButtons() {
+    const hasClip = activeIndex >= 0 && !!clips[activeIndex];
+    const track = hasClip && selectedTrackIndex >= 0 ? clips[activeIndex].tracks[selectedTrackIndex] : null;
+    $('newClipBtn').disabled = !modelRoot;
+    $('addKeyframeBtn').disabled = !hasClip || !selected;
+    $('deleteKeyframeBtn').disabled = !hasClip || !selectedKeyframe;
+    $('deleteTrackBtn').disabled = !track;
+    $('deleteClipBtn').disabled = !hasClip;
+  }
+
+  function updateKeyframePlayheads() {
+    const host = $('keyframeTracks');
+    const clip = clips[activeIndex];
+    if (!clip) return;
+    const duration = Math.max(clip.duration, 0.001);
+    const pct = Math.min(100, Math.max(0, currentAnimationTime() / duration * 100));
+    host.querySelectorAll('.key-playhead').forEach(line => { line.style.left = pct + '%'; });
+  }
+
+  function renderKeyframeEditor() {
+    const host = $('keyframeTracks');
+    const clip = clips[activeIndex];
+    host.replaceChildren();
+    if (!clip) {
+      $('keyframeSummary').textContent = 'No animation selected';
+      host.innerHTML = '<p class="keyframe-empty">Import a model with animations, or add an animation before editing keyframes.</p>';
+      updateKeyframeButtons();
+      return;
+    }
+    const tracks = clip.tracks || [];
+    const keyCount = tracks.reduce((sum, track) => sum + (track.times?.length || 0), 0);
+    $('keyframeSummary').textContent = `${tracks.length} tracks · ${keyCount} keyframes · ${clip.duration.toFixed(2)}s`;
+    if (!tracks.length) {
+      host.innerHTML = '<p class="keyframe-empty">This animation has no tracks. Select an object and press “Set Key” to create transform tracks.</p>';
+      updateKeyframeButtons();
+      return;
+    }
+    const duration = Math.max(clip.duration, 0.001);
+    tracks.forEach((track, trackIndex) => {
+      const row = document.createElement('div');
+      row.className = 'keyframe-row' + (trackIndex === selectedTrackIndex ? ' active' : '');
+      const label = document.createElement('div');
+      label.className = 'keyframe-track-name';
+      label.textContent = track.name;
+      label.title = `${track.name} · ${track.times.length} keys`;
+      label.addEventListener('click', () => {
+        selectedTrackIndex = trackIndex;
+        selectedKeyframe = null;
+        renderKeyframeEditor();
+      });
+      const lane = document.createElement('div');
+      lane.className = 'keyframe-lane';
+      lane.title = 'Click the track to move the playhead';
+      const playhead = document.createElement('span');
+      playhead.className = 'key-playhead';
+      lane.appendChild(playhead);
+      Array.from(track.times).forEach((time, keyIndex) => {
+        const marker = document.createElement('button');
+        marker.type = 'button';
+        marker.className = 'keyframe-dot' + (selectedKeyframe?.trackIndex === trackIndex && selectedKeyframe?.keyIndex === keyIndex ? ' selected' : '');
+        marker.style.left = `${Math.min(100, Math.max(0, time / duration * 100))}%`;
+        marker.title = `${track.name}\nKey ${keyIndex + 1} · ${time.toFixed(3)}s`;
+        marker.setAttribute('aria-label', `Select keyframe ${keyIndex + 1} on ${track.name} at ${time.toFixed(3)} seconds`);
+        marker.addEventListener('click', event => {
+          event.stopPropagation();
+          selectedTrackIndex = trackIndex;
+          selectedKeyframe = { trackIndex, keyIndex };
+          seekToTime(time);
+          renderKeyframeEditor();
+        });
+        lane.appendChild(marker);
+      });
+      lane.addEventListener('click', event => {
+        if (event.target.closest('.keyframe-dot')) return;
+        const rect = lane.getBoundingClientRect();
+        const ratio = rect.width ? Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width)) : 0;
+        selectedTrackIndex = trackIndex;
+        selectedKeyframe = null;
+        seekToTime(ratio * duration);
+        renderKeyframeEditor();
+      });
+      row.append(label, lane);
+      host.appendChild(row);
+    });
+    updateKeyframePlayheads();
+    updateKeyframeButtons();
+  }
+
   function updatePlaybackUi() {
     const on = !!activeAction;
     for (const id of ['timeline', 'restartButton', 'stepBack', 'stepFwd', 'playButton', 'loopButton', 'speedSelect']) $(id).disabled = !on;
@@ -380,37 +725,237 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
     $('loopButton').classList.toggle('on', loop);
     $('loopButton').setAttribute('aria-pressed', String(loop));
     updateTimeline();
+    updateKeyframeButtons();
   }
+
   function updateTimeline() {
     const d = activeIndex >= 0 ? clips[activeIndex].duration : 0;
     const t = activeAction ? Math.min(d, Math.max(0, activeAction.time)) : 0;
     $('timeText').textContent = `${t.toFixed(2)}s / ${d.toFixed(2)}s · frame ${Math.round(t * 30)}`;
     $('timeline').value = d ? Math.round(t / d * 1000) : 0;
+    updateKeyframePlayheads();
   }
+
   function selectClip(index, autoplay = true) {
     if (!mixer || !clips[index]) return;
     if (activeAction) activeAction.stop();
     activeIndex = index;
+    selectedTrackIndex = -1;
+    selectedKeyframe = null;
     activeAction = mixer.clipAction(clips[index]);
     activeAction.reset();
-    activeAction.setLoop(loop ? THREE.LoopRepeat : THREE.LoopOnce, loop ? Infinity : 1);
+    activeAction.setLoop(pingPongPlayback ? THREE.LoopPingPong : (loop ? THREE.LoopRepeat : THREE.LoopOnce), pingPongPlayback || loop ? Infinity : 1);
     activeAction.clampWhenFinished = true;
     activeAction.play();
     playing = autoplay; activeAction.paused = !autoplay;
     mixer.update(0);
-    renderClips(); updatePlaybackUi();
+    renderClips();
+    updatePlaybackUi();
+    renderKeyframeEditor();
   }
+
+  function seekToTime(time) {
+    if (!activeAction || activeIndex < 0) return;
+    playing = false;
+    activeAction.paused = true;
+    activeAction.time = THREE.MathUtils.clamp(Number(time) || 0, 0, clips[activeIndex].duration);
+    mixer.update(0);
+    updatePlaybackUi();
+  }
+
   function togglePlay(force) {
     if (!activeAction) return;
     const next = force ?? !playing;
     if (next && !loop && activeAction.time >= clips[activeIndex].duration - 0.001) activeAction.reset().play();
     playing = next; activeAction.paused = !playing; updatePlaybackUi();
   }
+
   function stepFrame(dir) {
     if (!activeAction) return;
-    playing = false; activeAction.paused = true;
-    activeAction.time = Math.min(clips[activeIndex].duration, Math.max(0, activeAction.time + dir / 30));
-    mixer.update(0); updatePlaybackUi();
+    seekToTime(currentAnimationTime() + dir / 30);
+  }
+
+  function rebuildMixerAt(time = 0) {
+    if (!modelRoot) return;
+    const keepTrackIndex = selectedTrackIndex;
+    const keepKeyframe = selectedKeyframe ? { ...selectedKeyframe } : null;
+    mixer?.stopAllAction();
+    mixer = clips.length ? new THREE.AnimationMixer(modelRoot) : null;
+    activeAction = null;
+    playing = false;
+    if (mixer) {
+      mixer.addEventListener('finished', () => {
+        if (!loop) {
+          playing = false;
+          if (activeAction) activeAction.paused = true;
+          updatePlaybackUi();
+        }
+      });
+      const nextIndex = Math.min(Math.max(activeIndex, 0), clips.length - 1);
+      selectClip(nextIndex, false);
+      selectedTrackIndex = keepTrackIndex >= 0 && keepTrackIndex < clips[nextIndex].tracks.length ? keepTrackIndex : -1;
+      selectedKeyframe = keepKeyframe && selectedTrackIndex === keepKeyframe.trackIndex ? keepKeyframe : null;
+      if (activeAction) {
+        activeAction.time = THREE.MathUtils.clamp(time, 0, clips[nextIndex].duration);
+        mixer.update(0);
+      }
+      renderKeyframeEditor();
+    } else {
+      activeIndex = -1;
+      selectedTrackIndex = -1;
+      selectedKeyframe = null;
+      renderClips();
+      updatePlaybackUi();
+      renderKeyframeEditor();
+    }
+  }
+
+  function upsertTrackKey(track, time, values) {
+    const stride = track.getValueSize();
+    if (values.length !== stride) throw new Error(`Cannot write ${values.length} values to ${track.name} (${stride} expected).`);
+    const times = Array.from(track.times);
+    const vals = Array.from(track.values);
+    const epsilon = 1e-4;
+    let index = times.findIndex(t => Math.abs(t - time) <= epsilon);
+    if (index >= 0) {
+      for (let i = 0; i < stride; i++) vals[index * stride + i] = values[i];
+    } else {
+      index = times.findIndex(t => t > time);
+      if (index < 0) index = times.length;
+      times.splice(index, 0, time);
+      vals.splice(index * stride, 0, ...values);
+    }
+    track.times = new Float32Array(times);
+    track.values = new Float32Array(vals);
+    return index;
+  }
+
+  function findObjectTrack(clip, object, property) {
+    const objectName = object.name;
+    const exactName = `${objectName}.${property}`;
+    return clip.tracks.find(track => track.name === exactName)
+      || clip.tracks.find(track => track.name.endsWith(`.${objectName}.${property}`))
+      || clip.tracks.find(track => track.name.endsWith(`.bones[${objectName}].${property}`))
+      || null;
+  }
+
+  function refreshClipDuration(clip, minimumDuration = 1 / 30) {
+    const previousDuration = Number.isFinite(clip.duration) ? clip.duration : minimumDuration;
+    clip.resetDuration();
+    clip.duration = Math.max(minimumDuration, previousDuration, Number.isFinite(clip.duration) ? clip.duration : 0);
+  }
+
+  function createAnimationClip() {
+    if (!modelRoot) { showToast('Import a model before creating an animation.', true); return; }
+    const name = `Animation ${clips.length + 1}`;
+    const clip = new THREE.AnimationClip(name, 5, []);
+    clips.push(clip);
+    activeIndex = clips.length - 1;
+    selectedTrackIndex = -1;
+    selectedKeyframe = null;
+    rebuildMixerAt(0);
+    showToast(`Created ${name}. Select an object, move the playhead, then press Set Key.`, true);
+  }
+
+  function addKeyframeForSelection() {
+    const clip = clips[activeIndex];
+    if (!clip || !selected || !modelRoot) { showToast('Select an object or bone, then choose an animation before setting a key.', true); return; }
+    const time = currentAnimationTime();
+    if (playing) { playing = false; activeAction.paused = true; }
+    if (!selected.name) {
+      selected.name = `${selected.type || 'Object'}_${selected.uuid.slice(0, 8)}`;
+      renderOutliner();
+    }
+    const objectName = selected.name;
+    const properties = [
+      ['position', selected.position.toArray(), THREE.VectorKeyframeTrack],
+      ['quaternion', selected.quaternion.toArray(), THREE.QuaternionKeyframeTrack],
+      ['scale', selected.scale.toArray(), THREE.VectorKeyframeTrack]
+    ];
+    let preferredTrackIndex = -1;
+    try {
+      for (const [property, values, TrackType] of properties) {
+        let track = findObjectTrack(clip, selected, property);
+        if (!track) {
+          track = new TrackType(`${objectName}.${property}`, [time], values);
+          clip.tracks.push(track);
+        }
+        const newIndex = upsertTrackKey(track, time, values);
+        const index = clip.tracks.indexOf(track);
+        if (property === 'position') preferredTrackIndex = index;
+        if (property === 'position') selectedKeyframe = { trackIndex: index, keyIndex: newIndex };
+      }
+      refreshClipDuration(clip);
+      selectedTrackIndex = preferredTrackIndex;
+      if (selected.name !== objectName) renderOutliner();
+      rebuildMixerAt(time);
+      showToast(`Set transform keyframes for ${objectName} at ${time.toFixed(3)}s.`, true);
+    } catch (error) {
+      console.error(error);
+      showToast('Could not set keyframe: ' + (error?.message || error));
+    }
+  }
+
+  function deleteSelectedKeyframe() {
+    if (!selectedKeyframe || activeIndex < 0) return;
+    const clip = clips[activeIndex];
+    const { trackIndex, keyIndex } = selectedKeyframe;
+    const track = clip.tracks[trackIndex];
+    if (!track || keyIndex < 0 || keyIndex >= track.times.length) return;
+    const time = track.times[keyIndex];
+    const stride = track.getValueSize();
+    const times = Array.from(track.times); times.splice(keyIndex, 1);
+    const values = Array.from(track.values); values.splice(keyIndex * stride, stride);
+    if (times.length) {
+      track.times = new Float32Array(times);
+      track.values = new Float32Array(values);
+    } else {
+      clip.tracks.splice(trackIndex, 1);
+    }
+    refreshClipDuration(clip);
+    selectedTrackIndex = times.length ? trackIndex : -1;
+    selectedKeyframe = null;
+    const nextTime = Math.min(currentAnimationTime(), clip.duration);
+    if (!clip.tracks.length) {
+      removeAnimationClip(activeIndex, `Removed the last keyframe track. Animation “${clip.name || 'Animation'}” was removed because it was empty.`);
+    } else {
+      rebuildMixerAt(nextTime);
+      showToast(`Deleted keyframe at ${time.toFixed(3)}s.`, true);
+    }
+  }
+
+  function deleteSelectedTrack() {
+    if (activeIndex < 0 || selectedTrackIndex < 0) return;
+    const clip = clips[activeIndex];
+    const track = clip.tracks[selectedTrackIndex];
+    if (!track) return;
+    const name = track.name;
+    clip.tracks.splice(selectedTrackIndex, 1);
+    refreshClipDuration(clip);
+    selectedTrackIndex = -1;
+    selectedKeyframe = null;
+    const nextTime = Math.min(currentAnimationTime(), clip.duration);
+    if (!clip.tracks.length) {
+      removeAnimationClip(activeIndex, `Removed the last track. Animation “${clip.name || 'Animation'}” was removed because it was empty.`);
+    } else {
+      rebuildMixerAt(nextTime);
+      showToast(`Removed animation track ${name}.`, true);
+    }
+  }
+
+  function removeAnimationClip(index = activeIndex, message = '') {
+    if (index < 0 || index >= clips.length) return;
+    const removed = clips[index];
+    const name = removed.name?.trim() || `Animation ${index + 1}`;
+    mixer?.stopAllAction();
+    clips.splice(index, 1);
+    activeAction = null;
+    playing = false;
+    activeIndex = clips.length ? Math.min(index, clips.length - 1) : -1;
+    selectedTrackIndex = -1;
+    selectedKeyframe = null;
+    rebuildMixerAt(0);
+    showToast(message || `Removed animation “${name}”. It will no longer be included in the exported model.`, true);
   }
 
   /* ---------- model lifecycle ---------- */
@@ -426,9 +971,11 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
       });
     }
     modelFrame = modelRoot = mixer = activeAction = null;
-    clips = []; activeIndex = -1; playing = false; info = null;
+    clips = []; activeIndex = -1; playing = false; info = null; isolated = null;
+    selectedTrackIndex = -1; selectedKeyframe = null;
   }
   function installModel(root, animations, filename, filesize) {
+    clearMeasurements();
     disposeModel(); select(null);
     modelRoot = root;
     const fr = new THREE.Group(), pivot = new THREE.Group();
@@ -455,9 +1002,10 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
     expanded.clear(); expanded.add(root.uuid); root.children.forEach(c => expanded.add(c.uuid));
     past = []; future = []; updateHistoryUi();
     $('welcome').classList.add('hidden'); $('exportBtn').disabled = false;
+    document.title = filename + ' · Model Editor';
     $('stats').textContent = `${st.meshes} meshes · ${st.vertices.toLocaleString()} verts · ${st.triangles.toLocaleString()} tris`;
     applyShading(); resetView();
-    if (clips.length) selectClip(0, true); else { renderClips(); updatePlaybackUi(); }
+    if (clips.length) selectClip(0, true); else { renderClips(); updatePlaybackUi(); renderKeyframeEditor(); }
     renderOutliner(); renderProps(); setStatus('Model loaded');
     if (!clips.length && ['fbx', 'glb', 'gltf'].includes(ext(filename))) showToast('Imported. No animation clips were found in this file.', true);
   }
@@ -1085,24 +1633,24 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
     if (!main) { showToast('No supported model found. Please select a .fbx, .glb, .gltf, .obj, .stl or .blend file.'); return; }
     const ticket = ++loadTicket;
     setStatus(`Loading ${main.name}…`, true);
-    $('statusDot').style.background = '#e5ae73';
     const start = performance.now();
+    let previousUrls = [], mine = [], draco = null;
     try {
-      const previousUrls = assetUrls;
+      previousUrls = assetUrls;
       assetUrls = [];
+      mine = assetUrls;
       const manager = buildAssets(files);
       const format = ext(main.name);
       let root, animations = [], blendMessage = '';
       if (format === 'glb' || format === 'gltf') {
         const loader = new GLTFLoader(manager);
-        const draco = new DRACOLoader();
+        draco = new DRACOLoader();
         draco.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/libs/draco/');
         loader.setDRACOLoader(draco);
         const data = format === 'glb' ? await main.arrayBuffer() : await main.text();
         const gltf = await loader.parseAsync(data, '');
         root = gltf.scene;
         animations = gltf.animations || [];
-        draco.dispose();
       } else if (format === 'fbx') {
         const loader = new FBXLoader(manager);
         const buffer = await main.arrayBuffer();
@@ -1130,52 +1678,501 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
         const res = await loadBlend(main);
         root = res.root; blendMessage = res.message;
       }
-      if (ticket !== loadTicket) return;
+      if (ticket !== loadTicket) { mine.forEach(u => URL.revokeObjectURL(u)); return; }
       if (!root) throw new Error('The model did not contain a scene.');
       for (const url of previousUrls) URL.revokeObjectURL(url);
       installModel(root, animations, main.name, main.size);
       if (blendMessage) showToast(blendMessage, true);
       console.info(`Loaded ${main.name} in ${Math.round(performance.now() - start)}ms`);
     } catch (error) {
+      mine.forEach(u => URL.revokeObjectURL(u));
       if (ticket !== loadTicket) return;
+      assetUrls = previousUrls;
       console.error(error);
       setStatus(modelRoot ? 'Previous model retained' : 'Import failed');
       showToast(`Could not open ${main.name}: ${error?.message || 'Unsupported or invalid file.'}`);
+    } finally {
+      draco?.dispose();
     }
   }
 
-  $('demoButton').addEventListener('click', () => {
-    const group = new THREE.Group();
-    const blue = new THREE.MeshStandardMaterial({ color:0x89b9f3, roughness:0.5, metalness:0.1 });
-    const dark = new THREE.MeshStandardMaterial({ color:0x38485c, roughness:0.65 });
-    const joint = new THREE.MeshStandardMaterial({ color:0xd4e4fa, roughness:0.4, metalness:0.3 });
-    function part(name, geom, material, pos, parent = group) {
-      const mesh = new THREE.Mesh(geom, material);
-      mesh.name = name;
-      mesh.position.set(...pos);
-      parent.add(mesh);
-      return mesh;
+  const DEMO_FBX_URL = 'https://raw.githubusercontent.com/WayvesMusic/3D-Viewer-Editor/main/Demo.fbx';
+  $('demoButton').addEventListener('click', async () => {
+    const button = $('demoButton');
+    if (button.disabled) return;
+    button.disabled = true;
+    const previousLabel = button.textContent;
+    button.textContent = 'Loading Demo.fbx…';
+    setStatus('Downloading Demo.fbx…', true);
+    const ticket = ++loadTicket;
+    try {
+      const response = await fetch(DEMO_FBX_URL, { mode: 'cors', cache: 'no-cache' });
+      if (!response.ok) throw new Error(`GitHub returned HTTP ${response.status}.`);
+      const buffer = await response.arrayBuffer();
+      if (ticket !== loadTicket) return;
+      if (buffer.byteLength < 32) throw new Error('The repository returned an empty or invalid FBX file.');
+      const loader = new FBXLoader(new THREE.LoadingManager());
+      const parsed = parseFBXWithTextureFallback(loader, buffer);
+      const root = parsed.root;
+      const animations = root.animations || [];
+      installModel(root, animations, 'Demo.fbx', buffer.byteLength);
+      if (parsed.usedFallback) {
+        showToast(`Demo.fbx loaded with FBX recovery. ${parsed.removedNodes} texture/video entries skipped; animation data retained.`, true);
+      } else {
+        showToast(`Loaded Demo.fbx from WayvesMusic/3D-Viewer-Editor with ${animations.length} animation clip${animations.length === 1 ? '' : 's'}.`, true);
+      }
+    } catch (error) {
+      if (ticket !== loadTicket) return;
+      console.error('Demo.fbx download/import failed:', error);
+      setStatus(modelRoot ? 'Previous model retained' : 'Demo import failed');
+      showToast(`Could not load Demo.fbx from GitHub. ${error?.message || 'Check your connection and try again.'} You can also download it from the repository and import the file manually.`);
+    } finally {
+      button.disabled = false;
+      button.textContent = previousLabel;
     }
-    part('Body',new THREE.BoxGeometry(1,1.15,.57), blue,[0,1.2,0]);
-    part('Head',new THREE.BoxGeometry(.72,.67,.64), blue,[0,2.16,0]);
-    part('LeftEye',new THREE.BoxGeometry(.1,.1,.04),dark,[-.17,2.23,.33]);
-    part('RightEye',new THREE.BoxGeometry(.1,.1,.04),dark,[.17,2.23,.33]);
-    part('LeftLeg',new THREE.BoxGeometry(.35,.87,.42),dark,[-.28,.36,0]);
-    part('RightLeg',new THREE.BoxGeometry(.35,.87,.42),dark,[.28,.36,0]);
-    part('LeftArm',new THREE.BoxGeometry(.3,.95,.35),joint,[-.8,1.25,0]);
-    part('RightArm',new THREE.BoxGeometry(.3,.95,.35),joint,[.8,1.25,0]);
-    const bounce = new THREE.AnimationClip('Bounce',2, [
-      new THREE.VectorKeyframeTrack('Body.position', [0,.5,1,1.5,2],[0,1.2,0,0,1.36,0,0,1.56,0,0,1.36,0,0,1.2,0]),
-      new THREE.VectorKeyframeTrack('Head.position', [0,.5,1,1.5,2],[0,2.16,0,0,2.32,0,0,2.52,0,0,2.32,0,0,2.16,0])
-    ]);
-    const wave = new THREE.AnimationClip('Wave',2.4,[
-      new THREE.QuaternionKeyframeTrack('RightArm.quaternion',[0,.6,1.2,1.8,2.4],Array.from({length:5},(_,i) => new THREE.Quaternion().setFromEuler(new THREE.Euler(0,0,[0,-1.2,-.5,-1.2,0][i])).toArray()).flat())
-    ]);
-    installModel(group,[bounce,wave],'Demo Robot.glb',0);
-    showToast('Demo loaded. Pick Bounce or Wave from the timeline menu.', true);
   });
 
+
+  const prims = {
+    cube: () => new THREE.BoxGeometry(1, 1, 1), sphere: () => new THREE.SphereGeometry(0.5, 32, 16), cylinder: () => new THREE.CylinderGeometry(0.5, 0.5, 1, 32),
+    cone: () => new THREE.ConeGeometry(0.5, 1, 32), torus: () => new THREE.TorusGeometry(0.4, 0.15, 16, 48), plane: () => new THREE.PlaneGeometry(1, 1).rotateX(-Math.PI / 2),
+    icosphere: () => new THREE.IcosahedronGeometry(0.5, 2), dodecahedron: () => new THREE.DodecahedronGeometry(0.5), octahedron: () => new THREE.OctahedronGeometry(0.5),
+    tetrahedron: () => new THREE.TetrahedronGeometry(0.6), torusKnot: () => new THREE.TorusKnotGeometry(0.34, 0.11, 96, 12), ring: () => new THREE.RingGeometry(0.22, 0.5, 48).rotateX(-Math.PI / 2), capsule: () => new THREE.CapsuleGeometry(0.28, 0.45, 6, 16)
+  };
+  function addObject(type) {
+    if (!type) return;
+    if (!modelRoot) installModel(new THREE.Group(), [], 'Untitled.obj', 0);
+    const u = 0.85 / modelFrame.scale.x;
+    let o;
+    if (type === 'light') { o = new THREE.PointLight(0xffffff, 40 * u * u, 0, 2); o.name = 'Point Light'; }
+    else if (type === 'empty') { o = new THREE.Group(); o.name = 'Empty'; }
+    else { o = new THREE.Mesh(prims[type](), new THREE.MeshStandardMaterial({ color: 0xb9c3e0, roughness: 0.6, metalness: 0.1, side: THREE.DoubleSide })); o.scale.setScalar(u); o.name = type[0].toUpperCase() + type.slice(1); }
+    modelFrame.updateWorldMatrix(true, true);
+    o.position.copy(modelRoot.worldToLocal(new THREE.Vector3(0, 0, 0)));
+    const parent = modelRoot;
+    parent.add(o); expanded.add(parent.uuid); applyShading();
+    commit(() => { parent.remove(o); if (selected === o) select(null); else renderOutliner(); }, () => { parent.add(o); renderOutliner(); });
+    select(o);
+  }
+  function duplicate() {
+    const o = selected;
+    if (!o || o === modelRoot || !o.parent) return;
+    let skinned = false; o.traverse(x => { if (x.isSkinnedMesh) skinned = true; });
+    if (skinned) { showToast('Skinned meshes cannot be duplicated.'); return; }
+    const src = [], c = o.clone(true), cl = [];
+    o.traverse(x => { if (x.isMesh) src.push(x); }); c.traverse(x => { if (x.isMesh) cl.push(x); });
+    src.forEach((m, i) => {
+      const base = m.userData.mat || m.material;
+      cl[i].geometry = m.geometry.clone();
+      cl[i].material = Array.isArray(base) ? base.map(x => x.clone()) : base.clone();
+      cl[i].userData = {};
+    });
+    c.name = (o.name || o.type) + '.001'; c.translateX(0.3 / modelFrame.scale.x);
+    const parent = o.parent;
+    parent.add(c); applyShading();
+    commit(() => { parent.remove(c); if (selected === c) select(null); else renderOutliner(); }, () => { parent.add(c); renderOutliner(); });
+    select(c);
+  }
+  function shiftOrigin(o, c) {
+    o.geometry.translate(-c.x, -c.y, -c.z);
+    o.children.forEach(k => k.position.sub(c));
+    o.position.add(c.clone().multiply(o.scale).applyQuaternion(o.quaternion));
+  }
+  function swapGeometry(o, make, label) {
+    if (!o.isMesh || o.isSkinnedMesh) { showToast('Select a regular mesh for ' + label + '.', true); return; }
+    const old = o.geometry, g = make(old.clone());
+    o.geometry = g;
+    commit(() => { o.geometry = old; }, () => { o.geometry = g; });
+    box.update(); renderProps();
+  }
+
+  async function replaceSelectedGeometry(make, label) {
+    const o = selected;
+    if (!o?.isMesh || o.isSkinnedMesh) { showToast('Select a regular mesh for ' + label + '.', true); return; }
+    try {
+      const old = o.geometry, next = await make(old.clone());
+      if (!next || next === old) return;
+      next.computeBoundingBox?.(); next.computeBoundingSphere?.();
+      o.geometry = next;
+      commit(() => { o.geometry = old; box.update(); renderProps(); }, () => { o.geometry = next; box.update(); renderProps(); });
+      box.update(); renderProps(); refreshStats();
+      showToast(label + ' applied.', true);
+    } catch (err) { showToast(label + ' failed: ' + (err?.message || err)); }
+  }
+  function subdivideBufferGeometry(source) {
+    const src = source.index ? source.toNonIndexed() : source.clone();
+    const sourceTriangles = Math.floor((src.getAttribute('position')?.count || 0) / 3);
+    if (sourceTriangles > 30000) throw new Error('Subdivide is limited to 30,000 source triangles per operation. Simplify the mesh first.');
+    const attrs = Object.entries(src.attributes);
+    const out = Object.fromEntries(attrs.map(([name]) => [name, []]));
+    const groups = src.groups || [];
+    const materialAt = (vertexStart) => groups.find(g => vertexStart >= g.start && vertexStart < g.start + g.count)?.materialIndex || 0;
+    const midpoint = (a, b, attr) => Array.from({ length: attr.itemSize }, (_, k) => (attr.getComponent(a, k) + attr.getComponent(b, k)) * 0.5);
+    const read = (attr, i) => Array.from({ length: attr.itemSize }, (_, k) => attr.getComponent(i, k));
+    const writeVertex = (v) => attrs.forEach(([name], index) => out[name].push(...v[index]));
+    const triCount = Math.floor((src.getAttribute('position')?.count || 0) / 3);
+    if (!triCount) return src;
+    const nextGroups = []; let groupStart = 0, groupMat = null;
+    const emit = (tri, mat) => {
+      if (groupMat === null) { groupMat = mat; groupStart = out.position.length / 3; }
+      else if (mat !== groupMat) { nextGroups.push({ start: groupStart, count: out.position.length / 3 - groupStart, materialIndex: groupMat }); groupMat = mat; groupStart = out.position.length / 3; }
+      tri.forEach(writeVertex);
+    };
+    for (let t = 0; t < triCount; t++) {
+      const i = t * 3, verts = attrs.map(([name, attr]) => [read(attr, i), read(attr, i + 1), read(attr, i + 2)]);
+      const a = verts.map(v => v[0]), b = verts.map(v => v[1]), c = verts.map(v => v[2]);
+      const ab = attrs.map(([name, attr], k) => midpoint(i, i + 1, attr));
+      const bc = attrs.map(([name, attr], k) => midpoint(i + 1, i + 2, attr));
+      const ca = attrs.map(([name, attr], k) => midpoint(i + 2, i, attr));
+      const mat = materialAt(i);
+      emit([a, ab, ca], mat); emit([ab, b, bc], mat); emit([ca, bc, c], mat); emit([ab, bc, ca], mat);
+    }
+    if (groupMat !== null) nextGroups.push({ start: groupStart, count: out.position.length / 3 - groupStart, materialIndex: groupMat });
+    const g = new THREE.BufferGeometry();
+    for (const [name, attr] of attrs) g.setAttribute(name, new THREE.Float32BufferAttribute(out[name], attr.itemSize, attr.normalized));
+    nextGroups.forEach(gr => g.addGroup(gr.start, gr.count, gr.materialIndex));
+    if (g.getAttribute('position')) { g.deleteAttribute('normal'); g.computeVertexNormals(); }
+    g.name = src.name || source.name;
+    return g;
+  }
+  function meshCheck() {
+    const o = selected;
+    if (!o?.isMesh || !o.geometry) { showToast('Select a mesh to inspect.', true); return; }
+    const g = mergeVertices(o.geometry.clone(), 1e-5), pos = g.getAttribute('position'), idx = g.index?.array;
+    if (!pos) return;
+    const count = idx ? idx.length : pos.count, edgeCounts = new Map(); let degenerate = 0;
+    const edge = (a, b) => { const x = Math.min(a, b), y = Math.max(a, b), k = x + ':' + y; edgeCounts.set(k, (edgeCounts.get(k) || 0) + 1); };
+    for (let i = 0; i + 2 < count; i += 3) {
+      const a = idx ? idx[i] : i, b = idx ? idx[i + 1] : i + 1, c = idx ? idx[i + 2] : i + 2;
+      const A = new THREE.Vector3().fromBufferAttribute(pos, a), B = new THREE.Vector3().fromBufferAttribute(pos, b), C = new THREE.Vector3().fromBufferAttribute(pos, c);
+      if (new THREE.Vector3().subVectors(B, A).cross(new THREE.Vector3().subVectors(C, A)).lengthSq() < 1e-14) degenerate++;
+      edge(a, b); edge(b, c); edge(c, a);
+    }
+    const boundary = [...edgeCounts.values()].filter(n => n === 1).length;
+    const nonManifold = [...edgeCounts.values()].filter(n => n > 2).length;
+    showToast(`Mesh check: ${pos.count.toLocaleString()} welded vertices · ${boundary} boundary edges · ${nonManifold} non-manifold edges · ${degenerate} degenerate triangles.`, true);
+  }
+  function addMeasurement(a, b) {
+    const distance = a.distanceTo(b), u = Math.max(0.0005, 0.012 / (modelFrame?.scale.x || 1));
+    const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints([a, b]), new THREE.LineBasicMaterial({ color: 0xffc857, depthTest: false }));
+    line.renderOrder = 999; measurementGroup.add(line);
+    const markerMat = new THREE.MeshBasicMaterial({ color: 0xffc857, depthTest: false });
+    for (const p of [a, b]) { const marker = new THREE.Mesh(new THREE.SphereGeometry(u, 12, 8), markerMat); marker.position.copy(p); marker.renderOrder = 1000; measurementGroup.add(marker); }
+    const canvas = document.createElement('canvas'); canvas.width = 512; canvas.height = 128;
+    const ctx = canvas.getContext('2d'); ctx.fillStyle = '#101727'; ctx.strokeStyle = '#ffc857'; ctx.lineWidth = 5; ctx.roundRect(4, 4, 504, 120, 20); ctx.fill(); ctx.stroke();
+    ctx.font = 'bold 48px sans-serif'; ctx.fillStyle = '#fff4d6'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    const unitDistance = distance / (modelFrame?.scale.x || 1);
+    ctx.fillText(`${unitDistance.toFixed(3)} units`, 256, 66);
+    const tex = new THREE.CanvasTexture(canvas); tex.colorSpace = THREE.SRGBColorSpace;
+    const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false }));
+    sprite.position.copy(a).add(b).multiplyScalar(0.5); sprite.scale.set(u * 34, u * 8.5, 1); sprite.renderOrder = 1001; measurementGroup.add(sprite);
+    measurementObjects.push(line, ...measurementGroup.children.slice(-3));
+    showToast(`Distance: ${unitDistance.toFixed(3)} units`, true);
+  }
+  function clearMeasurements() {
+    while (measurementGroup.children.length) {
+      const o = measurementGroup.children[measurementGroup.children.length - 1];
+      measurementGroup.remove(o); o.geometry?.dispose();
+      const mats = Array.isArray(o.material) ? o.material : [o.material];
+      mats.filter(Boolean).forEach(m => { m.map?.dispose(); m.dispose(); });
+    }
+    measurementObjects.length = 0; measureFirstPoint = null;
+  }
+  function setMeasurementMode(enabled) {
+    if (enabled && !enabledAddons.has('measure-tools')) { showToast('Install and enable Measure Tools in Extensions first.', true); return; }
+    measurementMode = !!enabled; measureFirstPoint = null;
+    $('measureToggleBtn')?.classList.toggle('on', measurementMode);
+    renderAddonTools();
+    if (measurementMode) showToast('Measure mode: click two points on the model.', true);
+  }
+  function drawUVInspector() {
+    const o = selected, canvas = $('uvCanvas'), ctx = canvas.getContext('2d');
+    if (!o?.isMesh || !o.geometry?.getAttribute('uv')) { showToast('Select a mesh with UV coordinates first.', true); return; }
+    const uv = o.geometry.getAttribute('uv'), pos = o.geometry.getAttribute('position');
+    ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = '#101827'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = '#34425d'; ctx.lineWidth = 1;
+    for (let i = 0; i <= 10; i++) { const p = i * canvas.width / 10; ctx.beginPath(); ctx.moveTo(p, 0); ctx.lineTo(p, canvas.height); ctx.stroke(); ctx.beginPath(); ctx.moveTo(0, p); ctx.lineTo(canvas.width, p); ctx.stroke(); }
+    ctx.strokeStyle = '#91b8ff'; ctx.lineWidth = 1.3; ctx.beginPath();
+    for (let i = 0; i + 2 < uv.count; i += 3) {
+      const pts = [i, i + 1, i + 2].map(k => [uv.getX(k) * canvas.width, (1 - uv.getY(k)) * canvas.height]);
+      ctx.moveTo(...pts[0]); ctx.lineTo(...pts[1]); ctx.lineTo(...pts[2]); ctx.closePath();
+    }
+    ctx.stroke();
+    $('uvInfo').textContent = `${o.name || 'Selected mesh'} · ${uv.count.toLocaleString()} UV corners · ${pos?.count ? Math.floor(pos.count / 3).toLocaleString() : 0} triangles`;
+    $('uvDlg').showModal();
+  }
+  function dropSelectedToFloor() {
+    const o = selected;
+    if (!o || !o.parent) { showToast('Select an object first.', true); return; }
+    o.updateWorldMatrix(true, true);
+    const bounds = new THREE.Box3().setFromObject(o);
+    if (bounds.isEmpty()) { showToast('The selected object has no visible geometry.', true); return; }
+    const deltaY = grid.position.y - bounds.min.y;
+    const worldPosition = o.getWorldPosition(new THREE.Vector3()); worldPosition.y += deltaY;
+    const before = snapOf(o); o.parent.updateWorldMatrix(true, false);
+    o.position.copy(o.parent.worldToLocal(worldPosition));
+    commitTransform(o, before); box.update(); renderProps();
+  }
+  function revealAllObjects() {
+    if (!modelRoot) return;
+    if (isolated) { isolated.forEach(o => { o.visible = true; }); isolated = null; }
+    modelRoot.traverse(o => { o.visible = true; }); renderOutliner();
+  }
+  function bakeSelectedComponent(component) {
+    const o = selected;
+    if (!o?.isMesh || o.isSkinnedMesh) { showToast('Select a regular mesh to apply transforms.', true); return; }
+    if (o.children.length) { showToast('Apply transforms only on standalone meshes. Move child objects out first.', true); return; }
+    const before = snapOf(o), old = o.geometry, g = old.clone();
+    const m = new THREE.Matrix4();
+    if (component === 'scale') m.makeScale(o.scale.x, o.scale.y, o.scale.z);
+    else m.makeRotationFromQuaternion(o.quaternion);
+    g.applyMatrix4(m); g.computeVertexNormals();
+    o.geometry = g;
+    if (component === 'scale') o.scale.set(1, 1, 1); else o.quaternion.identity();
+    const after = snapOf(o);
+    commit(() => { o.geometry = old; restore(o, before); box.update(); renderProps(); }, () => { o.geometry = g; restore(o, after); box.update(); renderProps(); });
+    box.update(); renderProps(); refreshStats();
+  }
+  const toolActs = {
+    dup: duplicate,
+    del: deleteSelected,
+    reset: () => { const o = selected, before = snapOf(o); o.position.set(0, 0, 0); o.quaternion.identity(); o.scale.set(1, 1, 1); commitTransform(o, before); box.update(); renderProps(); },
+    applyScale: () => bakeSelectedComponent('scale'),
+    applyRotation: () => bakeSelectedComponent('rotation'),
+    hide: () => { if (selected) { selected.visible = false; renderOutliner(); select(null); } },
+    floor: dropSelectedToFloor,
+    unparent: () => {
+      const o = selected, p = o.parent;
+      if (o === modelRoot || !p || p === modelRoot) return;
+      modelRoot.attach(o); renderOutliner();
+      commit(() => { p.attach(o); renderOutliner(); }, () => { modelRoot.attach(o); renderOutliner(); });
+    },
+    mx: () => mirror(0), my: () => mirror(1), mz: () => mirror(2),
+    origin: () => {
+      const o = selected;
+      if (!o.isMesh || o.isSkinnedMesh) { showToast('Select a regular mesh to move its origin.', true); return; }
+      o.geometry.computeBoundingBox();
+      const c = o.geometry.boundingBox.getCenter(new THREE.Vector3());
+      shiftOrigin(o, c);
+      commit(() => shiftOrigin(o, c.clone().negate()), () => shiftOrigin(o, c));
+      box.update(); renderProps();
+    },
+    smooth: () => swapGeometry(selected, g => { g.deleteAttribute('normal'); const m = mergeVertices(g); m.computeVertexNormals(); return m; }, 'smooth shading'),
+    flat: () => swapGeometry(selected, g => { const m = g.toNonIndexed(); m.computeVertexNormals(); return m; }, 'flat shading'),
+    isolate: () => toggleIsolate()
+  };
+  function mirror(i) {
+    const o = selected, before = snapOf(o);
+    o.scale.setComponent(i, -o.scale.getComponent(i)); commitTransform(o, before); box.update(); renderProps();
+  }
+  function toggleIsolate() {
+    if (isolated) { isolated.forEach(o => { o.visible = true; }); isolated = null; renderOutliner(); return; }
+    if (!selected || !modelRoot) return;
+    const within = (o, r) => { for (let p = o; p; p = p.parent) if (p === r) return true; return false; };
+    isolated = [];
+    modelRoot.traverse(o => { if ((o.isMesh || o.isLight) && o.visible && !within(o, selected)) { o.visible = false; isolated.push(o); } });
+    renderOutliner();
+  }
+
+  /* ---------- extension browser ---------- */
+  const addonDefinitions = [
+    { id: 'extra-primitives', name: 'Extra Mesh Objects', version: '1.0.0', category: 'Modeling', icon: '◈', description: 'Adds Icosphere, Dodecahedron, Octahedron, Tetrahedron, Torus Knot, Ring and Capsule to the Add menu.' },
+    { id: 'mesh-toolkit', name: 'Mesh Toolkit', version: '1.0.0', category: 'Modeling', icon: '⌘', description: 'Subdivide triangles, merge nearby vertices, recalculate or flip normals, simplify meshes, and inspect topology.' },
+    { id: 'measure-tools', name: 'Measure Tools', version: '1.0.0', category: 'Viewport', icon: '⌖', description: 'Measure distances directly on model surfaces with viewport markers, labels and a clear-measurements command.' },
+    { id: 'uv-inspector', name: 'UV Layout Inspector', version: '1.0.0', category: 'UV & Materials', icon: '▦', description: 'Inspect the selected mesh UV map as a 2D wire layout and see UV corner and triangle counts.' },
+    { id: 'scene-audit', name: 'Scene Audit', version: '1.0.0', category: 'Utilities', icon: '✓', description: 'Review scene object, mesh, vertex and triangle counts, plus objects without names and missing UV maps.' },
+    { id: 'animation-helpers', name: 'Animation Helpers', version: '1.0.0', category: 'Animation', icon: '◷', description: 'Adds a ping-pong playback toggle for the active animation clip.' }
+  ];
+  let installedAddons = new Set(); let enabledAddons = new Set();
+  try { installedAddons = new Set(JSON.parse(localStorage.getItem('me-addons-installed') || '[]')); } catch (e) {}
+  try { enabledAddons = new Set(JSON.parse(localStorage.getItem('me-addons-enabled') || '[]')); } catch (e) {}
+  installedAddons.forEach(id => { if (!addonDefinitions.some(a => a.id === id) && !externalAddons.has(id)) installedAddons.delete(id); });
+  enabledAddons = new Set([...enabledAddons].filter(id => installedAddons.has(id)));
+  function persistAddons() {
+    try { localStorage.setItem('me-addons-installed', JSON.stringify([...installedAddons])); localStorage.setItem('me-addons-enabled', JSON.stringify([...enabledAddons])); } catch (e) {}
+  }
+  function updateExtraPrimitiveOptions() {
+    const group = $('extraPrimitiveOptions'); if (group) group.hidden = !enabledAddons.has('extra-primitives');
+  }
+  function renderAddonTools() {
+    const panel = $('addonToolsPanel'), host = $('addonTools'); if (!panel || !host) return;
+    host.replaceChildren();
+    const entries = [];
+    const add = (label, action, title = '') => entries.push({ label, action, title });
+    if (enabledAddons.has('mesh-toolkit')) {
+      add('Subdivide', () => replaceSelectedGeometry(subdivideBufferGeometry, 'Subdivide'));
+      add('Merge by distance', () => replaceSelectedGeometry(g => mergeVertices(g, 0.0001), 'Merge by distance'));
+      add('Recalc normals', () => replaceSelectedGeometry(g => { g.deleteAttribute('normal'); g.computeVertexNormals(); return g; }, 'Recalculate normals'));
+      add('Flip normals', () => replaceSelectedGeometry(g => {
+        const n = g.index ? g.toNonIndexed() : g;
+        for (const attr of Object.values(n.attributes)) {
+          const arr = attr.array, size = attr.itemSize;
+          for (let i = 0; i + 2 < attr.count; i += 3) for (let k = 0; k < size; k++) { const a = (i + 1) * size + k, b = (i + 2) * size + k; [arr[a], arr[b]] = [arr[b], arr[a]]; }
+        }
+        n.deleteAttribute('normal'); n.computeVertexNormals(); return n;
+      }, 'Flip normals'));
+      add('Simplify 50%', () => replaceSelectedGeometry(g => {
+        const indexed = g.index ? g : mergeVertices(g, 1e-5);
+        const target = Math.max(4, Math.floor((indexed.index?.count || indexed.getAttribute('position').count) * 0.5));
+        return new SimplifyModifier().modify(indexed, target);
+      }, 'Simplify mesh'));
+      add('Inspect topology', meshCheck);
+    }
+    if (enabledAddons.has('measure-tools')) {
+      add(measurementMode ? 'Stop measuring' : 'Measure distance', () => setMeasurementMode(!measurementMode));
+      add('Clear measurements', clearMeasurements);
+    }
+    if (enabledAddons.has('uv-inspector')) add('Open UV inspector', drawUVInspector);
+    if (enabledAddons.has('scene-audit')) add('Audit scene', auditScene);
+    if (enabledAddons.has('animation-helpers')) add(pingPongPlayback ? 'Disable ping-pong' : 'Enable ping-pong', togglePingPong);
+    for (const [pluginId, tools] of externalAddonTools) if (enabledAddons.has(pluginId)) tools.forEach(t => add(t.label, t.run, t.description || 'Custom extension tool'));
+    panel.hidden = entries.length === 0;
+    entries.forEach(entry => {
+      const b = document.createElement('button'); b.className = 'btn'; b.textContent = entry.label; b.title = entry.title || entry.label; b.onclick = async () => { try { await entry.action(); } catch (e) { showToast(e?.message || String(e)); } }; host.appendChild(b);
+    });
+    $('measureToggleBtn')?.classList.toggle('on', measurementMode);
+    $('measureToggleBtn')?.classList.toggle('hidden', !enabledAddons.has('measure-tools'));
+  }
+  function refreshAddonFeatures() {
+    updateExtraPrimitiveOptions();
+    if (!enabledAddons.has('measure-tools')) setMeasurementMode(false);
+    if (!enabledAddons.has('animation-helpers') && pingPongPlayback) { pingPongPlayback = false; if (activeAction) activeAction.setLoop(loop ? THREE.LoopRepeat : THREE.LoopOnce, loop ? Infinity : 1); }
+    renderAddonTools();
+  }
+  async function setAddonEnabled(id, enabled) {
+    const external = externalAddons.get(id);
+    if (enabled && external && !external.active) {
+      try {
+        const result = await external.spec.activate(buildAddonApi(id));
+        external.cleanup = typeof result === 'function' ? result : result?.dispose?.bind(result);
+        external.active = true;
+      } catch (err) { showToast('Could not enable extension: ' + (err?.message || err)); return; }
+    } else if (!enabled && external?.active) {
+      try { external.cleanup?.(); } catch (err) { showToast('Extension cleanup warning: ' + (err?.message || err), true); }
+      external.cleanup = null; external.active = false; externalAddonTools.delete(id);
+    }
+    if (enabled) enabledAddons.add(id); else enabledAddons.delete(id);
+    persistAddons(); refreshAddonFeatures(); renderAddonBrowser();
+  }
+  function installAddon(id) {
+    installedAddons.add(id); enabledAddons.add(id); persistAddons(); renderAddonBrowser(); refreshAddonFeatures();
+    showToast('Extension installed and enabled.', true);
+  }
+  function uninstallAddon(id) {
+    if (externalAddons.has(id)) {
+      try { externalAddons.get(id).cleanup?.(); } catch (e) {}
+      externalAddons.delete(id); externalAddonTools.delete(id);
+    }
+    installedAddons.delete(id); enabledAddons.delete(id); persistAddons();
+    if (id === 'measure-tools') { setMeasurementMode(false); clearMeasurements(); }
+    refreshAddonFeatures(); renderAddonBrowser();
+  }
+  function renderAddonBrowser() {
+    const host = $('addonCatalog'); if (!host) return; host.replaceChildren();
+    const q = $('addonSearch').value.trim().toLowerCase(), cat = $('addonCategory').value;
+    const defs = [...addonDefinitions, ...[...externalAddons.values()].map(x => x.meta)];
+    const filtered = defs.filter(a => (cat === 'all' || a.category === cat) && (!q || `${a.name} ${a.description} ${a.category}`.toLowerCase().includes(q)));
+    if (!filtered.length) { const empty = document.createElement('p'); empty.className = 'empty'; empty.textContent = 'No extensions match this search.'; host.appendChild(empty); return; }
+    filtered.forEach(addon => {
+      const card = document.createElement('article'); card.className = 'addon-card';
+      const top = document.createElement('div'); top.className = 'addon-card-top';
+      const icon = document.createElement('div'); icon.className = 'addon-icon'; icon.textContent = addon.icon || '◇';
+      const titleWrap = document.createElement('div'); const h = document.createElement('h4'); h.textContent = addon.name;
+      const meta = document.createElement('div'); meta.className = 'addon-meta'; meta.textContent = `${addon.category} · v${addon.version || '1.0.0'}`;
+      titleWrap.append(h, meta); top.append(icon, titleWrap);
+      const p = document.createElement('p'); p.textContent = addon.description || 'User extension';
+      const status = document.createElement('div'); status.className = 'addon-meta';
+      const installed = installedAddons.has(addon.id), enabled = enabledAddons.has(addon.id);
+      const tag = document.createElement('span'); tag.className = 'addon-tag'; tag.textContent = installed ? (enabled ? 'Enabled' : 'Installed · Disabled') : 'Available'; status.appendChild(tag);
+      const actions = document.createElement('div'); actions.style.display = 'flex'; actions.style.gap = '6px'; actions.style.flexWrap = 'wrap'; actions.style.marginTop = 'auto';
+      if (!installed) {
+        const b = document.createElement('button'); b.className = 'btn primary'; b.textContent = 'Install'; b.onclick = () => addon.external ? showToast('Use the Install from JavaScript button to load this extension file.', true) : installAddon(addon.id); actions.appendChild(b);
+      } else {
+        const toggle = document.createElement('button'); toggle.className = 'btn' + (enabled ? ' on' : ''); toggle.textContent = enabled ? 'Disable' : 'Enable';
+        toggle.onclick = () => setAddonEnabled(addon.id, !enabled);
+        const remove = document.createElement('button'); remove.className = 'btn'; remove.textContent = 'Uninstall'; remove.onclick = () => uninstallAddon(addon.id); actions.append(toggle, remove);
+      }
+      card.append(top, p, status, actions); host.appendChild(card);
+    });
+  }
+  function auditScene() {
+    if (!modelRoot) { showToast('Import a model before running a scene audit.', true); return; }
+    let objects = 0, meshes = 0, vertices = 0, triangles = 0, noUV = 0, unnamed = 0, materials = 0;
+    modelRoot.traverse(o => {
+      if (o === modelRoot) return; objects++; if (!o.name) unnamed++;
+      if (o.isMesh && o.geometry) {
+        meshes++; const p = o.geometry.getAttribute('position'); vertices += p?.count || 0;
+        triangles += o.geometry.index ? Math.floor(o.geometry.index.count / 3) : Math.floor((p?.count || 0) / 3);
+        if (!o.geometry.getAttribute('uv')) noUV++;
+        materials += Array.isArray(o.material) ? o.material.length : (o.material ? 1 : 0);
+      }
+    });
+    showToast(`Scene audit: ${objects} objects · ${meshes} meshes · ${vertices.toLocaleString()} vertices · ${triangles.toLocaleString()} triangles · ${materials} material slots · ${noUV} meshes without UVs · ${unnamed} unnamed objects.`, true);
+  }
+  function togglePingPong() {
+    pingPongPlayback = !pingPongPlayback;
+    if (activeAction) {
+      activeAction.setLoop(pingPongPlayback ? THREE.LoopPingPong : (loop ? THREE.LoopRepeat : THREE.LoopOnce), pingPongPlayback || loop ? Infinity : 1);
+      activeAction.clampWhenFinished = true;
+    }
+    renderAddonTools();
+    showToast(`Ping-pong playback ${pingPongPlayback ? 'enabled' : 'disabled'}.`, true);
+  }
+  function buildAddonApi(pluginId) {
+    return {
+      THREE,
+      getSelection: () => selected,
+      getScene: () => scene,
+      getModelRoot: () => modelRoot,
+      toast: message => showToast(String(message), true),
+      registerTool: tool => {
+        if (!tool || !/^[\w.-]{1,64}$/.test(tool.id || '') || typeof tool.run !== 'function' || !tool.label) throw new Error('Tool must include id, label and run().');
+        const list = externalAddonTools.get(pluginId) || [];
+        if (list.some(x => x.id === tool.id)) throw new Error('Duplicate tool id: ' + tool.id);
+        list.push({ id: tool.id, label: String(tool.label).slice(0, 48), description: String(tool.description || '').slice(0, 180), run: () => tool.run({ THREE, selected, scene, modelRoot, showToast }) });
+        externalAddonTools.set(pluginId, list); renderAddonTools();
+      }
+    };
+  }
+  async function importExternalAddon(file) {
+    const blobUrl = URL.createObjectURL(file); let attemptedId = null;
+    try {
+      const mod = await import(blobUrl), spec = mod.default || mod.addon || mod;
+      if (!spec || !/^[\w.-]{1,64}$/.test(spec.id || '') || !spec.name || typeof spec.activate !== 'function') throw new Error('Extension must default-export { id, name, activate(api) }.');
+      if (addonDefinitions.some(a => a.id === spec.id) || externalAddons.has(spec.id)) throw new Error('An extension with this id is already installed.');
+      attemptedId = spec.id;
+      const meta = { id: spec.id, name: String(spec.name).slice(0, 80), version: String(spec.version || '1.0.0'), category: 'Custom', icon: '◇', description: String(spec.description || 'User-installed JavaScript extension').slice(0, 240), external: true };
+      const cleanup = await spec.activate(buildAddonApi(spec.id));
+      externalAddons.set(spec.id, { meta, spec, cleanup: typeof cleanup === 'function' ? cleanup : cleanup?.dispose?.bind(cleanup), active: true });
+      installedAddons.add(spec.id); enabledAddons.add(spec.id); refreshAddonFeatures(); renderAddonBrowser();
+      showToast(`Installed ${meta.name}. This extension is active for this session.`, true);
+    } catch (err) { if (attemptedId) externalAddonTools.delete(attemptedId); renderAddonTools(); showToast('Could not install extension: ' + (err?.message || err)); }
+    finally { URL.revokeObjectURL(blobUrl); }
+  }
+  function applyMode(m, persist = true) {
+    document.documentElement.dataset.mode = m;
+    document.querySelectorAll('#modeSeg button').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
+    if (persist) { try { localStorage.setItem('me-mode', m); } catch (e) {} }
+    if (m === 'basic') { if (measurementMode) setMeasurementMode(false); if (isolated) toggleIsolate(); $('spaceBtn').classList.remove('on'); tc.setSpace('world'); }
+    $('addonsBtn').classList.toggle('hidden', m !== 'complex');
+    $('measureToggleBtn').classList.toggle('hidden', m !== 'complex' || !enabledAddons.has('measure-tools'));
+    renderProps(); renderOutliner();
+  }
+
   /* ---------- wiring ---------- */
+
+  $('addonsBtn').onclick = () => { renderAddonBrowser(); $('addonDlg').showModal(); };
+  $('addonClose').onclick = $('addonDone').onclick = () => $('addonDlg').close();
+  $('addonDlg').addEventListener('click', e => { if (e.target === $('addonDlg')) $('addonDlg').close(); });
+  $('addonSearch').addEventListener('input', renderAddonBrowser);
+  $('addonCategory').addEventListener('change', renderAddonBrowser);
+  $('installLocalAddon').onclick = () => { $('addonFileInput').value = ''; $('addonFileInput').click(); };
+  $('addonFileInput').addEventListener('change', e => { const f = e.target.files?.[0]; if (f) importExternalAddon(f); });
+  $('openBlenderExtensions').onclick = () => window.open('https://extensions.blender.org/', '_blank', 'noopener,noreferrer');
+  $('uvClose').onclick = () => $('uvDlg').close();
+  $('uvDlg').addEventListener('click', e => { if (e.target === $('uvDlg')) $('uvDlg').close(); });
+  $('measureToggleBtn').onclick = () => setMeasurementMode(!measurementMode);
+  $('revealAllBtn').onclick = revealAllObjects;
   const fileInput = $('fileInput'), folderInput = $('folderInput');
   const openFiles = () => { fileInput.value = ''; fileInput.click(); };
   const openFolder = () => { folderInput.value = ''; folderInput.click(); };
@@ -1184,9 +2181,10 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
   for (const id of ['importTop', 'importWelcome']) $(id).onclick = openFiles;
   for (const id of ['folderTop', 'folderWelcome']) $(id).onclick = openFolder;
   let dragCounter = 0;
-  document.addEventListener('dragenter', e => { e.preventDefault(); dragCounter++; viewer.classList.add('dragover'); });
+  const hasFiles = (e) => Array.from(e.dataTransfer?.types || []).includes('Files');
+  document.addEventListener('dragenter', e => { e.preventDefault(); if (!hasFiles(e)) return; dragCounter++; viewer.classList.add('dragover'); });
   document.addEventListener('dragover', e => e.preventDefault());
-  document.addEventListener('dragleave', e => { e.preventDefault(); dragCounter = Math.max(0, dragCounter - 1); if (!dragCounter) viewer.classList.remove('dragover'); });
+  document.addEventListener('dragleave', e => { e.preventDefault(); if (!hasFiles(e)) return; dragCounter = Math.max(0, dragCounter - 1); if (!dragCounter) viewer.classList.remove('dragover'); });
   document.addEventListener('drop', e => {
     e.preventDefault(); dragCounter = 0; viewer.classList.remove('dragover');
     if (e.dataTransfer?.files?.length) loadFiles(e.dataTransfer.files);
@@ -1207,26 +2205,61 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
     tc.setTranslationSnap(v ? 0.1 : null); tc.setRotationSnap(v ? THREE.MathUtils.degToRad(15) : null); tc.setScaleSnap(v ? 0.1 : null);
   });
   $('resetBtn').onclick = resetView;
+  document.querySelectorAll('#modeSeg button').forEach(b => b.onclick = () => applyMode(b.dataset.mode));
+  document.querySelectorAll('[data-act]').forEach(b => b.onclick = () => {
+    if (!selected) { showToast('Select an object first.', true); return; }
+    toolActs[b.dataset.act]();
+  });
+  $('addSelect').onchange = e => { addObject(e.target.value); e.target.value = ''; };
+  flip('spaceBtn', v => tc.setSpace(v ? 'local' : 'world'));
+  flip('axesBtn', v => { axes.visible = v; });
+  $('expRange').oninput = e => { renderer.toneMappingExposure = +e.target.value; $('expVal').textContent = (+e.target.value).toFixed(1); };
+  $('lightRange').oninput = e => { const k = +e.target.value; hemi.intensity = 2.6 * k; sun.intensity = 3.1 * k; rim.intensity = 1.7 * k; $('lightVal').textContent = k.toFixed(1); };
+  $('fovRange').oninput = e => { camera.fov = +e.target.value; camera.updateProjectionMatrix(); $('fovVal').textContent = e.target.value; };
+  $('objBtn').onclick = () => {
+    if (!modelRoot) { showToast('Nothing to export yet.', true); return; }
+    download(new Blob([new OBJExporter().parse(modelRoot)], { type: 'text/plain' }), (info.filename.replace(/\.[^.]+$/, '') || 'model') + '-edited.obj');
+  };
+  $('stlBtn').onclick = () => {
+    if (!modelRoot) { showToast('Nothing to export yet.', true); return; }
+    download(new Blob([new STLExporter().parse(modelRoot, { binary: true })], { type: 'model/stl' }), (info.filename.replace(/\.[^.]+$/, '') || 'model') + '-edited.stl');
+  };
+  $('themeSelect').onchange = e => applyTheme(e.target.value);
+  $('helpBtn').onclick = () => $('helpDlg').showModal();
+  $('helpClose').onclick = () => $('helpDlg').close();
+  $('helpDlg').addEventListener('click', e => { if (e.target === $('helpDlg')) $('helpDlg').close(); });
+  $('sideToggle').onclick = () => $('app').classList.toggle('noside');
+  $('toast').onclick = () => { $('toast').style.display = 'none'; };
+  renderer.domElement.addEventListener('dblclick', () => frame(selected));
+  addEventListener('beforeunload', e => { if (past.length) { e.preventDefault(); e.returnValue = ''; } });
+  if (matchMedia('(max-width:720px)').matches) $('app').classList.add('noside');
+  applyTheme(document.documentElement.dataset.theme, false);
+  refreshAddonFeatures();
+  applyMode(document.documentElement.dataset.mode === 'complex' ? 'complex' : 'basic', false);
   $('frameBtn').onclick = () => frame(selected);
   $('undoBtn').onclick = undo;
   $('redoBtn').onclick = redo;
 
   $('clipSelect').onchange = e => selectClip(+e.target.value, true);
+  $('newClipBtn').onclick = createAnimationClip;
+  $('deleteClipBtn').onclick = () => removeAnimationClip(activeIndex);
+  $('addKeyframeBtn').onclick = addKeyframeForSelection;
+  $('deleteKeyframeBtn').onclick = deleteSelectedKeyframe;
+  $('deleteTrackBtn').onclick = deleteSelectedTrack;
   $('playButton').onclick = () => togglePlay();
   $('restartButton').onclick = () => { if (!activeAction) return; activeAction.reset().play(); activeAction.paused = !playing; mixer.update(0); updateTimeline(); };
   $('stepBack').onclick = () => stepFrame(-1);
   $('stepFwd').onclick = () => stepFrame(1);
   $('loopButton').onclick = () => {
     loop = !loop;
-    if (activeAction) { activeAction.setLoop(loop ? THREE.LoopRepeat : THREE.LoopOnce, loop ? Infinity : 1); activeAction.clampWhenFinished = true; }
+    if (activeAction) { activeAction.setLoop(pingPongPlayback ? THREE.LoopPingPong : (loop ? THREE.LoopRepeat : THREE.LoopOnce), pingPongPlayback || loop ? Infinity : 1); activeAction.clampWhenFinished = true; }
     updatePlaybackUi();
   };
   $('speedSelect').onchange = e => { speed = Number(e.target.value) || 1; };
   $('timeline').oninput = e => {
     if (!activeAction) return;
-    const d = clips[activeIndex].duration, t = Number(e.target.value) / 1000 * d;
-    if (!loop && activeAction.time >= d - 0.001 && t < d - 0.001) activeAction.reset().play();
-    activeAction.time = t; mixer.update(0); updateTimeline();
+    const d = clips[activeIndex].duration;
+    seekToTime(Number(e.target.value) / 1000 * d);
   };
 
   $('exportBtn').onclick = () => {
@@ -1240,10 +2273,13 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
   $('shotBtn').onclick = () => {
     const g = grid.visible, b = box.visible;
     tcHelper.visible = box.visible = grid.visible = false;
+    scene.background = new THREE.Color(cssNum('--vcol'));
     renderer.render(scene, camera);
     const url = renderer.domElement.toDataURL('image/png');
+    scene.background = null;
     tcHelper.visible = true; box.visible = b; grid.visible = g;
-    download(url, 'screenshot.png');
+    download(url, ((info?.filename || 'screenshot').replace(/\.[^.]+$/, '')) + '.png');
+    showToast('Screenshot saved', true);
   };
 
   /* ---------- keyboard ---------- */
@@ -1256,16 +2292,22 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
     ' ': () => togglePlay(), arrowleft: () => stepFrame(-1), arrowright: () => stepFrame(1),
     h: () => { if (selected) { selected.visible = !selected.visible; renderOutliner(); } },
     delete: deleteSelected, backspace: deleteSelected, escape: () => select(null),
-    n: () => { $('app').classList.toggle('noside'); }
+    n: () => { $('app').classList.toggle('noside'); },
+    t: () => applyTheme(themes[(themes.indexOf(document.documentElement.dataset.theme) + 1) % themes.length]),
+    '?': () => $('helpDlg').showModal()
   };
   addEventListener('keydown', e => {
     if (/INPUT|SELECT|TEXTAREA/.test(e.target.tagName) && e.target.type !== 'range') return;
+    if ($('helpDlg').open || e.altKey) return;
     const k = e.key.toLowerCase();
     if (e.ctrlKey || e.metaKey) {
+      if (k === 'o') { e.preventDefault(); openFiles(); return; }
+      if (k === 'd' && isComplex()) { e.preventDefault(); duplicate(); return; }
       if (k === 'z') { e.preventDefault(); e.shiftKey ? redo() : undo(); }
       else if (k === 'y') { e.preventDefault(); redo(); }
       return;
     }
+    if (isComplex() && ((k === 'd' && e.shiftKey) || k === '/')) { e.preventDefault(); k === '/' ? toggleIsolate() : duplicate(); return; }
     if (keys[k]) { e.preventDefault(); keys[k](); }
   });
   addEventListener('keyup', e => { if (e.key === ' ' && !/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) e.preventDefault(); });
@@ -1278,7 +2320,7 @@ input[type=number],.name,.search{background:var(--field);border:1px solid var(--
     controls.update();
     renderer.render(scene, camera);
   }
-  renderProps(); renderOutliner(); renderClips(); updatePlaybackUi();
+  renderProps(); renderOutliner(); renderClips(); updatePlaybackUi(); renderKeyframeEditor(); renderAddonBrowser();
   animate();
 </script>
 </body>
