@@ -289,6 +289,8 @@ body{font-size:12px;background:var(--bg)}
 .side .panel.collapsed{flex:0 0 auto!important;height:auto!important;min-height:0!important}
 .side .panel.collapsed .panel-body{display:none}
 #propsPanel .panel-body{overflow:auto}
+
+.baseplate-selection-tools{display:flex;gap:6px;margin:7px 0 10px}.baseplate-selection-tools .btn{height:27px;padding:0 9px;font-size:10px;width:100%;justify-content:center}
 .navigation-hud{bottom:12px;padding:6px 8px 6px 10px;gap:8px}
 .navigation-hud span{font-size:10px}
 .navigation-hud .btn{height:26px}
@@ -479,26 +481,27 @@ body.rendering-video dialog{display:none!important}
 @media(max-width:760px){.cinematic-workspace{grid-template-columns:1fr}.cinematic-shot-list{max-height:230px}.cinematic-summary-row{align-items:start;flex-direction:column;gap:5px}.cinematic-sequence-name{width:100%;min-width:0}.cinematic-summary{padding:0}.cinematic-dialog{padding:13px}}
 
 
-/* Editor mode is an object browser workspace, not a live scene viewport. */
-.editor-object-browser{display:none;grid-column:1/-1;grid-row:1/-1;min-width:0;min-height:0;overflow:auto;background:radial-gradient(900px 420px at 50% 0%,var(--glow),transparent 72%),var(--view);padding:clamp(18px,4vw,46px);flex-direction:column;gap:18px}
-[data-mode=editor] .main{display:block}
-[data-mode=editor] .main>.tools,[data-mode=editor] .main>.viewer,[data-mode=editor] .main>.side,[data-mode=editor] .main>.timeline{display:none!important}
-[data-mode=editor] .editor-object-browser{display:flex}
-.editor-browser-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;max-width:1120px;width:100%;margin:0 auto}
-.editor-browser-eyebrow{font-size:10px;letter-spacing:.16em;color:var(--accent2);font-weight:700}
-.editor-browser-head h2{font-size:clamp(22px,3vw,32px);margin:5px 0 4px;letter-spacing:-.03em}
-.editor-browser-head p{margin:0;color:var(--muted);font-size:12px}
-.editor-browser-actions{display:flex;gap:7px;flex-wrap:wrap}
-.editor-browser-search{display:flex;align-items:center;gap:12px;max-width:1120px;width:100%;margin:0 auto;color:var(--muted);font-size:11px}
-.editor-browser-search input{width:min(360px,100%);height:34px;padding:0 11px;border:1px solid var(--line);border-radius:7px;background:var(--field);color:var(--text)}
-.editor-object-grid{width:100%;max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:11px}
-.editor-object-card{min-height:130px;padding:14px 12px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:5px;text-align:left;border:1px solid var(--line);border-radius:11px;background:color-mix(in srgb,var(--panel) 92%,transparent);color:var(--text);cursor:pointer;transition:transform .15s,border-color .15s,background .15s}
-.editor-object-card:hover{transform:translateY(-2px);border-color:var(--accent2);background:var(--sel)}.editor-object-card[hidden]{display:none!important}
-.editor-object-card b{font-size:12px}.editor-object-card small{font-size:10px;color:var(--muted)}
-.object-icon{height:65px;width:100%;display:grid;place-items:center;color:var(--accent2);font-size:34px}
-.object-icon svg{width:54px;height:54px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.editor-browser-foot{width:100%;max-width:1120px;margin:auto auto 0;display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--muted);font-size:10px;padding-top:12px;border-top:1px solid var(--line)}
-@media(max-width:620px){.editor-object-browser{padding:16px 12px}.editor-browser-head{align-items:flex-start;flex-direction:column}.editor-object-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.editor-object-card{min-height:116px}.editor-browser-foot{align-items:flex-start;flex-direction:column}}
+/* Editor mode swaps the Scene list for a compact object browser in the same sidebar slot. */
+.editor-object-browser{display:none;min-width:0;min-height:0;flex:1;overflow:auto;flex-direction:column;gap:8px;padding:2px 0 0;background:transparent}
+[data-mode=editor] #scenePanel #filter,[data-mode=editor] #scenePanel #outliner{display:none!important}
+[data-mode=editor] #scenePanel #editorObjectBrowser{display:flex}
+.editor-browser-head{display:flex;align-items:center;justify-content:flex-end;gap:6px;width:100%;margin:0}
+.editor-browser-head>div:first-child{display:none}
+.editor-browser-actions{display:flex;gap:6px;flex-wrap:wrap;width:100%}
+.editor-browser-actions .btn{flex:1;justify-content:center;height:28px;padding:0 7px;font-size:10px}
+.editor-browser-search{display:flex;align-items:center;gap:7px;width:100%;margin:0;color:var(--muted);font-size:10px}
+.editor-browser-search input{flex:1;min-width:0;width:100%;height:28px;padding:0 8px;border:1px solid var(--line);border-radius:6px;background:var(--field);color:var(--text)}
+#editorObjectCount{white-space:nowrap}
+.editor-object-grid{width:100%;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.editor-object-card{min-width:0;min-height:78px;padding:7px 6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-align:center;border:1px solid var(--line);border-radius:7px;background:var(--panel2);color:var(--text);cursor:pointer;transition:border-color .15s,background .15s}
+.editor-object-card:hover{border-color:var(--accent2);background:var(--sel)}.editor-object-card[hidden]{display:none!important}
+.editor-object-card b{font-size:10px}.editor-object-card small{font-size:9px;color:var(--muted)}
+.object-icon{height:34px;width:100%;display:grid;place-items:center;color:var(--accent2);font-size:23px}
+.object-icon svg{width:31px;height:31px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.editor-browser-foot{width:100%;display:flex;align-items:center;justify-content:center;gap:6px;color:var(--muted);font-size:9px;padding-top:7px;border-top:1px solid var(--line)}
+.editor-browser-foot>span{display:none}
+.editor-browser-foot .btn{height:27px;padding:0 8px;font-size:10px;width:100%;justify-content:center}
+
 
 </style>
 <script type="importmap">
@@ -530,28 +533,7 @@ body.rendering-video dialog{display:none!important}
     <button class="btn ico" id="redoBtn" disabled title="Redo (Ctrl+Shift+Z)" aria-label="Redo">↷</button>
   </header>
   <div class="main">
-    <section id="editorObjectBrowser" class="editor-object-browser" aria-label="Editor object browser">
-      <div class="editor-browser-head">
-        <div><div class="editor-browser-eyebrow">SCENE BUILDER</div><h2>Object Browser</h2><p>Choose an object or decoration to add to your scene.</p></div>
-        <div class="editor-browser-actions"><button class="btn" id="editorDuplicateBtn" disabled title="Duplicate selected object">⧉ Duplicate</button><button class="btn" id="editorBrowserUploadBtn">⇧ Upload asset</button></div>
-      </div>
-      <div class="editor-browser-search"><input id="editorObjectSearch" type="search" placeholder="Search objects…" aria-label="Search objects"><span id="editorObjectCount">10 objects</span></div>
-      <div class="editor-object-grid" id="editorObjectGrid">
-        <button class="editor-object-card" data-editor-add="cube" data-search="cube box primitive"><span class="object-icon"><svg viewBox="0 0 48 48"><path d="M24 4 42 14v20L24 44 6 34V14zM6 14l18 10 18-10M24 24v20"/></svg></span><b>Cube</b><small>Basic shape</small></button>
-        <button class="editor-object-card" data-editor-add="sphere" data-search="sphere ball primitive"><span class="object-icon"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="19"/><path d="M5 24h38M24 5c8 8 8 30 0 38M24 5c-8 8-8 30 0 38"/></svg></span><b>Sphere</b><small>Basic shape</small></button>
-        <button class="editor-object-card" data-editor-add="cylinder" data-search="cylinder primitive"><span class="object-icon"><svg viewBox="0 0 48 48"><path d="M7 12c0-5 34-5 34 0v24c0 5-34 5-34 0zM7 12c0 5 34 5 34 0M7 36c0 5 34 5 34 0"/></svg></span><b>Cylinder</b><small>Basic shape</small></button>
-        <button class="editor-object-card" data-editor-add="cone" data-search="cone primitive"><span class="object-icon"><svg viewBox="0 0 48 48"><path d="M24 5 6 39c0 6 36 6 36 0zM6 39c0-6 36-6 36 0"/></svg></span><b>Cone</b><small>Basic shape</small></button>
-        <button class="editor-object-card" data-editor-add="torus" data-search="torus ring donut primitive"><span class="object-icon"><svg viewBox="0 0 48 48"><ellipse cx="24" cy="24" rx="19" ry="13"/><ellipse cx="24" cy="24" rx="8" ry="5"/></svg></span><b>Torus</b><small>Basic shape</small></button>
-        <button class="editor-object-card" data-editor-add="plane" data-search="plane ground flat primitive"><span class="object-icon"><svg viewBox="0 0 48 48"><path d="m24 7 20 11-20 11L4 18zM4 18v8l20 12 20-12v-8"/></svg></span><b>Plane</b><small>Surface</small></button>
-        <button class="editor-object-card" data-editor-add="tree" data-search="tree broadleaf nature decoration"><span class="object-icon">♣</span><b>Tree</b><small>Decoration</small></button>
-        <button class="editor-object-card" data-editor-add="pine" data-search="pine evergreen tree nature"><span class="object-icon">♠</span><b>Pine tree</b><small>Decoration</small></button>
-        <button class="editor-object-card" data-editor-add="rock" data-search="rock stone boulder nature"><span class="object-icon">◆</span><b>Rock</b><small>Decoration</small></button>
-        <button class="editor-object-card" data-editor-add="capsule" data-search="capsule primitive"><span class="object-icon">⬭</span><b>Capsule</b><small>Basic shape</small></button>
-        <button class="editor-object-card" data-editor-add="icosphere" data-search="icosphere geodesic sphere"><span class="object-icon">⬡</span><b>Icosphere</b><small>Advanced shape</small></button>
-        <button class="editor-object-card" data-editor-add="torusKnot" data-search="torus knot knot"><span class="object-icon">♧</span><b>Torus knot</b><small>Advanced shape</small></button>
-      </div>
-      <div class="editor-browser-foot"><span>Adding an object places it into the current scene.</span><button class="btn" id="editorLeaveModeBtn">← Back to viewport</button></div>
-    </section>
+
     <nav class="tools" aria-label="Tools">
       <button class="btn on" data-tool="select" title="Select (Q)" aria-label="Select"><svg viewBox="0 0 24 24"><path d="m5 3 14 8-6 2-2 6z"/></svg></button>
       <button class="btn" data-tool="translate" title="Move (G)" aria-label="Move"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18M9 6l3-3 3 3M9 18l3 3 3-3M6 9l-3 3 3 3M18 9l3 3-3 3"/></svg></button>
@@ -775,7 +757,7 @@ body.rendering-video dialog{display:none!important}
         <div class="tutorial-progress" id="tutorialProgress"><span class="active"></span><span></span><span></span><span></span><span></span></div>
         <div class="tutorial-footer"><button class="btn" id="tutorialSkip">Skip tutorial</button><span class="sp"></span><button class="btn" id="tutorialBack" disabled>Back</button><button class="btn primary" id="tutorialNext">Next</button></div>
       </dialog>
-      <dialog id="helpDlg"><h3>Keyboard shortcuts</h3><table><tr><td>Q / G / R / S</td><td>Select / Move / Rotate / Scale</td></tr><tr><td>F or Home</td><td>Frame selection / reset view</td></tr><tr><td>1 / 3 / 7</td><td>Front / Right / Top view</td></tr><tr><td>Fly / WASD</td><td>Free camera. Hold right mouse to look, Shift faster, Space/E up, Q/Ctrl down, Fly button to exit</td></tr><tr><td>Space</td><td>Play or pause (outside Fly mode)</td></tr><tr><td>Keyframe Editor</td><td>New Animation creates a clip. Set Key records the selected object transform at the playhead. Select a diamond to remove a key.</td></tr><tr><td>← →</td><td>Step one frame</td></tr><tr><td>H</td><td>Hide selected</td></tr><tr><td>Delete</td><td>Delete selected</td></tr><tr><td>Shift+D / Ctrl+D</td><td>Duplicate (Complex)</td></tr><tr><td>/</td><td>Isolate selection (Complex)</td></tr><tr><td>Complex tools</td><td>Left toolbar includes modeling, UV, texture, terrain and skybox tools. Use Add asset to insert separate props or decorations without replacing the main model.</td></tr><tr><td>Library</td><td>Opens a large pop-up for local assets, materials and Skyboxes.</td></tr><tr><td>Editor mode</td><td>Enables free-camera WASD movement and the scene-building toolbox.</td></tr><tr><td>Camera / Light Key</td><td>Animate scene camera, HDRI, sun position and fog on the active clip.</td></tr><tr><td>Cinematic Sequencer</td><td>Capture multiple camera and environment shots, choose transitions and optional model animation per shot, preview the sequence and render it as WebM.</td></tr><tr><td>Render</td><td>Render a high-quality PNG with ACES, bloom, optional ambient occlusion and soft shadows, or record the active animation as WebM.</td></tr><tr><td>Extensions</td><td>Install and manage editor add-ons (Complex)</td></tr><tr><td>Ctrl+Z / Ctrl+Shift+Z</td><td>Undo / Redo</td></tr><tr><td>Ctrl+O</td><td>Import</td></tr><tr><td>N</td><td>Toggle side panel</td></tr><tr><td>T</td><td>Next theme</td></tr><tr><td>?</td><td>This help</td></tr></table><p style="text-align:right;margin:14px 0 0;display:flex;justify-content:flex-end;gap:8px"><button class="btn" id="tutorialReplayBtn">Tutorial</button><button class="btn primary" id="helpClose">Close</button></p></dialog>
+      <dialog id="helpDlg"><h3>Keyboard shortcuts</h3><table><tr><td>Q / G / R / S</td><td>Select / Move / Rotate / Scale</td></tr><tr><td>F or Home</td><td>Frame selection / reset view</td></tr><tr><td>1 / 3 / 7</td><td>Front / Right / Top view</td></tr><tr><td>Fly / WASD</td><td>Free camera. Hold right mouse to look, Shift faster, Space/E up, Q/Ctrl down, Fly button to exit</td></tr><tr><td>Space</td><td>Play or pause (outside Fly mode)</td></tr><tr><td>Keyframe Editor</td><td>New Animation creates a clip. Set Key records the selected object transform at the playhead. Select a diamond to remove a key.</td></tr><tr><td>← →</td><td>Step one frame</td></tr><tr><td>H</td><td>Hide selected</td></tr><tr><td>Delete</td><td>Delete selected</td></tr><tr><td>Ctrl+C / Ctrl+V</td><td>Copy selected object / Paste a duplicate</td></tr><tr><td>Shift+D / Ctrl+D</td><td>Quick duplicate</td></tr><tr><td>/</td><td>Isolate selection (Complex)</td></tr><tr><td>Complex tools</td><td>Left toolbar includes modeling, UV, texture, terrain and skybox tools. Use Add asset to insert separate props or decorations without replacing the main model.</td></tr><tr><td>Library</td><td>Opens a large pop-up for local assets, materials and Skyboxes.</td></tr><tr><td>Editor mode</td><td>Replaces the Scene list with an object browser in the sidebar while keeping the viewport and Properties visible.</td></tr><tr><td>Camera / Light Key</td><td>Animate scene camera, HDRI, sun position and fog on the active clip.</td></tr><tr><td>Cinematic Sequencer</td><td>Capture multiple camera and environment shots, choose transitions and optional model animation per shot, preview the sequence and render it as WebM.</td></tr><tr><td>Render</td><td>Render a high-quality PNG with ACES, bloom, optional ambient occlusion and soft shadows, or record the active animation as WebM.</td></tr><tr><td>Extensions</td><td>Install and manage editor add-ons (Complex)</td></tr><tr><td>Ctrl+Z / Ctrl+Shift+Z</td><td>Undo / Redo</td></tr><tr><td>Ctrl+O</td><td>Import</td></tr><tr><td>N</td><td>Toggle side panel</td></tr><tr><td>T</td><td>Next theme</td></tr><tr><td>?</td><td>This help</td></tr></table><p style="text-align:right;margin:14px 0 0;display:flex;justify-content:flex-end;gap:8px"><button class="btn" id="tutorialReplayBtn">Tutorial</button><button class="btn primary" id="helpClose">Close</button></p></dialog>
       <dialog id="animationPerfDlg" class="performance-dialog" aria-labelledby="animationPerfTitle">
         <h3 id="animationPerfTitle">This model has a lot of animation data</h3>
         <p>Drawing every animation track and keyframe can make the editor slow, especially on larger rigs. Performance view hides the keyframe lanes and keeps animation selection and playback available. You can switch back to the full keyframe editor at any time.</p>
@@ -814,7 +796,28 @@ body.rendering-video dialog{display:none!important}
       </div>
     </section>
     <aside class="side">
-      <section class="panel outl"><h2>Scene</h2><input class="search" id="filter" placeholder="Search objects" aria-label="Search objects"><div class="olist" id="outliner"></div></section>
+      <section class="panel outl" id="scenePanel"><h2>Scene</h2>    <section id="editorObjectBrowser" class="editor-object-browser" aria-label="Editor object browser">
+      <div class="editor-browser-head">
+        <div><div class="editor-browser-eyebrow">SCENE BUILDER</div><h2>Object Browser</h2><p>Choose an object or decoration to add to your scene.</p></div>
+        <div class="editor-browser-actions"><button class="btn" id="editorDuplicateBtn" disabled title="Duplicate selected object">⧉ Duplicate</button><button class="btn" id="editorBrowserUploadBtn">⇧ Upload asset</button></div>
+      </div>
+      <div class="editor-browser-search"><input id="editorObjectSearch" type="search" placeholder="Search objects…" aria-label="Search objects"><span id="editorObjectCount">10 objects</span></div>
+      <div class="editor-object-grid" id="editorObjectGrid">
+        <button class="editor-object-card" data-editor-add="cube" data-search="cube box primitive"><span class="object-icon"><svg viewBox="0 0 48 48"><path d="M24 4 42 14v20L24 44 6 34V14zM6 14l18 10 18-10M24 24v20"/></svg></span><b>Cube</b><small>Basic shape</small></button>
+        <button class="editor-object-card" data-editor-add="sphere" data-search="sphere ball primitive"><span class="object-icon"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="19"/><path d="M5 24h38M24 5c8 8 8 30 0 38M24 5c-8 8-8 30 0 38"/></svg></span><b>Sphere</b><small>Basic shape</small></button>
+        <button class="editor-object-card" data-editor-add="cylinder" data-search="cylinder primitive"><span class="object-icon"><svg viewBox="0 0 48 48"><path d="M7 12c0-5 34-5 34 0v24c0 5-34 5-34 0zM7 12c0 5 34 5 34 0M7 36c0 5 34 5 34 0"/></svg></span><b>Cylinder</b><small>Basic shape</small></button>
+        <button class="editor-object-card" data-editor-add="cone" data-search="cone primitive"><span class="object-icon"><svg viewBox="0 0 48 48"><path d="M24 5 6 39c0 6 36 6 36 0zM6 39c0-6 36-6 36 0"/></svg></span><b>Cone</b><small>Basic shape</small></button>
+        <button class="editor-object-card" data-editor-add="torus" data-search="torus ring donut primitive"><span class="object-icon"><svg viewBox="0 0 48 48"><ellipse cx="24" cy="24" rx="19" ry="13"/><ellipse cx="24" cy="24" rx="8" ry="5"/></svg></span><b>Torus</b><small>Basic shape</small></button>
+        <button class="editor-object-card" data-editor-add="plane" data-search="plane ground flat primitive"><span class="object-icon"><svg viewBox="0 0 48 48"><path d="m24 7 20 11-20 11L4 18zM4 18v8l20 12 20-12v-8"/></svg></span><b>Plane</b><small>Surface</small></button>
+        <button class="editor-object-card" data-editor-add="tree" data-search="tree broadleaf nature decoration"><span class="object-icon">♣</span><b>Tree</b><small>Decoration</small></button>
+        <button class="editor-object-card" data-editor-add="pine" data-search="pine evergreen tree nature"><span class="object-icon">♠</span><b>Pine tree</b><small>Decoration</small></button>
+        <button class="editor-object-card" data-editor-add="rock" data-search="rock stone boulder nature"><span class="object-icon">◆</span><b>Rock</b><small>Decoration</small></button>
+        <button class="editor-object-card" data-editor-add="capsule" data-search="capsule primitive"><span class="object-icon">⬭</span><b>Capsule</b><small>Basic shape</small></button>
+        <button class="editor-object-card" data-editor-add="icosphere" data-search="icosphere geodesic sphere"><span class="object-icon">⬡</span><b>Icosphere</b><small>Advanced shape</small></button>
+        <button class="editor-object-card" data-editor-add="torusKnot" data-search="torus knot knot"><span class="object-icon">♧</span><b>Torus knot</b><small>Advanced shape</small></button>
+      </div>
+      <div class="editor-browser-foot"><span>Adding an object places it into the current scene.</span><button class="btn" id="editorLeaveModeBtn">← Back to Scene list</button></div>
+    </section><input class="search" id="filter" placeholder="Search objects" aria-label="Search objects"><div class="olist" id="outliner"></div></section>
       <section class="panel" id="propsPanel"><h2>Selected object</h2><div id="props"></div></section>
       <section class="panel cx" id="addonToolsPanel" hidden><h2>Extension tools</h2><div id="addonTools" class="addon-tools-grid"></div></section>
       <section class="panel cx"><h2>Scene settings</h2>
@@ -978,14 +981,13 @@ body.rendering-video dialog{display:none!important}
     $('flyModeBtn').title = flyMode ? 'Exit free camera (Escape)' : 'Free camera. WASD to move, right mouse to look';
     $('navigationHud').classList.toggle('active', flyMode && !mobileNavigation());
     $('mobileNavigation').classList.toggle('active', flyMode && mobileNavigation());
-    const leaveLabel = document.documentElement.dataset.mode === 'editor' ? 'Leave Editor' : 'Exit Fly';
+    const leaveLabel = 'Exit Fly';
     $('exitFlyBtn').textContent = leaveLabel;
     $('mobileExitFly').textContent = leaveLabel;
     tc.enabled = !flyMode;
     tcHelper.visible = !flyMode && tool !== 'select' && !!selected;
   }
   function exitFlyMode(force = false) {
-    if (!force && document.documentElement.dataset.mode === 'editor') { showToast('Free movement stays enabled in Editor mode. Switch to Basic or Complex to leave it.', true); return; }
     flyMode = false;
     mouseLookPointerId = null;
     controls.enabled = true;
@@ -1156,14 +1158,8 @@ body.rendering-video dialog{display:none!important}
   }
   renderer.domElement.addEventListener('pointerup', endTouchLook);
   renderer.domElement.addEventListener('pointercancel', endTouchLook);
-  $('flyModeBtn').addEventListener('click', () => {
-    if (document.documentElement.dataset.mode === 'editor') applyMode('complex');
-    else enterFlyMode();
-  });
-  function leaveNavigationMode() {
-    if (document.documentElement.dataset.mode === 'editor') applyMode('complex');
-    else exitFlyMode();
-  }
+  $('flyModeBtn').addEventListener('click', () => enterFlyMode());
+  function leaveNavigationMode() { exitFlyMode(); }
   $('exitFlyBtn').addEventListener('click', leaveNavigationMode);
   $('mobileExitFly').addEventListener('click', leaveNavigationMode);
 
@@ -1197,6 +1193,7 @@ body.rendering-video dialog{display:none!important}
   const cameraKeysByClip = new Map(), environmentKeysByClip = new Map();
   let cinematicShots = [], selectedCinematicShot = -1, cinematicPlayback = null;
   let selected = null, tool = 'select', shading = 'material', past = [], future = [], dragBefore = null;
+  let clipboardTemplate = null, clipboardName = '', clipboardParent = null, pasteSequence = 0;
   let measurementMode = false, measureFirstPoint = null, pingPongPlayback = false;
   const externalAddons = new Map(), externalAddonTools = new Map();
   const expanded = new Set();
@@ -1321,7 +1318,7 @@ body.rendering-video dialog{display:none!important}
       for (let p = selected.parent; p; p = p.parent) expanded.add(p.uuid);
     } else { box.visible = false; boxWasVisibleBeforePlayback = false; tc.detach(); }
     $('selLabel').textContent = selected ? (selected.name || selected.type) : '';
-    const editorDup = $('editorDuplicateBtn'); if (editorDup) editorDup.disabled = !selected || selected === modelRoot;
+    const editorDup = $('editorDuplicateBtn'); if (editorDup) editorDup.disabled = !selected || selected === modelRoot || selected === groundPlane;
     renderOutliner(); renderProps();
     if (typeof updateKeyframeButtons === 'function') updateKeyframeButtons();
   }
@@ -1337,13 +1334,16 @@ body.rendering-video dialog{display:none!important}
   renderer.domElement.addEventListener('pointerdown', e => { if (terrainState.active) { if (beginTerrainStroke(e)) return; down = null; return; } down = [e.clientX, e.clientY, tc.axis]; });
   renderer.domElement.addEventListener('pointermove', e => { if (terrainState.stroke && terrainState.stroke.pointerId === e.pointerId) { terrainApplyAt(e); e.preventDefault(); } });
   renderer.domElement.addEventListener('pointerup', e => { if (finishTerrainStroke(e)) { down = null; return; }
-    if (!down || !modelRoot || e.button !== 0 || mouseLookPointerId !== null) { down = null; return; }
+    if (!down || e.button !== 0 || mouseLookPointerId !== null) { down = null; return; }
     const skip = Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 4 || down[2];
     down = null; if (skip) return;
     const r = renderer.domElement.getBoundingClientRect();
     ndc.set((e.clientX - r.left) / r.width * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     ray.setFromCamera(ndc, camera);
-    const hit = ray.intersectObject(modelRoot, true).find(h => h.object.isMesh && h.object.visible);
+    const pickRoots = [];
+    if (modelRoot) pickRoots.push(modelRoot);
+    if (groundPlane.parent === scene) pickRoots.push(groundPlane);
+    const hit = ray.intersectObjects(pickRoots, true).find(h => h.object.isMesh && h.object.visible);
     if (measurementMode) {
       if (!hit) { showToast('Click directly on a mesh surface to measure.', true); return; }
       if (!measureFirstPoint) {
@@ -1362,8 +1362,9 @@ body.rendering-video dialog{display:none!important}
     const o = selected;
     if (!o || o === modelRoot || !o.parent) return;
     const p = o.parent;
-    const redoFn = () => { p.remove(o); if (selected === o) select(null); else renderOutliner(); };
-    redoFn(); commit(() => { p.add(o); renderOutliner(); }, redoFn);
+    const undoFn = () => { p.add(o); if (o === groundPlane) updateBaseplateUi(); renderOutliner(); };
+    const redoFn = () => { p.remove(o); if (selected === o) select(null); else renderOutliner(); if (o === groundPlane) updateBaseplateUi(); };
+    redoFn(); commit(undoFn, redoFn);
   }
 
   /* ---------- shading ---------- */
@@ -1385,7 +1386,7 @@ body.rendering-video dialog{display:none!important}
     d.style.paddingLeft = (10 + depth * 14) + 'px';
     d.innerHTML = `<span class="caret">${hasKids ? (open ? '▾' : '▸') : ''}</span><span class="k">${ICON[kind(o)]}</span><span class="nm">${safeText(o.name || o.type)}</span><button class="eye" title="Show / hide (H)" aria-label="Toggle visibility">${o.visible ? '◉' : '○'}</button>`;
     d.onclick = (e) => {
-      if (e.target.closest('.eye')) { o.visible = !o.visible; renderOutliner(); return; }
+      if (e.target.closest('.eye')) { o.visible = !o.visible; if (o === selected && !o.visible) select(null); else renderOutliner(); if (o === groundPlane) updateBaseplateUi(); return; }
       if (hasKids && e.target.classList.contains('caret')) { open ? expanded.delete(o.uuid) : expanded.add(o.uuid); renderOutliner(); return; }
       select(o);
     };
@@ -1394,15 +1395,20 @@ body.rendering-video dialog{display:none!important}
   }
   function renderOutliner() {
     const list = $('outliner'); list.replaceChildren();
-    if (!modelRoot) { list.innerHTML = '<p class="empty">The scene is empty. Import a model to begin.</p>'; return; }
     const q = $('filter').value.trim().toLowerCase(), frag = document.createDocumentFragment();
-    (function walk(o, d) {
-      const open = expanded.has(o.uuid);
-      if (!q || (o.name || o.type).toLowerCase().includes(q)) frag.appendChild(orow(o, q ? 0 : d, !q && o.children.length > 0, open));
-      if (q || open) o.children.forEach(c => walk(c, d + 1));
-    })(modelRoot, 0);
-    list.appendChild(frag);
-    list.querySelector('.sel')?.scrollIntoView({ block: 'nearest' });
+    if (groundPlane.parent === scene && (!q || 'baseplate ground plane'.includes(q))) frag.appendChild(orow(groundPlane, 0, false, false));
+    if (modelRoot) {
+      (function walk(o, d) {
+        const open = expanded.has(o.uuid);
+        if (!q || (o.name || o.type).toLowerCase().includes(q)) frag.appendChild(orow(o, q ? 0 : d, !q && o.children.length > 0, open));
+        if (q || open) o.children.forEach(c => walk(c, d + 1));
+      })(modelRoot, 0);
+    }
+    if (!frag.childNodes.length) list.innerHTML = '<p class="empty">No matching scene objects.</p>';
+    else {
+      list.appendChild(frag);
+      list.querySelector('.sel')?.scrollIntoView({ block: 'nearest' });
+    }
   }
   $('filter').addEventListener('input', renderOutliner);
 
@@ -1548,6 +1554,7 @@ body.rendering-video dialog{display:none!important}
       + row('Location', 'p', o.position.toArray(), 0.1)
       + row('Rotation', 'r', ['x', 'y', 'z'].map(a => THREE.MathUtils.radToDeg(o.rotation[a])), 5)
       + row('Scale', 's', o.scale.toArray(), 0.1)
+      + (o === groundPlane ? '<div class="baseplate-selection-tools"><button class="btn" type="button" id="editSelectedBaseplateBtn">▰ Edit baseplate surface</button></div>' : '')
       + texturePropertiesHTML(o)
       + extra(o);
   }
@@ -1601,6 +1608,7 @@ body.rendering-video dialog{display:none!important}
       const asset = textureAssets.find(a => a.id === e.target.value); if (asset) applyTextureAsset(asset,activeTextureSlot).catch(error=>showToast('Could not load texture: '+(error?.message||error)));
     }
   });
+  $('props').addEventListener('click', (e) => { if (e.target.closest('#editSelectedBaseplateBtn')) openBaseplateEditor(); });
   $('props').addEventListener('input', (e) => {
     const t = e.target, k = t.dataset.m;
     if (!k || !selected?.isMesh) return;
@@ -3572,24 +3580,58 @@ body.rendering-video dialog{display:none!important}
     commit(() => { parent.remove(o); if (selected === o) select(null); else renderOutliner(); }, () => { parent.add(o); renderOutliner(); });
     select(o);
   }
+  function cloneEditableObject(source) {
+    const clone = source.clone(true), sourceMeshes = [], cloneMeshes = [];
+    source.traverse(x => { if (x.isMesh) sourceMeshes.push(x); });
+    clone.traverse(x => { if (x.isMesh) cloneMeshes.push(x); });
+    sourceMeshes.forEach((mesh, i) => {
+      const target = cloneMeshes[i];
+      if (!target) return;
+      if (mesh.geometry) target.geometry = mesh.geometry.clone();
+      const base = mesh.userData.mat || mesh.material;
+      if (base) target.material = Array.isArray(base) ? base.map(m => m?.clone ? m.clone() : m) : (base.clone ? base.clone() : base);
+      target.userData = { ...mesh.userData };
+      delete target.userData.mat;
+    });
+    return clone;
+  }
   function duplicate() {
     const o = selected;
-    if (!o || o === modelRoot || !o.parent) return;
+    if (!o || o === modelRoot || o === groundPlane || !o.parent) return;
     let skinned = false; o.traverse(x => { if (x.isSkinnedMesh) skinned = true; });
     if (skinned) { showToast('Skinned meshes cannot be duplicated.'); return; }
-    const src = [], c = o.clone(true), cl = [];
-    o.traverse(x => { if (x.isMesh) src.push(x); }); c.traverse(x => { if (x.isMesh) cl.push(x); });
-    src.forEach((m, i) => {
-      const base = m.userData.mat || m.material;
-      cl[i].geometry = m.geometry.clone();
-      cl[i].material = Array.isArray(base) ? base.map(x => x.clone()) : base.clone();
-      cl[i].userData = {};
-    });
-    c.name = (o.name || o.type) + '.001'; c.translateX(0.3 / modelFrame.scale.x);
+    const c = cloneEditableObject(o);
+    c.name = (o.name || o.type) + '.001'; c.translateX(0.3 / (modelFrame?.scale.x || 1));
     const parent = o.parent;
     parent.add(c); applyShading();
     commit(() => { parent.remove(c); if (selected === c) select(null); else renderOutliner(); }, () => { parent.add(c); renderOutliner(); });
     select(c);
+  }
+  function copySelected() {
+    const o = selected;
+    if (!o || o === modelRoot || o === groundPlane || !o.parent) { showToast('Select an object in the scene before copying.', true); return; }
+    let skinned = false; o.traverse(x => { if (x.isSkinnedMesh) skinned = true; });
+    if (skinned) { showToast('Skinned meshes cannot be copied.'); return; }
+    clipboardTemplate = cloneEditableObject(o);
+    clipboardName = o.name || o.type || 'Object';
+    clipboardParent = o.parent;
+    pasteSequence = 0;
+    showToast(`${clipboardName} copied. Press Ctrl+V to paste.`, true);
+  }
+  function pasteCopied() {
+    if (!clipboardTemplate) { showToast('Copy an object first with Ctrl+C.', true); return; }
+    const parentIsInScene = candidate => { for (let node = candidate; node; node = node.parent) if (node === scene) return true; return false; };
+    const selectedParent = selected && selected !== modelRoot && selected !== groundPlane ? selected.parent : null;
+    const parent = selectedParent || (parentIsInScene(clipboardParent) ? clipboardParent : (modelRoot || scene));
+    if (!parent) { showToast('There is no scene location to paste into.', true); return; }
+    const c = cloneEditableObject(clipboardTemplate);
+    pasteSequence++;
+    c.name = `${clipboardName}.${String(pasteSequence).padStart(3, '0')}`;
+    c.translateX((0.3 * pasteSequence) / (modelFrame?.scale.x || 1));
+    parent.add(c); expanded.add(parent.uuid); applyShading();
+    commit(() => { parent.remove(c); if (selected === c) select(null); else renderOutliner(); }, () => { parent.add(c); renderOutliner(); });
+    select(c);
+    showToast(`${c.name} pasted.`, true);
   }
   function shiftOrigin(o, c) {
     o.geometry.translate(-c.x, -c.y, -c.z);
@@ -3951,10 +3993,16 @@ body.rendering-video dialog{display:none!important}
     } catch (err) { if (attemptedId) externalAddonTools.delete(attemptedId); renderAddonTools(); showToast('Could not install extension: ' + (err?.message || err)); }
     finally { URL.revokeObjectURL(blobUrl); }
   }
+  function updateEditorSidebar() {
+    const label = $('scenePanel')?.querySelector('.panel-heading-label');
+    if (label) label.textContent = document.documentElement.dataset.mode === 'editor' ? 'Object Browser' : 'Scene';
+    const browser = $('editorObjectBrowser');
+    if (browser) browser.setAttribute('aria-label', document.documentElement.dataset.mode === 'editor' ? 'Object browser' : 'Scene object tools');
+  }
   function applyMode(m, persist = true) {
     const previous = document.documentElement.dataset.mode || 'basic';
     if (!['basic','complex','editor'].includes(m)) m = 'basic';
-    if (previous === 'editor' && m !== 'editor') exitFlyMode(true);
+    if ((previous === 'editor' && m !== 'editor') || (m === 'editor' && flyMode)) exitFlyMode(true);
     document.documentElement.dataset.mode = m;
     document.querySelectorAll('#modeSeg button').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
     if (persist) { try { localStorage.setItem('me-mode', m); } catch (e) {} }
@@ -3962,9 +4010,9 @@ body.rendering-video dialog{display:none!important}
     $('addonsBtn').classList.toggle('hidden', m === 'basic');
     $('measureToggleBtn').classList.toggle('hidden', m === 'basic' || !enabledAddons.has('measure-tools'));
     $('editorToolDivider').style.display = m === 'editor' ? 'block' : 'none';
+    updateEditorSidebar();
     renderProps(); renderOutliner();
-    if (m === 'editor') enterFlyMode(true);
-    else { $('editorObjectSearch').value = ''; filterEditorObjects(); }
+    if (m !== 'editor') { $('editorObjectSearch').value = ''; filterEditorObjects(); }
   }
 
   /* ---------- texture editor ---------- */
@@ -4194,10 +4242,21 @@ body.rendering-video dialog{display:none!important}
     groundPlane.position.y=Number($('baseplateY').value)||0; groundPlane.material.color.set($('baseplateColor').value);
     groundPlane.material.roughness=Number($('baseplateRoughness').value); groundPlane.material.metalness=Number($('baseplateMetalness').value); groundPlane.material.needsUpdate=true;
     if (groundPlane.parent!==scene) scene.add(groundPlane);
-    updateBaseplateUi(); showToast('Baseplate updated.',true);
+    groundPlane.updateMatrixWorld(true);
+    updateBaseplateUi(); renderOutliner();
+    if (selected === groundPlane) { box.setFromObject(groundPlane); renderProps(); }
+    showToast('Baseplate updated.',true);
   }
-  function removeBaseplate() { if(groundPlane.parent===scene) scene.remove(groundPlane); updateBaseplateUi(); showToast('Baseplate removed from the scene. You can restore it from the Baseplate editor.',true); }
-  function restoreBaseplate() { if(groundPlane.parent!==scene) scene.add(groundPlane); updateBaseplateUi(); }
+  function removeBaseplate() {
+    if (groundPlane.parent===scene) scene.remove(groundPlane);
+    if (selected === groundPlane) select(null);
+    updateBaseplateUi(); renderOutliner();
+    showToast('Baseplate removed from the scene. You can restore it from the Baseplate editor.',true);
+  }
+  function restoreBaseplate() {
+    if (groundPlane.parent!==scene) scene.add(groundPlane);
+    updateBaseplateUi(); renderOutliner();
+  }
 
   /* ---------- material templates ---------- */
   const materialPresets = [
@@ -4678,6 +4737,8 @@ body.rendering-video dialog{display:none!important}
     }
     if (e.ctrlKey || e.metaKey) {
       if (k === 'o') { e.preventDefault(); openFiles(); return; }
+      if (k === 'c') { e.preventDefault(); copySelected(); return; }
+      if (k === 'v') { e.preventDefault(); pasteCopied(); return; }
       if (k === 'd' && (isComplex() || flyMode)) { e.preventDefault(); duplicate(); return; }
       if (k === 'z') { e.preventDefault(); e.shiftKey ? redo() : undo(); }
       else if (k === 'y') { e.preventDefault(); redo(); }
@@ -4718,6 +4779,7 @@ body.rendering-video dialog{display:none!important}
     renderFrame();
   }
   setupCompactControls();
+  updateEditorSidebar();
   setAnimationPerformanceMode(animationPerformanceMode, false);
   renderProps(); renderOutliner(); renderClips(); updatePlaybackUi(); renderKeyframeEditor(); renderAddonBrowser(); renderMaterialTemplates();
   refreshLibraryData();
