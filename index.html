@@ -984,8 +984,17 @@ body.rendering-video dialog{display:none!important}
     const leaveLabel = 'Exit Fly';
     $('exitFlyBtn').textContent = leaveLabel;
     $('mobileExitFly').textContent = leaveLabel;
-    tc.enabled = !flyMode;
-    tcHelper.visible = !flyMode && tool !== 'select' && !!selected;
+    // Keep TransformControls active in Roblox-style free camera mode. When the
+    // user is in plain Select mode, show the move gizmo so selection can be
+    // adjusted immediately without leaving free camera.
+    if (flyMode && selected && tool === 'select') {
+      tc.setMode('translate');
+      tc.attach(selected);
+    } else if (!flyMode && tool === 'select') {
+      tc.detach();
+    }
+    tc.enabled = true;
+    tcHelper.visible = !playing && !!selected && (tool !== 'select' || flyMode);
   }
   function exitFlyMode(force = false) {
     flyMode = false;
@@ -1307,16 +1316,26 @@ body.rendering-video dialog{display:none!important}
   function setTool(t) {
     tool = t;
     document.querySelectorAll('[data-tool]').forEach(b => b.classList.toggle('on', b.dataset.tool === t));
-    if (t === 'select') tc.detach(); else { tc.setMode(t); if (selected) tc.attach(selected); }
+    if (t === 'select' && !flyMode) tc.detach();
+    else {
+      tc.setMode(t === 'select' ? 'translate' : t);
+      if (selected) tc.attach(selected);
+    }
+    tc.enabled = true;
+    tcHelper.visible = !playing && !!selected && (t !== 'select' || flyMode);
   }
   function select(o) {
     selected = o || null;
     if (selected) {
       box.setFromObject(selected); box.visible = !playing;
       if (playing) boxWasVisibleBeforePlayback = true;
-      if (tool !== 'select') tc.attach(selected);
+      if (tool !== 'select' || flyMode) {
+        if (tool === 'select' && flyMode) tc.setMode('translate');
+        tc.attach(selected);
+      }
       for (let p = selected.parent; p; p = p.parent) expanded.add(p.uuid);
     } else { box.visible = false; boxWasVisibleBeforePlayback = false; tc.detach(); }
+    tcHelper.visible = !playing && !!selected && (tool !== 'select' || flyMode);
     $('selLabel').textContent = selected ? (selected.name || selected.type) : '';
     const editorDup = $('editorDuplicateBtn'); if (editorDup) editorDup.disabled = !selected || selected === modelRoot || selected === groundPlane;
     renderOutliner(); renderProps();
