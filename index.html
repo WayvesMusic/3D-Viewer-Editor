@@ -172,6 +172,162 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
 .uv-dialog{width:min(700px,calc(100% - 24px));max-width:min(700px,calc(100% - 24px))}
 #measureToggleBtn.on{background:linear-gradient(180deg,var(--accent2),var(--accent));color:var(--onaccent)}
 @media(max-width:620px){.addon-toolbar{grid-template-columns:1fr}.addon-catalog{grid-template-columns:1fr}.addon-footer .sp{display:none}}
+
+/* Roblox Studio-style free navigation and first-run tutorial */
+.navigation-hud{display:none;position:absolute;left:50%;bottom:14px;transform:translateX(-50%);align-items:center;gap:12px;padding:8px 10px 8px 13px;border:1px solid var(--line);border-radius:10px;background:color-mix(in srgb,var(--panel) 92%,transparent);backdrop-filter:blur(10px);z-index:5;box-shadow:0 8px 30px #0005;white-space:nowrap}
+.navigation-hud.active{display:flex}
+.navigation-hud span{font-size:11px;color:var(--muted)}
+.navigation-hud .btn{height:28px;padding:0 10px}
+#flyModeBtn.active{background:linear-gradient(180deg,var(--accent2),var(--accent));border-color:var(--accent2);color:var(--onaccent)}
+.mobile-navigation{display:none;position:absolute;inset:0;z-index:5;pointer-events:none}
+.mobile-navigation.active{display:block}
+#moveJoystick{position:absolute;left:22px;bottom:22px;width:124px;height:124px;border-radius:50%;border:1px solid #ffffff55;background:#11182766;backdrop-filter:blur(5px);pointer-events:auto;touch-action:none;display:grid;place-items:center;box-shadow:0 4px 22px #0005}
+#moveJoystick:after{content:"";position:absolute;width:72px;height:72px;border:1px dashed #ffffff55;border-radius:50%}
+#joystickKnob{position:absolute;width:48px;height:48px;border-radius:50%;background:linear-gradient(180deg,var(--accent2),var(--accent));border:2px solid #ffffff99;box-shadow:0 4px 14px #0007;transform:translate(0,0);pointer-events:none}
+.mobile-look-tip{position:absolute;right:18px;bottom:42px;max-width:140px;text-align:center;color:#fff;font-size:11px;text-shadow:0 1px 4px #000;background:#10182c99;border:1px solid #ffffff44;border-radius:9px;padding:8px;pointer-events:none}
+#mobileExitFly{position:absolute;right:18px;top:88px;pointer-events:auto;background:#10182ccc;border-color:#ffffff55;color:#fff}
+.tutorial-dialog{width:min(560px,calc(100% - 28px));max-width:min(560px,calc(100% - 28px));padding:22px;overflow:hidden}
+.tutorial-kicker{color:var(--accent2);font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;margin-bottom:8px}
+.tutorial-dialog h2{margin:0 0 9px;font-size:21px;line-height:1.25}
+.tutorial-dialog p{color:var(--muted);font-size:13px;line-height:1.65;margin:0;min-height:66px}
+.tutorial-progress{display:flex;gap:6px;margin:18px 0 16px}
+.tutorial-progress span{height:4px;flex:1;border-radius:4px;background:var(--line)}
+.tutorial-progress span.active{background:var(--accent2)}
+.tutorial-footer{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tutorial-footer .sp{flex:1}
+.tutorial-footer .btn{height:34px}
+@media(max-width:720px){
+  .navigation-hud{display:none!important}
+  #moveJoystick{width:116px;height:116px;left:14px;bottom:18px}
+  .mobile-look-tip{right:12px;bottom:36px}
+  #mobileExitFly{right:12px;top:84px}
+}
+
+
+
+/* ---------- Refined compact workspace ---------- */
+:root{--r:7px}
+body{font-size:12px;background:var(--bg)}
+.app{grid-template-rows:44px minmax(0,1fr) 23px}
+.top{gap:5px;padding:0 9px;min-width:0}
+.brand{font-size:12px;gap:7px;margin-right:4px;letter-spacing:.035em}
+.brand svg{width:19px;height:19px}
+.btn,select{height:28px;padding:0 9px;border-radius:6px;font-size:12px}
+.btn.ico{width:28px;height:28px;font-size:14px}
+.top .btn{flex:0 0 auto}
+#modeSeg button{height:26px;padding:0 9px;font-size:11px}
+#themeSelect{height:28px;font-size:11px;max-width:100px}
+.main{grid-template-columns:44px minmax(0,1fr) 276px}
+.noside .main{grid-template-columns:44px minmax(0,1fr) 0}
+.tools{gap:5px;padding:8px 0}
+.tools .btn{width:32px;height:32px;border-radius:7px}
+.tools svg{width:16px;height:16px}
+.viewer{background:var(--view)}
+.vbar{top:9px;left:9px;gap:5px;max-width:calc(100% - 18px)}
+.vbar.r{right:9px}
+.seg{border-radius:6px}
+.seg button{height:26px;padding:0 8px;font-size:11px}
+.welcome{width:min(390px,calc(100% - 28px));padding:20px 18px;border-radius:13px;box-shadow:0 12px 42px #0004}
+.welcome h1{font-size:18px;margin-bottom:6px}
+.welcome p{font-size:12px;margin-bottom:13px}
+.welcome .acts{gap:6px}
+.chips{gap:5px;margin-top:11px}
+.chips span{font-size:10px;padding:2px 7px}
+.timeline{max-height:clamp(155px,25vh,225px);min-height:145px;padding:7px 10px;gap:6px}
+.tl-row{gap:5px}
+.tl-row select{max-width:190px;height:27px;font-size:11px}
+#timeline{height:14px}
+.keyframe-editor{gap:5px;padding-top:6px}
+.keyframe-toolbar{gap:6px}
+.keyframe-title{font-size:11px}
+#keyframeSummary{font-size:10px}
+.keyframe-actions{gap:4px}
+.keyframe-actions .btn{width:27px;height:25px;padding:0;justify-content:center;font-size:14px}
+.keyframe-actions .btn.icon-only{width:27px;min-width:27px;height:25px}
+.timeline #playButton{width:28px;min-width:28px!important;height:27px;padding:0;justify-content:center}
+.keyframe-tracks{max-height:84px;min-height:31px}
+.keyframe-row{min-height:25px;grid-template-columns:minmax(100px,165px) minmax(70px,1fr);gap:6px;padding:1px 6px}
+.keyframe-track-name{font-size:10px}
+.keyframe-lane{height:20px}
+.keyframe-dot{top:6px;width:8px;height:8px}
+.keyframe-dot.selected{top:5px;width:10px;height:10px}
+.side{overflow-y:auto;overscroll-behavior:contain}
+.panel{padding:8px;border-bottom:1px solid var(--line)}
+.panel h2{font-size:10px;margin:0 0 7px}
+.olist{margin:7px -8px -8px}
+.orow{height:25px;font-size:11px}
+.search,input[type=number],.name{height:27px;font-size:11px}
+.name{margin-bottom:7px}
+.row{grid-template-columns:54px repeat(3,minmax(0,1fr));gap:4px;margin-bottom:5px;font-size:10px}
+.row input{height:25px;padding:0 5px;font-size:10px}
+.kv{padding:2px 0;font-size:11px}
+.grid2{gap:5px}
+.grid2 .btn{height:27px;font-size:11px}
+.field{grid-template-columns:68px 1fr 32px;gap:5px;margin-bottom:5px;font-size:10px}
+.status{gap:8px;padding:0 9px;font-size:10px}
+.status .dot{width:6px;height:6px}
+#toast{padding:8px 32px 8px 11px;font-size:11px}
+#toast::after{top:3px}
+/* Compact icon buttons keep their labels available to assistive technology and tooltips. */
+.btn.icon-only{width:29px;min-width:29px;height:28px;padding:0;display:inline-grid;place-items:center;font-size:15px;line-height:1}
+.tools .btn.icon-only{width:32px;height:32px}
+.panel-heading{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0;border:0;background:none;color:var(--accent2);font-family:inherit;font-size:10px;font-weight:700;line-height:1.3;letter-spacing:.09em;text-transform:uppercase;text-align:left;cursor:pointer}
+.panel-heading > span:last-child{font-size:13px;color:var(--muted);transition:transform .15s}
+.panel.collapsed .panel-heading > span:last-child{transform:rotate(-90deg)}
+.panel-body{min-width:0}
+.side .outl{flex:1 1 auto;min-height:115px}
+.side .outl .panel-body{display:flex;flex:1;min-height:0;flex-direction:column}
+.side .outl .olist{flex:1;min-height:0;overflow:auto}
+.side #propsPanel{flex:0 1 auto;max-height:42%;overflow:auto}
+.side .panel.collapsed{flex:0 0 auto!important;height:auto!important;min-height:0!important}
+.side .panel.collapsed .panel-body{display:none}
+#propsPanel .panel-body{overflow:auto}
+.navigation-hud{bottom:12px;padding:6px 8px 6px 10px;gap:8px}
+.navigation-hud span{font-size:10px}
+.navigation-hud .btn{height:26px}
+#moveJoystick{width:106px;height:106px;left:16px;bottom:16px}
+#moveJoystick:after{width:62px;height:62px}
+#joystickKnob{width:42px;height:42px}
+.mobile-look-tip{right:14px;bottom:31px;font-size:10px;padding:6px}
+#mobileExitFly{right:12px;top:72px;height:27px;font-size:11px}
+.tutorial-dialog{padding:18px;border-radius:12px}
+.tutorial-dialog h2{font-size:18px}
+.tutorial-dialog p{font-size:12px;min-height:55px}
+@media(max-width:1000px){.main{grid-template-columns:42px minmax(0,1fr) 250px}.noside .main{grid-template-columns:42px minmax(0,1fr) 0}}
+@media(max-width:720px){
+  .app{grid-template-rows:42px minmax(0,1fr) 21px}
+  .main{grid-template-columns:40px minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto auto}
+  .noside .main{grid-template-columns:40px minmax(0,1fr)}
+  .tools{grid-row:1/4;gap:4px;padding:7px 0}
+  .tools .btn{width:30px;height:30px}
+  .timeline{max-height:190px;min-height:132px;padding:6px 7px;grid-column:2}
+  .keyframe-tracks{max-height:64px}
+  .keyframe-row{grid-template-columns:minmax(78px,110px) minmax(60px,1fr)}
+  .keyframe-actions{margin-left:auto}
+  .side{grid-column:2;grid-row:3;border-left:0;max-height:40vh}
+  .side .outl{min-height:95px}
+  .brand span,.lbl,.hint{display:none}
+  #folderTop{display:inline-grid}
+  #shotBtn{display:inline-grid}
+  .vbar{top:7px;left:7px}
+  .vbar.r{top:42px;right:7px}
+  .vbar .seg button{height:24px;padding:0 6px;font-size:10px}
+  .welcome{padding:16px 12px}
+  .welcome h1{font-size:16px}
+  .welcome p{font-size:11px}
+  .welcome .acts .btn{height:27px;font-size:11px}
+  #themeSelect{max-width:82px}
+  .status{gap:6px;padding:0 6px}
+  .status #stats{display:none}
+}
+@media(max-width:420px){
+  .top{gap:4px;padding:0 5px}
+  #modeSeg button{padding:0 6px;font-size:10px}
+  .top .btn.icon-only{width:26px;min-width:26px;height:26px}
+  #themeSelect{max-width:72px;padding:0 3px}
+  .keyframe-title{display:none}
+}
+
 </style>
 <script type="importmap">
 {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}
@@ -213,6 +369,7 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
       <div id="canvasHost"></div>
       <div class="vbar">
         <div class="seg"><button data-shade="material" class="on">Material</button><button data-shade="solid">Solid</button><button data-shade="wire">Wire</button></div>
+        <div class="seg"><button id="flyModeBtn" title="Free-fly navigation. WASD to move, mouse to look">Fly</button></div>
         <div class="seg"><button id="gridBtn" class="on">Grid</button><button id="skelBtn">Bones</button><button id="rotBtn">Spin</button></div>
       </div>
       <div class="vbar r"><div class="seg"><button data-view="0,0,1">Front</button><button data-view="1,0,0">Right</button><button data-view="0,1,.001">Top</button><button id="resetBtn" title="Reset view (Home)">Reset</button></div></div>
@@ -223,6 +380,12 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
         <div class="acts" style="margin-top:16px"><button class="btn primary" id="importWelcome">Import model</button><button class="btn" id="folderWelcome">Open folder</button><button class="btn" id="demoButton">Load Demo.fbx</button></div>
       </div>
       <div id="toast" role="alert" title="Click to dismiss"></div>
+      <div class="navigation-hud" id="navigationHud"><span id="navigationInstructions">WASD move · Hold right mouse to look · Shift faster · Space/E up · Q/Ctrl down</span><button class="btn" id="exitFlyBtn">Exit Fly</button></div>
+      <div class="mobile-navigation" id="mobileNavigation" aria-label="Mobile camera controls">
+        <div id="moveJoystick" aria-label="Movement joystick"><div id="joystickKnob"></div></div>
+        <div class="mobile-look-tip">Drag on the right side to look around</div>
+        <button class="btn" id="mobileExitFly">Exit Fly</button>
+      </div>
       <dialog id="addonDlg" class="addon-dialog">
         <div class="addon-head"><div><h3>Blender-style Extensions</h3><div class="addon-meta">Manage tools and editor add-ons</div></div><span class="sp"></span><button class="btn ico" id="addonClose" aria-label="Close extensions">×</button></div>
         <div class="addon-toolbar"><input class="search" id="addonSearch" placeholder="Search extensions" aria-label="Search extensions"><select id="addonCategory" aria-label="Filter extensions"><option value="all">All categories</option><option value="Modeling">Modeling</option><option value="Viewport">Viewport</option><option value="UV & Materials">UV &amp; Materials</option><option value="Animation">Animation</option><option value="Utilities">Utilities</option><option value="Custom">Custom</option></select></div>
@@ -231,7 +394,14 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
         <p class="addon-notice">Bundled extensions run inside this editor. Native Blender Python add-ons cannot run in a browser. A custom .js/.mjs file must default-export an object like { id, name, version, description, activate(api) }. The activate function can call api.registerTool({ id, label, description, run(context) }) and return a cleanup function. Custom JavaScript runs with this page's permissions, so only install code you trust. Third-party extensions are session-only and must be re-selected after refreshing.</p>
       </dialog>
       <dialog id="uvDlg" class="uv-dialog"><h3>UV Layout Inspector</h3><p class="addon-notice" id="uvInfo">Selected mesh UV map</p><canvas id="uvCanvas" width="800" height="800"></canvas><p style="text-align:right;margin:10px 0 0"><button class="btn primary" id="uvClose">Close</button></p></dialog>
-      <dialog id="helpDlg"><h3>Keyboard shortcuts</h3><table><tr><td>Q / G / R / S</td><td>Select / Move / Rotate / Scale</td></tr><tr><td>F or Home</td><td>Frame selection / reset view</td></tr><tr><td>1 / 3 / 7</td><td>Front / Right / Top view</td></tr><tr><td>Space</td><td>Play or pause</td></tr><tr><td>Keyframe Editor</td><td>New Animation creates a clip. Set Key records the selected object transform at the playhead. Select a diamond to remove a key.</td></tr><tr><td>← →</td><td>Step one frame</td></tr><tr><td>H</td><td>Hide selected</td></tr><tr><td>Delete</td><td>Delete selected</td></tr><tr><td>Shift+D / Ctrl+D</td><td>Duplicate (Complex)</td></tr><tr><td>/</td><td>Isolate selection (Complex)</td></tr><tr><td>Extensions</td><td>Install and manage editor add-ons (Complex)</td></tr><tr><td>Ctrl+Z / Ctrl+Shift+Z</td><td>Undo / Redo</td></tr><tr><td>Ctrl+O</td><td>Import</td></tr><tr><td>N</td><td>Toggle side panel</td></tr><tr><td>T</td><td>Next theme</td></tr><tr><td>?</td><td>This help</td></tr></table><p style="text-align:right;margin:14px 0 0"><button class="btn primary" id="helpClose">Close</button></p></dialog>
+      <dialog id="tutorialDlg" class="tutorial-dialog" aria-labelledby="tutorialTitle">
+        <div class="tutorial-kicker" id="tutorialKicker">Getting started · 1 of 5</div>
+        <h2 id="tutorialTitle">Welcome to Model Editor</h2>
+        <p id="tutorialBody">Import a 3D model, inspect it in the viewport, edit objects and animations, then export your work.</p>
+        <div class="tutorial-progress" id="tutorialProgress"><span class="active"></span><span></span><span></span><span></span><span></span></div>
+        <div class="tutorial-footer"><button class="btn" id="tutorialSkip">Skip tutorial</button><span class="sp"></span><button class="btn" id="tutorialBack" disabled>Back</button><button class="btn primary" id="tutorialNext">Next</button></div>
+      </dialog>
+      <dialog id="helpDlg"><h3>Keyboard shortcuts</h3><table><tr><td>Q / G / R / S</td><td>Select / Move / Rotate / Scale</td></tr><tr><td>F or Home</td><td>Frame selection / reset view</td></tr><tr><td>1 / 3 / 7</td><td>Front / Right / Top view</td></tr><tr><td>Fly / WASD</td><td>Free camera. Hold right mouse to look, Shift faster, Space/E up, Q/Ctrl down, Fly button to exit</td></tr><tr><td>Space</td><td>Play or pause (outside Fly mode)</td></tr><tr><td>Keyframe Editor</td><td>New Animation creates a clip. Set Key records the selected object transform at the playhead. Select a diamond to remove a key.</td></tr><tr><td>← →</td><td>Step one frame</td></tr><tr><td>H</td><td>Hide selected</td></tr><tr><td>Delete</td><td>Delete selected</td></tr><tr><td>Shift+D / Ctrl+D</td><td>Duplicate (Complex)</td></tr><tr><td>/</td><td>Isolate selection (Complex)</td></tr><tr><td>Extensions</td><td>Install and manage editor add-ons (Complex)</td></tr><tr><td>Ctrl+Z / Ctrl+Shift+Z</td><td>Undo / Redo</td></tr><tr><td>Ctrl+O</td><td>Import</td></tr><tr><td>N</td><td>Toggle side panel</td></tr><tr><td>T</td><td>Next theme</td></tr><tr><td>?</td><td>This help</td></tr></table><p style="text-align:right;margin:14px 0 0;display:flex;justify-content:flex-end;gap:8px"><button class="btn" id="tutorialReplayBtn">Tutorial</button><button class="btn primary" id="helpClose">Close</button></p></dialog>
     </main>
     <section class="timeline" aria-label="Animation timeline and keyframe editor">
       <div class="tl-row">
@@ -311,11 +481,67 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
   import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
   import { SimplifyModifier } from 'three/addons/modifiers/SimplifyModifier.js';
 
+
   const $ = (id) => document.getElementById(id);
+  function makeIconButton(id, glyph, label) {
+    const button = $(id); if (!button) return;
+    button.textContent = glyph;
+    button.classList.add('icon-only');
+    button.setAttribute('aria-label', label);
+    button.title = label;
+  }
+  function setupCompactControls() {
+    [
+      ['importTop','⇧','Import model (Ctrl+O)'], ['folderTop','▱','Open folder'],
+      ['exportBtn','⇩','Export GLB'], ['objBtn','O','Export OBJ'], ['stlBtn','△','Export STL'],
+      ['addonsBtn','⌘','Extensions'], ['shotBtn','▣','Screenshot'],
+      ['flyModeBtn','✥','Free camera'], ['gridBtn','▦','Toggle grid'], ['skelBtn','♧','Toggle bones'], ['rotBtn','⟳','Toggle auto-rotate'],
+      ['resetBtn','↺','Reset camera view'], ['playButton','▶','Play animation'], ['newClipBtn','＋','New animation'], ['deleteKeyframeBtn','×','Delete keyframe'],
+      ['deleteTrackBtn','≡','Remove animation track'], ['deleteClipBtn','▤','Remove animation'],
+      ['addKeyframeBtn','◆','Set keyframe']
+    ].forEach(args => makeIconButton(...args));
+    const actionIcons = {
+      dup:['⧉','Duplicate'], del:['⌫','Delete'], reset:['↺','Reset transform'],
+      applyScale:['⇱','Apply scale'], applyRotation:['⟳','Apply rotation'], hide:['◌','Hide selected'],
+      unparent:['↗','Unparent'], mx:['⇆','Mirror X'], my:['⇅','Mirror Y'], mz:['⇄','Mirror Z'],
+      origin:['⊙','Origin to center'], smooth:['◒','Smooth shade'], flat:['◧','Flat shade'],
+      isolate:['◉','Isolate selection']
+    };
+    document.querySelectorAll('[data-act]').forEach(button => {
+      const item = actionIcons[button.dataset.act]; if (!item) return;
+      makeIconButtonFromElement(button, item[0], item[1]);
+    });
+    [['revealAllBtn','◉','Reveal all'],['spaceBtn','⌖','Toggle local space'],['axesBtn','✣','Toggle axes'],
+     ['snapBtn','⌗','Toggle snapping'],['frameBtn','⛶','Frame selected']].forEach(([id,glyph,label]) => makeIconButton(id,glyph,label));
+    // Compact panel controls. Scene and selected-object panels start open; advanced sections start folded.
+    document.querySelectorAll('.side > .panel').forEach((panel,index) => {
+      const heading = panel.querySelector('h2'); if (!heading || panel.querySelector('.panel-heading')) return;
+      const label = heading.textContent.trim();
+      const toggle = document.createElement('button');
+      toggle.type = 'button'; toggle.className = 'panel-heading';
+      toggle.innerHTML = `<span class="panel-heading-label">${label}</span><span aria-hidden="true">⌄</span>`;
+      toggle.setAttribute('aria-expanded', index < 2 ? 'true' : 'false');
+      const body = document.createElement('div'); body.className = 'panel-body';
+      while (heading.nextSibling) body.appendChild(heading.nextSibling);
+      heading.replaceWith(toggle); panel.appendChild(body);
+      if (index >= 2) panel.classList.add('collapsed');
+      toggle.addEventListener('click', () => {
+        const collapsed = panel.classList.toggle('collapsed');
+        toggle.setAttribute('aria-expanded', String(!collapsed));
+      });
+    });
+  }
+  function makeIconButtonFromElement(button, glyph, label) {
+    button.textContent = glyph;
+    button.classList.add('icon-only');
+    button.setAttribute('aria-label', label);
+    button.title = label;
+  }
+
   const supported = new Set(['glb', 'gltf', 'fbx', 'obj', 'stl', 'blend']);
   const viewer = $('viewer');
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, matchMedia('(max-width:720px)').matches ? 1.25 : 1.5));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.3;
@@ -332,8 +558,142 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
   controls.dampingFactor = 0.08;
   controls.minDistance = 0.05;
   controls.maxDistance = 300;
+  let flyMode = false, flyOrbitDistance = 8, flyYaw = 0, flyPitch = 0, mouseLookPointerId = null, lastMouseLookX = 0, lastMouseLookY = 0;
+  const movementKeys = Object.create(null);
+  const joystickVector = { x: 0, y: 0 };
+  const moveForward = new THREE.Vector3(), moveRight = new THREE.Vector3(), moveVector = new THREE.Vector3(), lookVector = new THREE.Vector3();
+  const mobileNavigation = () => matchMedia('(pointer:coarse)').matches || matchMedia('(max-width:720px)').matches;
+  function updateNavigationUi() {
+    $('flyModeBtn').classList.toggle('active', flyMode);
+    $('flyModeBtn').textContent = flyMode ? '◉' : '✥';
+    $('flyModeBtn').classList.add('icon-only');
+    $('flyModeBtn').setAttribute('aria-label', flyMode ? 'Exit free camera' : 'Enter free camera');
+    $('flyModeBtn').title = flyMode ? 'Exit free camera (Escape)' : 'Free camera. WASD to move, right mouse to look';
+    $('navigationHud').classList.toggle('active', flyMode && !mobileNavigation());
+    $('mobileNavigation').classList.toggle('active', flyMode && mobileNavigation());
+    tc.enabled = !flyMode;
+    tcHelper.visible = !flyMode && tool !== 'select' && !!selected;
+  }
+  function exitFlyMode() {
+    flyMode = false;
+    mouseLookPointerId = null;
+    controls.enabled = true;
+    for (const key of Object.keys(movementKeys)) movementKeys[key] = false;
+    joystickVector.x = joystickVector.y = 0;
+    $('joystickKnob').style.transform = 'translate(0px, 0px)';
+    updateNavigationUi();
+    camera.getWorldDirection(lookVector);
+    controls.target.copy(camera.position).addScaledVector(lookVector, Math.max(2, flyOrbitDistance));
+    controls.update();
+  }
+  function enterFlyMode() {
+    if (flyMode) { exitFlyMode(); return; }
+    flyOrbitDistance = Math.max(2, camera.position.distanceTo(controls.target));
+    // Capture the current view as explicit yaw/pitch, then use a predictable FPS camera basis.
+    camera.getWorldDirection(lookVector).normalize();
+    flyYaw = Math.atan2(-lookVector.x, -lookVector.z);
+    flyPitch = Math.asin(THREE.MathUtils.clamp(lookVector.y, -1, 1));
+    camera.rotation.order = 'YXZ';
+    camera.rotation.set(flyPitch, flyYaw, 0, 'YXZ');
+    controls.enabled = false;
+    flyMode = true;
+    updateNavigationUi();
+    showToast(mobileNavigation()
+      ? 'Move with the joystick. Drag the right side of the viewport to look around.'
+      : 'WASD to move. Hold the right mouse button and drag to look around. Press Fly again to exit.', true);
+  }
+  function updateFlyMovement(delta) {
+    if (!flyMode) return;
+    // Move on a world-horizontal plane using yaw only. Looking up/down never tilts WASD movement.
+    moveForward.set(-Math.sin(flyYaw), 0, -Math.cos(flyYaw));
+    moveRight.set(Math.cos(flyYaw), 0, -Math.sin(flyYaw));
+    const forwardInput = (movementKeys.w ? 1 : 0) - (movementKeys.s ? 1 : 0) - joystickVector.y;
+    const rightInput = (movementKeys.d ? 1 : 0) - (movementKeys.a ? 1 : 0) + joystickVector.x;
+    const verticalInput = (movementKeys.e || movementKeys.space ? 1 : 0) - (movementKeys.q || movementKeys.control ? 1 : 0);
+    moveVector.set(0, 0, 0).addScaledVector(moveForward, forwardInput).addScaledVector(moveRight, rightInput);
+    moveVector.y += verticalInput;
+    if (moveVector.lengthSq() > 1) moveVector.normalize();
+    if (moveVector.lengthSq() > 0) camera.position.addScaledVector(moveVector, (movementKeys.shift ? 10 : 4) * delta);
+  }
   const hemi = new THREE.HemisphereLight(0xe2f0ff, 0x5b6170, 2.6); scene.add(hemi);
   const sun = new THREE.DirectionalLight(0xffffff, 3.1); sun.position.set(5, 9, 7); scene.add(sun);
+  // Mobile joystick drives WASD-equivalent movement; dragging the right viewport side turns the camera.
+  const joystick = $('moveJoystick'), joystickKnob = $('joystickKnob');
+  let joystickPointerId = null, lookPointerId = null, lastLookX = 0, lastLookY = 0;
+  function updateJoystick(event) {
+    const rect = joystick.getBoundingClientRect();
+    const radius = Math.max(1, rect.width * 0.36);
+    const dx = event.clientX - (rect.left + rect.width / 2);
+    const dy = event.clientY - (rect.top + rect.height / 2);
+    const length = Math.hypot(dx, dy), scale = length > radius ? radius / length : 1;
+    const x = dx * scale, y = dy * scale;
+    joystickVector.x = x / radius;
+    joystickVector.y = y / radius;
+    joystickKnob.style.transform = `translate(${x}px, ${y}px)`;
+  }
+  joystick.addEventListener('pointerdown', event => {
+    if (!flyMode) return;
+    joystickPointerId = event.pointerId;
+    joystick.setPointerCapture(event.pointerId);
+    updateJoystick(event);
+    event.preventDefault();
+  });
+  joystick.addEventListener('pointermove', event => { if (event.pointerId === joystickPointerId) updateJoystick(event); });
+  function releaseJoystick(event) {
+    if (event.pointerId !== joystickPointerId) return;
+    joystickPointerId = null;
+    joystickVector.x = joystickVector.y = 0;
+    joystickKnob.style.transform = 'translate(0px, 0px)';
+  }
+  joystick.addEventListener('pointerup', releaseJoystick);
+  joystick.addEventListener('pointercancel', releaseJoystick);
+  renderer.domElement.addEventListener('contextmenu', event => { if (flyMode) event.preventDefault(); });
+  renderer.domElement.addEventListener('pointerdown', event => {
+    if (!flyMode) return;
+    if (!mobileNavigation() && event.pointerType === 'mouse' && event.button === 2) {
+      mouseLookPointerId = event.pointerId;
+      lastMouseLookX = event.clientX; lastMouseLookY = event.clientY;
+      renderer.domElement.setPointerCapture(event.pointerId);
+      event.preventDefault();
+      return;
+    }
+    if (!mobileNavigation() || event.pointerType === 'mouse') return;
+    const rect = viewer.getBoundingClientRect();
+    if (event.clientX < rect.left + rect.width * 0.38) return;
+    lookPointerId = event.pointerId;
+    lastLookX = event.clientX; lastLookY = event.clientY;
+    renderer.domElement.setPointerCapture(event.pointerId);
+    event.preventDefault();
+  });
+  renderer.domElement.addEventListener('pointermove', event => {
+    if (!flyMode) return;
+    if (!mobileNavigation() && event.pointerId === mouseLookPointerId) {
+      const dx = event.clientX - lastMouseLookX, dy = event.clientY - lastMouseLookY;
+      lastMouseLookX = event.clientX; lastMouseLookY = event.clientY;
+      flyYaw -= dx * 0.0028;
+      flyPitch = THREE.MathUtils.clamp(flyPitch - dy * 0.0028, -1.48, 1.48);
+      camera.rotation.set(flyPitch, flyYaw, 0, 'YXZ');
+      event.preventDefault();
+      return;
+    }
+    if (!mobileNavigation() || event.pointerId !== lookPointerId) return;
+    const dx = event.clientX - lastLookX, dy = event.clientY - lastLookY;
+    lastLookX = event.clientX; lastLookY = event.clientY;
+    flyYaw -= dx * 0.0032;
+    flyPitch = THREE.MathUtils.clamp(flyPitch - dy * 0.0032, -1.48, 1.48);
+    camera.rotation.set(flyPitch, flyYaw, 0, 'YXZ');
+    event.preventDefault();
+  });
+  function endTouchLook(event) {
+    if (event.pointerId === lookPointerId) lookPointerId = null;
+    if (event.pointerId === mouseLookPointerId) mouseLookPointerId = null;
+  }
+  renderer.domElement.addEventListener('pointerup', endTouchLook);
+  renderer.domElement.addEventListener('pointercancel', endTouchLook);
+  $('flyModeBtn').addEventListener('click', enterFlyMode);
+  $('exitFlyBtn').addEventListener('click', () => exitFlyMode());
+  $('mobileExitFly').addEventListener('click', () => exitFlyMode());
+
   const rim = new THREE.DirectionalLight(0x9bbded, 1.7); rim.position.set(-7, 5, -7); scene.add(rim);
   let grid = new THREE.GridHelper(100, 100, 0x2a3a7a, 0x141c3d);
   scene.add(grid);
@@ -348,6 +708,8 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
   let modelFrame = null, modelRoot = null, skeletonHelper = null, mixer = null, info = null;
   let clips = [], activeAction = null, activeIndex = -1, playing = false, loop = true, speed = 1;
   let selectedTrackIndex = -1, selectedKeyframe = null;
+  const keyframePlayheadEls = [];
+  let boxWasVisibleBeforePlayback = false, lastPlaybackUiUpdate = 0;
   let assetUrls = [], loadTicket = 0, toastTimeout, isolated = null, matBefore = null;
   let selected = null, tool = 'select', shading = 'material', past = [], future = [], dragBefore = null;
   let measurementMode = false, measureFirstPoint = null, pingPongPlayback = false;
@@ -397,6 +759,7 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
 
   /* ---------- camera ---------- */
   function frame(o) {
+    if (flyMode) exitFlyMode();
     const t = o || modelFrame;
     if (!t) return;
     const b = new THREE.Box3().setFromObject(t);
@@ -408,10 +771,12 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
     controls.update();
   }
   function resetView() {
+    if (flyMode) exitFlyMode();
     controls.target.set(0, 0, 0); camera.position.set(5.6, 3.8, 6.4); controls.update();
     if (modelFrame) frame(modelFrame);
   }
   function setView(dir) {
+    if (flyMode) exitFlyMode();
     const d = camera.position.distanceTo(controls.target);
     camera.position.copy(controls.target).addScaledVector(dir.normalize(), d); controls.update();
   }
@@ -454,10 +819,11 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
   function select(o) {
     selected = o || null;
     if (selected) {
-      box.setFromObject(selected); box.visible = true;
+      box.setFromObject(selected); box.visible = !playing;
+      if (playing) boxWasVisibleBeforePlayback = true;
       if (tool !== 'select') tc.attach(selected);
       for (let p = selected.parent; p; p = p.parent) expanded.add(p.uuid);
-    } else { box.visible = false; tc.detach(); }
+    } else { box.visible = false; boxWasVisibleBeforePlayback = false; tc.detach(); }
     $('selLabel').textContent = selected ? (selected.name || selected.type) : '';
     renderOutliner(); renderProps();
     if (typeof updateKeyframeButtons === 'function') updateKeyframeButtons();
@@ -467,13 +833,13 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
     if (e.value) { dragBefore = snapOf(tc.object); if (playing) togglePlay(false); }
     else if (tc.object && dragBefore) commitTransform(tc.object, dragBefore);
   });
-  tc.addEventListener('objectChange', () => renderProps());
+  tc.addEventListener('objectChange', () => { if (box.visible && !playing) box.update(); renderProps(); });
 
   const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
   let down = null;
   renderer.domElement.addEventListener('pointerdown', e => { down = [e.clientX, e.clientY, tc.axis]; });
   renderer.domElement.addEventListener('pointerup', e => {
-    if (!down || !modelRoot || e.button !== 0) return;
+    if (flyMode || !down || !modelRoot || e.button !== 0) { down = null; return; }
     const skip = Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 4 || down[2];
     down = null; if (skip) return;
     const r = renderer.domElement.getBoundingClientRect();
@@ -643,17 +1009,17 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
   }
 
   function updateKeyframePlayheads() {
-    const host = $('keyframeTracks');
     const clip = clips[activeIndex];
-    if (!clip) return;
+    if (!clip || !keyframePlayheadEls.length) return;
     const duration = Math.max(clip.duration, 0.001);
-    const pct = Math.min(100, Math.max(0, currentAnimationTime() / duration * 100));
-    host.querySelectorAll('.key-playhead').forEach(line => { line.style.left = pct + '%'; });
+    const pct = Math.min(100, Math.max(0, currentAnimationTime() / duration * 100)) + '%';
+    for (let i = 0; i < keyframePlayheadEls.length; i++) keyframePlayheadEls[i].style.left = pct;
   }
 
   function renderKeyframeEditor() {
     const host = $('keyframeTracks');
     const clip = clips[activeIndex];
+    keyframePlayheadEls.length = 0;
     host.replaceChildren();
     if (!clip) {
       $('keyframeSummary').textContent = 'No animation selected';
@@ -688,6 +1054,7 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
       const playhead = document.createElement('span');
       playhead.className = 'key-playhead';
       lane.appendChild(playhead);
+      keyframePlayheadEls.push(playhead);
       Array.from(track.times).forEach((time, keyIndex) => {
         const marker = document.createElement('button');
         marker.type = 'button';
@@ -720,10 +1087,26 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
     updateKeyframeButtons();
   }
 
+  function syncSelectionBoxPlayback() {
+    if (playing) {
+      if (box.visible) boxWasVisibleBeforePlayback = true;
+      box.visible = false;
+    } else if (boxWasVisibleBeforePlayback && selected) {
+      box.setFromObject(selected);
+      box.visible = true;
+      boxWasVisibleBeforePlayback = false;
+    }
+  }
+
   function updatePlaybackUi() {
+    syncSelectionBoxPlayback();
     const on = !!activeAction;
     for (const id of ['timeline', 'restartButton', 'stepBack', 'stepFwd', 'playButton', 'loopButton', 'speedSelect']) $(id).disabled = !on;
-    $('playButton').textContent = playing ? '❚❚ Pause' : '▶ Play';
+    $('playButton').textContent = playing ? 'Ⅱ' : '▶';
+    $('playButton').setAttribute('aria-label', playing ? 'Pause animation' : 'Play animation');
+    $('loopButton').textContent = '↻';
+    $('loopButton').title = loop ? 'Loop enabled' : 'Loop disabled';
+    $('loopButton').setAttribute('aria-label', loop ? 'Disable loop' : 'Enable loop');
     $('loopButton').classList.toggle('on', loop);
     $('loopButton').setAttribute('aria-pressed', String(loop));
     updateTimeline();
@@ -750,6 +1133,7 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
     activeAction.clampWhenFinished = true;
     activeAction.play();
     playing = autoplay; activeAction.paused = !autoplay;
+    syncSelectionBoxPlayback();
     mixer.update(0);
     renderClips();
     updatePlaybackUi();
@@ -762,6 +1146,7 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
     activeAction.paused = true;
     activeAction.time = THREE.MathUtils.clamp(Number(time) || 0, 0, clips[activeIndex].duration);
     mixer.update(0);
+    syncSelectionBoxPlayback();
     updatePlaybackUi();
   }
 
@@ -769,7 +1154,7 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
     if (!activeAction) return;
     const next = force ?? !playing;
     if (next && !loop && activeAction.time >= clips[activeIndex].duration - 0.001) activeAction.reset().play();
-    playing = next; activeAction.paused = !playing; updatePlaybackUi();
+    playing = next; activeAction.paused = !playing; syncSelectionBoxPlayback(); updatePlaybackUi();
   }
 
   function stepFrame(dir) {
@@ -790,6 +1175,7 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
         if (!loop) {
           playing = false;
           if (activeAction) activeAction.paused = true;
+          syncSelectionBoxPlayback();
           updatePlaybackUi();
         }
       });
@@ -2232,6 +2618,48 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
   $('helpBtn').onclick = () => $('helpDlg').showModal();
   $('helpClose').onclick = () => $('helpDlg').close();
   $('helpDlg').addEventListener('click', e => { if (e.target === $('helpDlg')) $('helpDlg').close(); });
+  const tutorialSteps = [
+    { kicker: 'Getting started · 1 of 5', title: 'Welcome to Model Editor', body: 'Import a 3D model from your computer, open a folder with textures, or load the website demo. You can also drag a supported model directly into the viewport.' },
+    { kicker: 'Viewport · 2 of 5', title: 'Navigate the viewport', body: 'Orbit with the mouse or touch to inspect the scene. Press Fly to use Roblox Studio-style free movement: WASD to move, hold right mouse and drag to look, Shift to move faster, and Space/E or Q/Ctrl to move vertically. On mobile, use the joystick and drag the right side to look.' },
+    { kicker: 'Editing · 3 of 5', title: 'Select and edit objects', body: 'Select an object in the viewport or Scene list. Use Move, Rotate and Scale tools, or edit exact values in the Selected Object panel. Use the visibility eye to hide parts of the model.' },
+    { kicker: 'Animation · 4 of 5', title: 'Create and edit animations', body: 'Choose an animation clip or create a new one. Select an object, move the playhead, then press Set Key. Select keyframe diamonds to inspect or delete keys, and use the timeline controls to play, pause and scrub.' },
+    { kicker: 'Finish · 5 of 5', title: 'Export your work', body: 'Export GLB to save your edited model and animations. Complex mode also includes extra modeling tools and an extension browser. You can reopen this tutorial later from the ? Help menu.' }
+  ];
+  let tutorialStepIndex = 0;
+  function renderTutorialStep() {
+    const step = tutorialSteps[tutorialStepIndex];
+    $('tutorialKicker').textContent = step.kicker;
+    $('tutorialTitle').textContent = step.title;
+    $('tutorialBody').textContent = step.body;
+    $('tutorialBack').disabled = tutorialStepIndex === 0;
+    $('tutorialNext').textContent = tutorialStepIndex === tutorialSteps.length - 1 ? 'Finish' : 'Next';
+    $('tutorialProgress').replaceChildren(...tutorialSteps.map((_, i) => {
+      const bar = document.createElement('span');
+      if (i <= tutorialStepIndex) bar.classList.add('active');
+      return bar;
+    }));
+  }
+  function completeTutorial() {
+    try { localStorage.setItem('me-tutorial-complete', '1'); } catch (error) {}
+    if ($('tutorialDlg').open) $('tutorialDlg').close();
+  }
+  function openTutorial(force = false) {
+    let done = false;
+    try { done = localStorage.getItem('me-tutorial-complete') === '1'; } catch (error) {}
+    if (done && !force) return;
+    tutorialStepIndex = 0;
+    renderTutorialStep();
+    if (!$('tutorialDlg').open) $('tutorialDlg').showModal();
+  }
+  $('tutorialSkip').onclick = completeTutorial;
+  $('tutorialNext').onclick = () => {
+    if (tutorialStepIndex >= tutorialSteps.length - 1) { completeTutorial(); return; }
+    tutorialStepIndex++;
+    renderTutorialStep();
+  };
+  $('tutorialBack').onclick = () => { tutorialStepIndex = Math.max(0, tutorialStepIndex - 1); renderTutorialStep(); };
+  $('tutorialReplayBtn').onclick = () => { $('helpDlg').close(); openTutorial(true); };
+  $('tutorialDlg').addEventListener('cancel', () => { try { localStorage.setItem('me-tutorial-complete', '1'); } catch (error) {} });
   $('sideToggle').onclick = () => $('app').classList.toggle('noside');
   $('toast').onclick = () => { $('toast').style.display = 'none'; };
   renderer.domElement.addEventListener('dblclick', () => frame(selected));
@@ -2302,8 +2730,16 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
   };
   addEventListener('keydown', e => {
     if (/INPUT|SELECT|TEXTAREA/.test(e.target.tagName) && e.target.type !== 'range') return;
-    if ($('helpDlg').open || e.altKey) return;
+    if ($('helpDlg').open || $('tutorialDlg').open || e.altKey) return;
     const k = e.key.toLowerCase();
+    if (flyMode) {
+      if (['w','a','s','d','q','e','shift','control',' ','spacebar'].includes(k)) {
+        e.preventDefault();
+        movementKeys[k === ' ' || k === 'spacebar' ? 'space' : k] = true;
+        return;
+      }
+      if (k === 'escape') { e.preventDefault(); exitFlyMode(); return; }
+    }
     if (e.ctrlKey || e.metaKey) {
       if (k === 'o') { e.preventDefault(); openFiles(); return; }
       if (k === 'd' && isComplex()) { e.preventDefault(); duplicate(); return; }
@@ -2314,18 +2750,38 @@ input[type=color]{width:100%;height:28px;padding:0;border:1px solid var(--line);
     if (isComplex() && ((k === 'd' && e.shiftKey) || k === '/')) { e.preventDefault(); k === '/' ? toggleIsolate() : duplicate(); return; }
     if (keys[k]) { e.preventDefault(); keys[k](); }
   });
-  addEventListener('keyup', e => { if (e.key === ' ' && !/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) e.preventDefault(); });
+  addEventListener('keyup', e => {
+    const k = e.key.toLowerCase();
+    if (flyMode && ['w','a','s','d','q','e','shift','control',' ','spacebar'].includes(k)) {
+      movementKeys[k === ' ' || k === 'spacebar' ? 'space' : k] = false;
+      e.preventDefault();
+      return;
+    }
+    if (e.key === ' ' && !/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) e.preventDefault();
+  });
+  addEventListener('blur', () => { for (const key of Object.keys(movementKeys)) movementKeys[key] = false; });
 
   function animate() {
     requestAnimationFrame(animate);
     const delta = Math.min(clock.getDelta(), 0.1);
-    if (mixer && activeAction && playing) { mixer.update(delta * speed); updateTimeline(); }
-    if (selected && box.visible) box.update();
-    controls.update();
+    if (flyMode) updateFlyMovement(delta);
+    if (mixer && activeAction && playing) {
+      mixer.update(delta * speed);
+      const now = performance.now();
+      // Updating text, sliders and the keyframe editor at 10 Hz avoids expensive DOM churn at 60 FPS.
+      if (now - lastPlaybackUiUpdate >= 100) {
+        updateTimeline();
+        lastPlaybackUiUpdate = now;
+      }
+    }
+    if (controls.enabled) controls.update();
     renderer.render(scene, camera);
   }
+  setupCompactControls();
   renderProps(); renderOutliner(); renderClips(); updatePlaybackUi(); renderKeyframeEditor(); renderAddonBrowser();
   animate();
+  // The full guided tutorial is shown once per browser profile. Skip and Finish both remember completion.
+  setTimeout(() => openTutorial(false), 450);
 </script>
 </body>
 </html>
