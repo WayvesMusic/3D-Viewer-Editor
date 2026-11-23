@@ -448,6 +448,58 @@ body.rendering-video dialog{display:none!important}
 @media(max-width:720px){.library-page{width:calc(100vw - 16px);height:calc(100dvh - 24px);padding:11px;gap:8px}.environment-grid,.camera-grid,.baseplate-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:480px){.environment-grid,.camera-grid,.baseplate-grid{grid-template-columns:1fr}}
 
+/* Cinematic shot sequencer */
+.cinematic-dialog{width:min(1040px,calc(100% - 24px));max-width:min(1040px,calc(100% - 24px));max-height:90vh;overflow:auto}
+.cinematic-summary-row{display:flex;align-items:end;gap:14px;justify-content:space-between;margin:4px 0 14px}
+.cinematic-sequence-name{display:grid;gap:5px;min-width:min(320px,65%);font-size:11px;color:var(--muted)}
+.cinematic-summary{color:var(--accent2);font-size:11px;font-variant-numeric:tabular-nums;padding:8px 0}
+.cinematic-workspace{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(290px,.88fr);gap:12px;min-height:360px}
+.cinematic-shot-column,.cinematic-shot-editor{min-width:0;border:1px solid var(--line);border-radius:10px;background:var(--panel2);padding:12px}
+.cinematic-section-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:12px}
+.cinematic-shot-list{display:flex;flex-direction:column;gap:7px;max-height:340px;overflow:auto;padding:2px}
+.cinematic-shot-card{display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:9px;align-items:center;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--panel);cursor:pointer}
+.cinematic-shot-card.selected{border-color:var(--accent2);background:var(--sel);box-shadow:inset 3px 0 var(--accent2)}
+.cinematic-shot-number{width:34px;height:34px;display:grid;place-items:center;border-radius:7px;background:var(--btn);color:var(--accent2);font-weight:700;font-variant-numeric:tabular-nums}
+.cinematic-shot-card b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px}
+.cinematic-shot-card small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.cinematic-shot-card .shot-duration{font-variant-numeric:tabular-nums;color:var(--text);font-size:11px}
+.cinematic-empty{color:var(--muted);font-size:12px;line-height:1.6;padding:18px 12px;text-align:center}
+.cinematic-controls{display:flex;gap:6px;flex-wrap:wrap;margin-top:11px}
+.cinematic-controls .btn{flex:1;min-width:110px;justify-content:center}
+.cinematic-progress{height:4px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:11px}
+.cinematic-progress>div{height:100%;width:0;background:var(--accent2);transition:width .08s linear}
+.cinematic-playback-status{font-size:10px;color:var(--muted);margin-top:7px;min-height:14px}
+.cinematic-shot-editor>label,.cinematic-fields label{display:grid;gap:5px;font-size:11px;color:var(--muted);margin-bottom:9px}
+.cinematic-fields{display:grid;grid-template-columns:1fr 1fr;gap:0 8px}
+.cinematic-field-wide{grid-column:1/-1}
+.cinematic-shot-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:6px}
+.cinematic-order-actions{display:flex;gap:5px;margin-left:auto}
+.cinematic-order-actions .btn{width:29px;padding:0;justify-content:center}
+.cinematic-shot-actions>.btn{font-size:11px}
+@media(max-width:760px){.cinematic-workspace{grid-template-columns:1fr}.cinematic-shot-list{max-height:230px}.cinematic-summary-row{align-items:start;flex-direction:column;gap:5px}.cinematic-sequence-name{width:100%;min-width:0}.cinematic-summary{padding:0}.cinematic-dialog{padding:13px}}
+
+
+/* Editor mode is an object browser workspace, not a live scene viewport. */
+.editor-object-browser{display:none;grid-column:1/-1;grid-row:1/-1;min-width:0;min-height:0;overflow:auto;background:radial-gradient(900px 420px at 50% 0%,var(--glow),transparent 72%),var(--view);padding:clamp(18px,4vw,46px);flex-direction:column;gap:18px}
+[data-mode=editor] .main{display:block}
+[data-mode=editor] .main>.tools,[data-mode=editor] .main>.viewer,[data-mode=editor] .main>.side,[data-mode=editor] .main>.timeline{display:none!important}
+[data-mode=editor] .editor-object-browser{display:flex}
+.editor-browser-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;max-width:1120px;width:100%;margin:0 auto}
+.editor-browser-eyebrow{font-size:10px;letter-spacing:.16em;color:var(--accent2);font-weight:700}
+.editor-browser-head h2{font-size:clamp(22px,3vw,32px);margin:5px 0 4px;letter-spacing:-.03em}
+.editor-browser-head p{margin:0;color:var(--muted);font-size:12px}
+.editor-browser-actions{display:flex;gap:7px;flex-wrap:wrap}
+.editor-browser-search{display:flex;align-items:center;gap:12px;max-width:1120px;width:100%;margin:0 auto;color:var(--muted);font-size:11px}
+.editor-browser-search input{width:min(360px,100%);height:34px;padding:0 11px;border:1px solid var(--line);border-radius:7px;background:var(--field);color:var(--text)}
+.editor-object-grid{width:100%;max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:11px}
+.editor-object-card{min-height:130px;padding:14px 12px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:5px;text-align:left;border:1px solid var(--line);border-radius:11px;background:color-mix(in srgb,var(--panel) 92%,transparent);color:var(--text);cursor:pointer;transition:transform .15s,border-color .15s,background .15s}
+.editor-object-card:hover{transform:translateY(-2px);border-color:var(--accent2);background:var(--sel)}.editor-object-card[hidden]{display:none!important}
+.editor-object-card b{font-size:12px}.editor-object-card small{font-size:10px;color:var(--muted)}
+.object-icon{height:65px;width:100%;display:grid;place-items:center;color:var(--accent2);font-size:34px}
+.object-icon svg{width:54px;height:54px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.editor-browser-foot{width:100%;max-width:1120px;margin:auto auto 0;display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--muted);font-size:10px;padding-top:12px;border-top:1px solid var(--line)}
+@media(max-width:620px){.editor-object-browser{padding:16px 12px}.editor-browser-head{align-items:flex-start;flex-direction:column}.editor-object-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.editor-object-card{min-height:116px}.editor-browser-foot{align-items:flex-start;flex-direction:column}}
+
 </style>
 <script type="importmap">
 {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}
@@ -466,6 +518,7 @@ body.rendering-video dialog{display:none!important}
     <button class="btn cx" id="objBtn" title="Export as OBJ">OBJ</button>
     <button class="btn cx" id="stlBtn" title="Export as STL">STL</button>
     <button class="btn cx" id="addonsBtn" title="Browse and manage extensions">Extensions</button>
+    <button class="btn" id="sequencerOpenBtn" title="Build a multi-shot cinematic sequence">Sequencer</button>
     <button class="btn" id="renderBtn" title="Render an image or animation">Render</button>
     <button class="btn" id="shotBtn" title="Save a PNG of the viewport">Screenshot</button>
     <span class="sp"></span>
@@ -477,6 +530,28 @@ body.rendering-video dialog{display:none!important}
     <button class="btn ico" id="redoBtn" disabled title="Redo (Ctrl+Shift+Z)" aria-label="Redo">↷</button>
   </header>
   <div class="main">
+    <section id="editorObjectBrowser" class="editor-object-browser" aria-label="Editor object browser">
+      <div class="editor-browser-head">
+        <div><div class="editor-browser-eyebrow">SCENE BUILDER</div><h2>Object Browser</h2><p>Choose an object or decoration to add to your scene.</p></div>
+        <div class="editor-browser-actions"><button class="btn" id="editorDuplicateBtn" disabled title="Duplicate selected object">⧉ Duplicate</button><button class="btn" id="editorBrowserUploadBtn">⇧ Upload asset</button></div>
+      </div>
+      <div class="editor-browser-search"><input id="editorObjectSearch" type="search" placeholder="Search objects…" aria-label="Search objects"><span id="editorObjectCount">10 objects</span></div>
+      <div class="editor-object-grid" id="editorObjectGrid">
+        <button class="editor-object-card" data-editor-add="cube" data-search="cube box primitive"><span class="object-icon"><svg viewBox="0 0 48 48"><path d="M24 4 42 14v20L24 44 6 34V14zM6 14l18 10 18-10M24 24v20"/></svg></span><b>Cube</b><small>Basic shape</small></button>
+        <button class="editor-object-card" data-editor-add="sphere" data-search="sphere ball primitive"><span class="object-icon"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="19"/><path d="M5 24h38M24 5c8 8 8 30 0 38M24 5c-8 8-8 30 0 38"/></svg></span><b>Sphere</b><small>Basic shape</small></button>
+        <button class="editor-object-card" data-editor-add="cylinder" data-search="cylinder primitive"><span class="object-icon"><svg viewBox="0 0 48 48"><path d="M7 12c0-5 34-5 34 0v24c0 5-34 5-34 0zM7 12c0 5 34 5 34 0M7 36c0 5 34 5 34 0"/></svg></span><b>Cylinder</b><small>Basic shape</small></button>
+        <button class="editor-object-card" data-editor-add="cone" data-search="cone primitive"><span class="object-icon"><svg viewBox="0 0 48 48"><path d="M24 5 6 39c0 6 36 6 36 0zM6 39c0-6 36-6 36 0"/></svg></span><b>Cone</b><small>Basic shape</small></button>
+        <button class="editor-object-card" data-editor-add="torus" data-search="torus ring donut primitive"><span class="object-icon"><svg viewBox="0 0 48 48"><ellipse cx="24" cy="24" rx="19" ry="13"/><ellipse cx="24" cy="24" rx="8" ry="5"/></svg></span><b>Torus</b><small>Basic shape</small></button>
+        <button class="editor-object-card" data-editor-add="plane" data-search="plane ground flat primitive"><span class="object-icon"><svg viewBox="0 0 48 48"><path d="m24 7 20 11-20 11L4 18zM4 18v8l20 12 20-12v-8"/></svg></span><b>Plane</b><small>Surface</small></button>
+        <button class="editor-object-card" data-editor-add="tree" data-search="tree broadleaf nature decoration"><span class="object-icon">♣</span><b>Tree</b><small>Decoration</small></button>
+        <button class="editor-object-card" data-editor-add="pine" data-search="pine evergreen tree nature"><span class="object-icon">♠</span><b>Pine tree</b><small>Decoration</small></button>
+        <button class="editor-object-card" data-editor-add="rock" data-search="rock stone boulder nature"><span class="object-icon">◆</span><b>Rock</b><small>Decoration</small></button>
+        <button class="editor-object-card" data-editor-add="capsule" data-search="capsule primitive"><span class="object-icon">⬭</span><b>Capsule</b><small>Basic shape</small></button>
+        <button class="editor-object-card" data-editor-add="icosphere" data-search="icosphere geodesic sphere"><span class="object-icon">⬡</span><b>Icosphere</b><small>Advanced shape</small></button>
+        <button class="editor-object-card" data-editor-add="torusKnot" data-search="torus knot knot"><span class="object-icon">♧</span><b>Torus knot</b><small>Advanced shape</small></button>
+      </div>
+      <div class="editor-browser-foot"><span>Adding an object places it into the current scene.</span><button class="btn" id="editorLeaveModeBtn">← Back to viewport</button></div>
+    </section>
     <nav class="tools" aria-label="Tools">
       <button class="btn on" data-tool="select" title="Select (Q)" aria-label="Select"><svg viewBox="0 0 24 24"><path d="m5 3 14 8-6 2-2 6z"/></svg></button>
       <button class="btn" data-tool="translate" title="Move (G)" aria-label="Move"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18M9 6l3-3 3 3M9 18l3 3 3-3M6 9l-3 3 3 3M18 9l3 3-3 3"/></svg></button>
@@ -640,6 +715,47 @@ body.rendering-video dialog{display:none!important}
         <div class="terrain-brush-status" id="terrainStatus">Create terrain to begin. Enable the brush, then click and drag on the terrain in the viewport.</div>
         <div class="addon-footer"><button class="btn" id="terrainBrushBtn" disabled>Enable brush</button><span class="sp"></span><span class="addon-meta">Brush on the terrain surface in the viewport · Undo supported</span></div>
       </dialog>
+      <dialog id="cinematicDlg" class="editor-dialog cinematic-dialog">
+        <div class="addon-head">
+          <div><h3>Cinematic Sequencer</h3><div class="addon-meta">Build a multi-shot scene with camera moves, lighting transitions and optional model animation</div></div>
+          <span class="sp"></span><button class="btn ico" id="cinematicClose" aria-label="Close cinematic sequencer">×</button>
+        </div>
+        <div class="cinematic-summary-row">
+          <label class="cinematic-sequence-name">Sequence name <input id="cinematicSequenceName" maxlength="64" value="Scene sequence"></label>
+          <div class="cinematic-summary" id="cinematicSummary">0 shots · 0.0 seconds</div>
+        </div>
+        <div class="cinematic-workspace">
+          <section class="cinematic-shot-column">
+            <div class="cinematic-section-head"><b>Shot timeline</b><span class="sp"></span><button class="btn primary" id="cinematicAddShotBtn">＋ Add shot</button></div>
+            <div class="cinematic-shot-list" id="cinematicShotList"><p class="cinematic-empty">Add a shot to capture the current camera and environment. Add more shots from different angles to create a camera move.</p></div>
+            <div class="cinematic-controls">
+              <button class="btn primary" id="cinematicPlayBtn">▶ Preview sequence</button>
+              <button class="btn" id="cinematicStopBtn" disabled>■ Stop</button>
+              <button class="btn" id="cinematicRenderBtn">◉ Render sequence</button>
+            </div>
+            <div class="cinematic-progress"><div id="cinematicProgressBar"></div></div>
+            <div class="cinematic-playback-status" id="cinematicPlaybackStatus">Ready. Add at least one shot to preview or render.</div>
+          </section>
+          <section class="cinematic-shot-editor">
+            <div class="cinematic-section-head"><b>Selected shot</b><span class="sp"></span><span class="addon-meta" id="cinematicShotIndex">No shot selected</span></div>
+            <label>Shot name <input id="cinematicShotName" maxlength="48" placeholder="e.g. Establishing shot"></label>
+            <div class="cinematic-fields">
+              <label>Duration (seconds) <input id="cinematicShotDuration" type="number" min="0.5" max="120" step="0.25" value="4"></label>
+              <label>Transition <select id="cinematicShotTransition"><option value="smooth">Smooth camera move</option><option value="ease">Ease in / out</option><option value="linear">Linear move</option><option value="cut">Hard cut</option></select></label>
+              <label class="cinematic-field-wide">Model animation <select id="cinematicShotClip"><option value="-1">No model animation</option></select></label>
+              <label>Animation start <input id="cinematicClipStart" type="number" min="0" step="0.01" value="0"></label>
+              <label>Animation end <input id="cinematicClipEnd" type="number" min="0" step="0.01" value="0"></label>
+            </div>
+            <div class="cinematic-shot-actions">
+              <button class="btn primary" id="cinematicUpdateViewBtn" disabled>Capture current view</button>
+              <button class="btn" id="cinematicApplyShotBtn" disabled>Apply shot settings</button>
+              <div class="cinematic-order-actions"><button class="btn ico" id="cinematicMoveUpBtn" title="Move shot earlier" aria-label="Move shot earlier" disabled>↑</button><button class="btn ico" id="cinematicMoveDownBtn" title="Move shot later" aria-label="Move shot later" disabled>↓</button><button class="btn ico" id="cinematicDuplicateBtn" title="Duplicate shot" aria-label="Duplicate shot" disabled>⧉</button><button class="btn ico danger" id="cinematicDeleteBtn" title="Delete shot" aria-label="Delete shot" disabled>⌫</button></div>
+            </div>
+            <p class="addon-notice">Each shot stores a camera and lighting snapshot. Smooth, ease and linear transitions move from the previous shot to the selected shot over its duration. You can assign a model animation clip to play during each shot.</p>
+          </section>
+        </div>
+        <div class="addon-footer"><span class="addon-meta">Shots are saved locally for this model on this device.</span><span class="sp"></span><button class="btn" id="cinematicClearBtn">Clear sequence</button><button class="btn primary" id="cinematicDoneBtn">Done</button></div>
+      </dialog>
       <dialog id="renderDlg" class="editor-dialog render-dialog">
         <div class="addon-head"><div><h3>Render</h3><div class="addon-meta">Save a still image or record the active animation</div></div><span class="sp"></span><button class="btn ico" id="renderClose" aria-label="Close render dialog">×</button></div>
         <div class="render-settings-grid">
@@ -659,7 +775,7 @@ body.rendering-video dialog{display:none!important}
         <div class="tutorial-progress" id="tutorialProgress"><span class="active"></span><span></span><span></span><span></span><span></span></div>
         <div class="tutorial-footer"><button class="btn" id="tutorialSkip">Skip tutorial</button><span class="sp"></span><button class="btn" id="tutorialBack" disabled>Back</button><button class="btn primary" id="tutorialNext">Next</button></div>
       </dialog>
-      <dialog id="helpDlg"><h3>Keyboard shortcuts</h3><table><tr><td>Q / G / R / S</td><td>Select / Move / Rotate / Scale</td></tr><tr><td>F or Home</td><td>Frame selection / reset view</td></tr><tr><td>1 / 3 / 7</td><td>Front / Right / Top view</td></tr><tr><td>Fly / WASD</td><td>Free camera. Hold right mouse to look, Shift faster, Space/E up, Q/Ctrl down, Fly button to exit</td></tr><tr><td>Space</td><td>Play or pause (outside Fly mode)</td></tr><tr><td>Keyframe Editor</td><td>New Animation creates a clip. Set Key records the selected object transform at the playhead. Select a diamond to remove a key.</td></tr><tr><td>← →</td><td>Step one frame</td></tr><tr><td>H</td><td>Hide selected</td></tr><tr><td>Delete</td><td>Delete selected</td></tr><tr><td>Shift+D / Ctrl+D</td><td>Duplicate (Complex)</td></tr><tr><td>/</td><td>Isolate selection (Complex)</td></tr><tr><td>Complex tools</td><td>Left toolbar includes modeling, UV, texture, terrain and skybox tools. Use Add asset to insert separate props or decorations without replacing the main model.</td></tr><tr><td>Library</td><td>Opens a large pop-up for local assets, materials and Skyboxes.</td></tr><tr><td>Editor mode</td><td>Enables free-camera WASD movement and the scene-building toolbox.</td></tr><tr><td>Camera / Light Key</td><td>Animate scene camera, HDRI, sun position and fog on the active clip.</td></tr><tr><td>Render</td><td>Render a high-quality PNG with ACES, bloom, optional ambient occlusion and soft shadows, or record the active animation as WebM.</td></tr><tr><td>Extensions</td><td>Install and manage editor add-ons (Complex)</td></tr><tr><td>Ctrl+Z / Ctrl+Shift+Z</td><td>Undo / Redo</td></tr><tr><td>Ctrl+O</td><td>Import</td></tr><tr><td>N</td><td>Toggle side panel</td></tr><tr><td>T</td><td>Next theme</td></tr><tr><td>?</td><td>This help</td></tr></table><p style="text-align:right;margin:14px 0 0;display:flex;justify-content:flex-end;gap:8px"><button class="btn" id="tutorialReplayBtn">Tutorial</button><button class="btn primary" id="helpClose">Close</button></p></dialog>
+      <dialog id="helpDlg"><h3>Keyboard shortcuts</h3><table><tr><td>Q / G / R / S</td><td>Select / Move / Rotate / Scale</td></tr><tr><td>F or Home</td><td>Frame selection / reset view</td></tr><tr><td>1 / 3 / 7</td><td>Front / Right / Top view</td></tr><tr><td>Fly / WASD</td><td>Free camera. Hold right mouse to look, Shift faster, Space/E up, Q/Ctrl down, Fly button to exit</td></tr><tr><td>Space</td><td>Play or pause (outside Fly mode)</td></tr><tr><td>Keyframe Editor</td><td>New Animation creates a clip. Set Key records the selected object transform at the playhead. Select a diamond to remove a key.</td></tr><tr><td>← →</td><td>Step one frame</td></tr><tr><td>H</td><td>Hide selected</td></tr><tr><td>Delete</td><td>Delete selected</td></tr><tr><td>Shift+D / Ctrl+D</td><td>Duplicate (Complex)</td></tr><tr><td>/</td><td>Isolate selection (Complex)</td></tr><tr><td>Complex tools</td><td>Left toolbar includes modeling, UV, texture, terrain and skybox tools. Use Add asset to insert separate props or decorations without replacing the main model.</td></tr><tr><td>Library</td><td>Opens a large pop-up for local assets, materials and Skyboxes.</td></tr><tr><td>Editor mode</td><td>Enables free-camera WASD movement and the scene-building toolbox.</td></tr><tr><td>Camera / Light Key</td><td>Animate scene camera, HDRI, sun position and fog on the active clip.</td></tr><tr><td>Cinematic Sequencer</td><td>Capture multiple camera and environment shots, choose transitions and optional model animation per shot, preview the sequence and render it as WebM.</td></tr><tr><td>Render</td><td>Render a high-quality PNG with ACES, bloom, optional ambient occlusion and soft shadows, or record the active animation as WebM.</td></tr><tr><td>Extensions</td><td>Install and manage editor add-ons (Complex)</td></tr><tr><td>Ctrl+Z / Ctrl+Shift+Z</td><td>Undo / Redo</td></tr><tr><td>Ctrl+O</td><td>Import</td></tr><tr><td>N</td><td>Toggle side panel</td></tr><tr><td>T</td><td>Next theme</td></tr><tr><td>?</td><td>This help</td></tr></table><p style="text-align:right;margin:14px 0 0;display:flex;justify-content:flex-end;gap:8px"><button class="btn" id="tutorialReplayBtn">Tutorial</button><button class="btn primary" id="helpClose">Close</button></p></dialog>
       <dialog id="animationPerfDlg" class="performance-dialog" aria-labelledby="animationPerfTitle">
         <h3 id="animationPerfTitle">This model has a lot of animation data</h3>
         <p>Drawing every animation track and keyframe can make the editor slow, especially on larger rigs. Performance view hides the keyframe lanes and keeps animation selection and playback available. You can switch back to the full keyframe editor at any time.</p>
@@ -1079,6 +1195,7 @@ body.rendering-video dialog{display:none!important}
   let activeSkyTexture = null, activeSkyPreset = 'studio', skyEnvironmentIntensity = 1;
   let renderCapture = null;
   const cameraKeysByClip = new Map(), environmentKeysByClip = new Map();
+  let cinematicShots = [], selectedCinematicShot = -1, cinematicPlayback = null;
   let selected = null, tool = 'select', shading = 'material', past = [], future = [], dragBefore = null;
   let measurementMode = false, measureFirstPoint = null, pingPongPlayback = false;
   const externalAddons = new Map(), externalAddonTools = new Map();
@@ -1204,6 +1321,7 @@ body.rendering-video dialog{display:none!important}
       for (let p = selected.parent; p; p = p.parent) expanded.add(p.uuid);
     } else { box.visible = false; boxWasVisibleBeforePlayback = false; tc.detach(); }
     $('selLabel').textContent = selected ? (selected.name || selected.type) : '';
+    const editorDup = $('editorDuplicateBtn'); if (editorDup) editorDup.disabled = !selected || selected === modelRoot;
     renderOutliner(); renderProps();
     if (typeof updateKeyframeButtons === 'function') updateKeyframeButtons();
   }
@@ -1219,7 +1337,7 @@ body.rendering-video dialog{display:none!important}
   renderer.domElement.addEventListener('pointerdown', e => { if (terrainState.active) { if (beginTerrainStroke(e)) return; down = null; return; } down = [e.clientX, e.clientY, tc.axis]; });
   renderer.domElement.addEventListener('pointermove', e => { if (terrainState.stroke && terrainState.stroke.pointerId === e.pointerId) { terrainApplyAt(e); e.preventDefault(); } });
   renderer.domElement.addEventListener('pointerup', e => { if (finishTerrainStroke(e)) { down = null; return; }
-    if (flyMode || !down || !modelRoot || e.button !== 0) { down = null; return; }
+    if (!down || !modelRoot || e.button !== 0 || mouseLookPointerId !== null) { down = null; return; }
     const skip = Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 4 || down[2];
     down = null; if (skip) return;
     const r = renderer.domElement.getBoundingClientRect();
@@ -1511,6 +1629,297 @@ body.rendering-video dialog{display:none!important}
     else o.rotation['xyz'[i]] = THREE.MathUtils.degToRad(v);
     commitTransform(o, before); box.update(); renderProps();
   });
+
+  /* ---------- cinematic shot sequencer ---------- */
+  function cinematicStorageKey() { return 'me-cinematic-sequence:' + encodeURIComponent(info?.filename || 'untitled-scene'); }
+  function persistCinematicSequence() {
+    const payload = { name: $('cinematicSequenceName')?.value || 'Scene sequence', shots: cinematicShots };
+    try { localStorage.setItem(cinematicStorageKey(), JSON.stringify(payload)); }
+    catch (error) { showToast('Could not save the cinematic sequence. Browser storage may be full.', true); }
+    renderCinematicSequencer();
+  }
+  function restoreCinematicSequence() {
+    cinematicShots = []; selectedCinematicShot = -1;
+    try {
+      const saved = JSON.parse(localStorage.getItem(cinematicStorageKey()) || 'null');
+      if (saved && Array.isArray(saved.shots)) {
+        cinematicShots = saved.shots.filter(shot => shot && shot.camera?.position?.length === 3 && shot.camera?.quaternion?.length === 4 && shot.environment);
+        $('cinematicSequenceName').value = saved.name || 'Scene sequence';
+      } else $('cinematicSequenceName').value = (info?.filename || 'Scene').replace(/\.[^.]+$/, '') + ' sequence';
+    } catch (error) {
+      cinematicShots = [];
+      $('cinematicSequenceName').value = (info?.filename || 'Scene').replace(/\.[^.]+$/, '') + ' sequence';
+    }
+    selectedCinematicShot = cinematicShots.length ? 0 : -1;
+    renderCinematicSequencer();
+  }
+  function cinematicTotalDuration() { return cinematicShots.reduce((sum, shot) => sum + Math.max(0.5, Number(shot.duration) || 4), 0); }
+  function captureCinematicShot(name) {
+    const clipIndex = activeIndex >= 0 && clips[activeIndex] ? activeIndex : -1;
+    const duration = clipIndex >= 0 ? Math.max(1, clips[clipIndex].duration) : 4;
+    return {
+      id: 'shot-' + Date.now() + '-' + Math.floor(Math.random() * 100000),
+      name: name || `Shot ${String(cinematicShots.length + 1).padStart(2, '0')}`,
+      duration: Math.min(120, Math.max(0.5, duration)), transition: cinematicShots.length ? 'smooth' : 'cut',
+      camera: captureCameraKey(0), environment: captureEnvironmentKey(0),
+      clipIndex, clipStart: 0, clipEnd: clipIndex >= 0 ? clips[clipIndex].duration : 0
+    };
+  }
+  function addCinematicShot() {
+    const shot = captureCinematicShot();
+    cinematicShots.push(shot); selectedCinematicShot = cinematicShots.length - 1;
+    persistCinematicSequence(); showToast(`Captured ${shot.name}. Move the camera and add another shot to build a scene.`, true);
+  }
+  function renderCinematicSequencer() {
+    const list = $('cinematicShotList'); if (!list) return;
+    list.replaceChildren();
+    if (!cinematicShots.length) {
+      const empty = document.createElement('p'); empty.className = 'cinematic-empty';
+      empty.textContent = 'Add a shot to capture the current camera and environment. Add more shots from different angles to create a camera move.';
+      list.appendChild(empty);
+    } else {
+      cinematicShots.forEach((shot, index) => {
+        const card = document.createElement('div');
+        card.className = 'cinematic-shot-card' + (index === selectedCinematicShot ? ' selected' : '');
+        card.setAttribute('role', 'button'); card.tabIndex = 0; card.setAttribute('aria-pressed', String(index === selectedCinematicShot));
+        const number = document.createElement('span'); number.className = 'cinematic-shot-number'; number.textContent = String(index + 1).padStart(2, '0');
+        const meta = document.createElement('span');
+        const title = document.createElement('b'); title.textContent = shot.name || `Shot ${index + 1}`;
+        const sub = document.createElement('small');
+        const clipName = shot.clipIndex >= 0 && clips[shot.clipIndex] ? clips[shot.clipIndex].name || `Animation ${shot.clipIndex + 1}` : 'No model animation';
+        sub.textContent = `${String(shot.transition || 'cut').replace('-', ' ')} · ${clipName}`;
+        meta.append(title, sub);
+        const duration = document.createElement('span'); duration.className = 'shot-duration'; duration.textContent = `${Math.max(.5, Number(shot.duration) || 4).toFixed(1)}s`;
+        card.append(number, meta, duration);
+        const choose = () => { selectedCinematicShot = index; renderCinematicSequencer(); };
+        card.addEventListener('click', choose);
+        card.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); choose(); } });
+        list.appendChild(card);
+      });
+    }
+    const total = cinematicTotalDuration();
+    $('cinematicSummary').textContent = `${cinematicShots.length} shot${cinematicShots.length === 1 ? '' : 's'} · ${total.toFixed(1)} seconds · ${Math.round(total * 30)} frames at 30 FPS`;
+    const clipSelect = $('cinematicShotClip');
+    if (clipSelect) {
+      const current = clipSelect.value;
+      clipSelect.replaceChildren(new Option('No model animation', '-1'));
+      clips.forEach((clip, index) => clipSelect.add(new Option(`${clip.name?.trim() || 'Animation ' + (index + 1)} (${clip.duration.toFixed(1)}s)`, String(index))));
+      const shot = cinematicShots[selectedCinematicShot];
+      clipSelect.value = String(shot?.clipIndex ?? -1);
+      if (!shot && current !== '') clipSelect.value = '-1';
+    }
+    const shot = cinematicShots[selectedCinematicShot];
+    const hasShot = !!shot;
+    for (const id of ['cinematicShotName','cinematicShotDuration','cinematicShotTransition','cinematicShotClip','cinematicClipStart','cinematicClipEnd','cinematicApplyShotBtn','cinematicUpdateViewBtn','cinematicMoveUpBtn','cinematicMoveDownBtn','cinematicDuplicateBtn','cinematicDeleteBtn']) $(id).disabled = !hasShot;
+    $('cinematicShotIndex').textContent = hasShot ? `Shot ${selectedCinematicShot + 1} of ${cinematicShots.length}` : 'No shot selected';
+    if (shot) {
+      $('cinematicShotName').value = shot.name || `Shot ${selectedCinematicShot + 1}`;
+      $('cinematicShotDuration').value = Math.max(.5, Number(shot.duration) || 4);
+      $('cinematicShotTransition').value = shot.transition || 'smooth';
+      $('cinematicShotClip').value = String(shot.clipIndex ?? -1);
+      $('cinematicClipStart').value = Number(shot.clipStart) || 0;
+      $('cinematicClipEnd').value = Number(shot.clipEnd) || 0;
+      const clip = clips[shot.clipIndex];
+      $('cinematicClipStart').max = $('cinematicClipEnd').max = clip?.duration || 120;
+    }
+    $('cinematicPlayBtn').disabled = !cinematicShots.length || !!cinematicPlayback;
+    $('cinematicRenderBtn').disabled = !cinematicShots.length || !!cinematicPlayback;
+    $('cinematicStopBtn').disabled = !cinematicPlayback;
+  }
+  function applyCinematicShotSettings() {
+    const shot = cinematicShots[selectedCinematicShot]; if (!shot) return;
+    const clipIndex = Number($('cinematicShotClip').value);
+    const clip = clips[clipIndex];
+    shot.name = $('cinematicShotName').value.trim() || `Shot ${selectedCinematicShot + 1}`;
+    shot.duration = THREE.MathUtils.clamp(Number($('cinematicShotDuration').value) || 4, 0.5, 120);
+    shot.transition = $('cinematicShotTransition').value;
+    shot.clipIndex = clip && Number.isInteger(clipIndex) ? clipIndex : -1;
+    shot.clipStart = shot.clipIndex >= 0 ? THREE.MathUtils.clamp(Number($('cinematicClipStart').value) || 0, 0, clip.duration) : 0;
+    shot.clipEnd = shot.clipIndex >= 0 ? THREE.MathUtils.clamp(Number($('cinematicClipEnd').value) || 0, 0, clip.duration) : 0;
+    if (shot.clipEnd < shot.clipStart) [shot.clipStart, shot.clipEnd] = [shot.clipEnd, shot.clipStart];
+    persistCinematicSequence();
+  }
+  function updateCinematicShotView() {
+    const shot = cinematicShots[selectedCinematicShot]; if (!shot) return;
+    const fresh = captureCinematicShot(shot.name);
+    shot.camera = fresh.camera; shot.environment = fresh.environment;
+    persistCinematicSequence(); showToast(`Updated camera and environment for ${shot.name}.`, true);
+  }
+  function duplicateCinematicShot() {
+    const shot = cinematicShots[selectedCinematicShot]; if (!shot) return;
+    const clone = JSON.parse(JSON.stringify(shot)); clone.id = 'shot-' + Date.now() + '-' + Math.floor(Math.random() * 100000); clone.name = `${shot.name || 'Shot'} copy`;
+    cinematicShots.splice(selectedCinematicShot + 1, 0, clone); selectedCinematicShot++;
+    persistCinematicSequence();
+  }
+  function moveCinematicShot(direction) {
+    const next = selectedCinematicShot + direction;
+    if (selectedCinematicShot < 0 || next < 0 || next >= cinematicShots.length) return;
+    [cinematicShots[selectedCinematicShot], cinematicShots[next]] = [cinematicShots[next], cinematicShots[selectedCinematicShot]];
+    selectedCinematicShot = next; persistCinematicSequence();
+  }
+  function deleteCinematicShot() {
+    if (selectedCinematicShot < 0) return;
+    cinematicShots.splice(selectedCinematicShot, 1);
+    selectedCinematicShot = cinematicShots.length ? Math.min(selectedCinematicShot, cinematicShots.length - 1) : -1;
+    persistCinematicSequence();
+  }
+  function clearCinematicSequence() {
+    if (cinematicPlayback) stopCinematicPlayback(true);
+    cinematicShots = []; selectedCinematicShot = -1; persistCinematicSequence();
+    $('cinematicProgressBar').style.width = '0%'; $('cinematicPlaybackStatus').textContent = 'Sequence cleared.';
+  }
+  function applyCinematicCameraState(state) {
+    if (!state) return;
+    camera.position.fromArray(state.position);
+    camera.quaternion.fromArray(state.quaternion).normalize();
+    controls.target.fromArray(state.target);
+    camera.fov = state.fov || 45; camera.updateProjectionMatrix();
+    camera.updateMatrixWorld(true);
+  }
+  function easeCinematicProgress(value, mode) {
+    const t = THREE.MathUtils.clamp(value, 0, 1);
+    if (mode === 'ease') return t * t * (3 - 2 * t);
+    if (mode === 'smooth') return t * t * (3 - 2 * t);
+    return t;
+  }
+  function interpolateCinematicCamera(from, to, t) {
+    if (!from || !to) return to || from;
+    const position = new THREE.Vector3().fromArray(from.position).lerp(new THREE.Vector3().fromArray(to.position), t);
+    const target = new THREE.Vector3().fromArray(from.target).lerp(new THREE.Vector3().fromArray(to.target), t);
+    const quaternion = new THREE.Quaternion().fromArray(from.quaternion).slerp(new THREE.Quaternion().fromArray(to.quaternion), t).normalize();
+    return { position: position.toArray(), target: target.toArray(), quaternion: quaternion.toArray(), fov: THREE.MathUtils.lerp(from.fov || 45, to.fov || 45, t) };
+  }
+  function setCinematicModelClip(shot, progress, playback) {
+    const clipIndex = Number.isInteger(shot.clipIndex) ? shot.clipIndex : -1;
+    if (!mixer || clipIndex < 0 || !clips[clipIndex]) {
+      if (playback.currentClipIndex !== -1) {
+        mixer?.stopAllAction(); activeAction = null; activeIndex = -1; playing = false; playback.currentClipIndex = -1;
+      }
+      return;
+    }
+    if (playback.currentClipIndex !== clipIndex) {
+      mixer.stopAllAction(); activeIndex = clipIndex;
+      activeAction = mixer.clipAction(clips[clipIndex]); activeAction.reset();
+      activeAction.setLoop(THREE.LoopOnce, 1); activeAction.clampWhenFinished = true; activeAction.play(); activeAction.paused = true;
+      playing = false; playback.currentClipIndex = clipIndex;
+      renderClips();
+    }
+    const clip = clips[clipIndex], start = THREE.MathUtils.clamp(Number(shot.clipStart) || 0, 0, clip.duration), end = THREE.MathUtils.clamp(Number(shot.clipEnd) || 0, 0, clip.duration);
+    activeAction.time = THREE.MathUtils.clamp(THREE.MathUtils.lerp(start, end, progress), 0, clip.duration);
+    activeAction.paused = true; mixer.update(0);
+  }
+  function startCinematicPlayback() {
+    if (!cinematicShots.length) { showToast('Add at least one shot before previewing the sequence.', true); return; }
+    if (cinematicPlayback) stopCinematicPlayback(true);
+    const saved = {
+      activeIndex, activeAction, actionTime: activeAction?.time || 0, playing, loop, speed,
+      camera: captureCameraKey(0), environment: captureEnvironmentKey(0), controlsEnabled: controls.enabled
+    };
+    if (activeAction) activeAction.paused = true;
+    playing = false; controls.enabled = false;
+    cinematicPlayback = { playing: true, elapsed: 0, currentClipIndex: null, saved };
+    $('cinematicPlaybackStatus').textContent = 'Playing cinematic sequence…';
+    $('cinematicProgressBar').style.width = '0%';
+    renderCinematicSequencer();
+    updateCinematicPlayback(0);
+  }
+  function stopCinematicPlayback(restore = true) {
+    const playback = cinematicPlayback; if (!playback) return;
+    cinematicPlayback = null;
+    if (restore) {
+      mixer?.stopAllAction();
+      activeIndex = playback.saved.activeIndex;
+      activeAction = playback.saved.activeAction;
+      loop = playback.saved.loop; speed = playback.saved.speed; playing = playback.saved.playing;
+      if (activeAction && activeIndex >= 0 && clips[activeIndex]) {
+        activeAction.reset();
+        activeAction.setLoop(pingPongPlayback ? THREE.LoopPingPong : (loop ? THREE.LoopRepeat : THREE.LoopOnce), pingPongPlayback || loop ? Infinity : 1);
+        activeAction.clampWhenFinished = true; activeAction.time = Math.min(clips[activeIndex].duration, playback.saved.actionTime);
+        activeAction.play(); activeAction.paused = !playing; mixer?.update(0);
+      } else { activeAction = null; playing = false; activeIndex = playback.saved.activeIndex; }
+      applyCinematicCameraState(playback.saved.camera);
+      applyEnvironmentKeyState(playback.saved.environment);
+      controls.enabled = playback.saved.controlsEnabled;
+      syncCameraEditor(); syncEnvironmentEditor(); renderClips(); updatePlaybackUi(); renderKeyframeEditor();
+    }
+    $('cinematicPlaybackStatus').textContent = 'Preview stopped. Editor state restored.';
+    renderCinematicSequencer(); renderFrame();
+  }
+  function updateCinematicPlayback(delta) {
+    const playback = cinematicPlayback; if (!playback?.playing || renderCapture?.preparing) return;
+    playback.elapsed += Math.max(0, delta);
+    const total = cinematicTotalDuration();
+    if (playback.elapsed >= total) {
+      $('cinematicProgressBar').style.width = '100%';
+      if (renderCapture?.sequence) stopAnimationRender();
+      else stopCinematicPlayback(true);
+      showToast('Cinematic sequence finished.', true);
+      return;
+    }
+    let remaining = playback.elapsed, shotIndex = 0;
+    while (shotIndex < cinematicShots.length - 1 && remaining >= Math.max(.5, Number(cinematicShots[shotIndex].duration) || 4)) {
+      remaining -= Math.max(.5, Number(cinematicShots[shotIndex].duration) || 4); shotIndex++;
+    }
+    const shot = cinematicShots[shotIndex], duration = Math.max(.5, Number(shot.duration) || 4);
+    const raw = THREE.MathUtils.clamp(remaining / duration, 0, 1);
+    let t = easeCinematicProgress(raw, shot.transition);
+    if (shot.transition === 'cut' || shotIndex === 0) t = 1;
+    let cameraState = shot.camera, environmentState = shot.environment;
+    if (shotIndex > 0 && shot.transition !== 'cut') {
+      const previous = cinematicShots[shotIndex - 1];
+      cameraState = interpolateCinematicCamera(previous.camera, shot.camera, t);
+      environmentState = interpolateSceneKey([{ ...previous.environment, time: 0 }, { ...shot.environment, time: 1 }], t);
+    }
+    applyCinematicCameraState(cameraState);
+    applyEnvironmentKeyState(environmentState);
+    setCinematicModelClip(shot, raw, playback);
+    const progress = total ? playback.elapsed / total * 100 : 0;
+    $('cinematicProgressBar').style.width = `${progress.toFixed(2)}%`;
+    $('cinematicPlaybackStatus').textContent = `Shot ${shotIndex + 1}/${cinematicShots.length} · ${shot.name || 'Untitled'} · ${remaining.toFixed(1)}s / ${duration.toFixed(1)}s`;
+  }
+  function beginCinematicRender() {
+    if (renderCapture) { stopAnimationRender(); return; }
+    if (!cinematicShots.length) { showToast('Add at least one shot before rendering.', true); return; }
+    if (!renderer.domElement.captureStream || !window.MediaRecorder) { showToast('This browser does not support video recording. Try a recent desktop version of Chrome.'); return; }
+    const mime = ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'].find(type => MediaRecorder.isTypeSupported(type));
+    if (!mime) { showToast('No supported WebM video format was found in this browser.'); return; }
+    const oldSize = renderer.getSize(new THREE.Vector2()), resolution = $('renderResolution')?.value || '1920x1080';
+    let width, height;
+    if (resolution === 'viewport') { width = Math.max(1, Math.round(window.innerWidth)); height = Math.max(1, Math.round(window.innerHeight)); }
+    else [width, height] = resolution.split('x').map(Number);
+    const maxSize = renderer.capabilities.maxTextureSize || 4096, scale = Math.min(1, maxSize / Math.max(width, height));
+    width = Math.max(1, Math.floor(width * scale)); height = Math.max(1, Math.floor(height * scale));
+    const state = { sequence: true, pixelRatio: renderer.getPixelRatio(), cameraAspect: camera.aspect, gridVisible: grid.visible, axesVisible: axes.visible, skeletonVisible: skeletonHelper?.visible, boxVisible: box.visible, helperVisible: tcHelper.visible, oldPipeline: renderPipelineActive, oldExposure: renderer.toneMappingExposure, oldShadowMap: renderer.shadowMap.enabled, oldBloom: renderBloomPass?.enabled, oldAO: renderSSAOPass?.enabled, oldWidth: oldSize.x, oldHeight: oldSize.y };
+    renderCapture = { ...state, preparing: true };
+    document.body.classList.add('rendering-video');
+    grid.visible = false; axes.visible = false; if (skeletonHelper) skeletonHelper.visible = false; box.visible = false; tcHelper.visible = false;
+    camera.aspect = width / height; camera.updateProjectionMatrix();
+    renderer.setPixelRatio(1); renderer.setSize(width, height, false);
+    configureRenderEffects(); renderPipelineActive = !!renderComposer;
+    if (renderComposer) { renderComposer.setPixelRatio(1); renderComposer.setSize(width, height); }
+    renderFrame();
+    const stream = renderer.domElement.captureStream(30), chunks = [];
+    const recorder = new MediaRecorder(stream, { mimeType: mime });
+    const sequenceName = ($('cinematicSequenceName').value || 'cinematic-sequence').trim().replace(/[^a-z0-9-_]+/gi, '-');
+    recorder.ondataavailable = event => { if (event.data?.size) chunks.push(event.data); };
+    recorder.onerror = event => { showToast('Cinematic render failed: ' + (event.error?.message || 'MediaRecorder error')); stopAnimationRender(); };
+    recorder.onstop = () => {
+      stream.getTracks().forEach(track => track.stop());
+      if (chunks.length) {
+        download(new Blob(chunks, { type: mime }), `${sequenceName || 'cinematic-sequence'}.webm`);
+        showToast(`Cinematic sequence rendered at ${width} × ${height} (WebM).`, true);
+      }
+    };
+    renderCapture.recorder = recorder; renderCapture.stream = stream;
+    $('cinematicDlg').close(); $('renderDlg').close();
+    startCinematicPlayback();
+    $('cinematicPlaybackStatus').textContent = `Rendering ${sequenceName} at 30 FPS · ${width} × ${height}. Press Escape to stop.`;
+    $('renderStatus').textContent = `Rendering cinematic sequence at 30 FPS · ${width} × ${height}. Press Escape to stop.`;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (!renderCapture || renderCapture.recorder !== recorder) return;
+      renderCapture.preparing = false; recorder.start(250);
+    }));
+  }
 
   /* ---------- camera and environment animation tracks ---------- */
   function sceneAnimationStorageKey() { return 'me-scene-animation:' + encodeURIComponent(info?.filename || 'untitled-scene'); }
@@ -2056,6 +2465,7 @@ body.rendering-video dialog{display:none!important}
   /* ---------- model lifecycle ---------- */
   function disposeModel() {
     if (renderCapture) stopAnimationRender();
+    else if (cinematicPlayback) stopCinematicPlayback(true);
     tc.detach(); box.visible = false; selected = null;
     mixer?.stopAllAction();
     if (skeletonHelper) { scene.remove(skeletonHelper); skeletonHelper.dispose?.(); skeletonHelper = null; }
@@ -2068,7 +2478,7 @@ body.rendering-video dialog{display:none!important}
     }
     modelFrame = modelRoot = mixer = activeAction = null;
     terrainState.mesh = null; terrainState.active = false; terrainState.stroke = null;
-    clips = []; activeIndex = -1; playing = false; info = null; isolated = null; cameraKeysByClip.clear(); environmentKeysByClip.clear();
+    clips = []; activeIndex = -1; playing = false; info = null; isolated = null; cameraKeysByClip.clear(); environmentKeysByClip.clear(); cinematicShots = []; selectedCinematicShot = -1;
     selectedTrackIndex = -1; selectedKeyframe = null;
   }
   function installModel(root, animations, filename, filesize) {
@@ -2098,6 +2508,7 @@ body.rendering-video dialog{display:none!important}
     info = { filename, filesize, ...st };
     clips = (animations || []).filter(a => a?.tracks?.length);
     restoreSceneAnimationKeys();
+    restoreCinematicSequence();
     mixer = clips.length ? new THREE.AnimationMixer(root) : null;
     mixer?.addEventListener('finished', () => { if (!loop) { playing = false; if (activeAction) activeAction.paused = true; updatePlaybackUi(); } });
     expanded.clear(); expanded.add(root.uuid); root.children.forEach(c => expanded.add(c.uuid));
@@ -3553,6 +3964,7 @@ body.rendering-video dialog{display:none!important}
     $('editorToolDivider').style.display = m === 'editor' ? 'block' : 'none';
     renderProps(); renderOutliner();
     if (m === 'editor') enterFlyMode(true);
+    else { $('editorObjectSearch').value = ''; filterEditorObjects(); }
   }
 
   /* ---------- texture editor ---------- */
@@ -3908,6 +4320,7 @@ body.rendering-video dialog{display:none!important}
   function stopAnimationRender() {
     if (!renderCapture) return;
     const state=renderCapture; renderCapture=null;
+    if (state.sequence && cinematicPlayback) stopCinematicPlayback(true);
     document.body.classList.remove('rendering-video');
     disableRenderEffects();
     grid.visible=state.gridVisible; axes.visible=state.axesVisible;
@@ -3923,7 +4336,7 @@ body.rendering-video dialog{display:none!important}
     camera.aspect=state.cameraAspect; camera.updateProjectionMatrix();
     if (state.recorder && state.recorder.state!=='inactive') state.recorder.stop();
     else state.stream?.getTracks().forEach(t=>t.stop());
-    if (activeAction && state.clipIndex===activeIndex) {
+    if (!state.sequence && activeAction && state.clipIndex===activeIndex) {
       activeAction.setLoop(pingPongPlayback?THREE.LoopPingPong:(loop?THREE.LoopRepeat:THREE.LoopOnce),pingPongPlayback||loop?Infinity:1);
       activeAction.clampWhenFinished=true;
       activeAction.time=Math.min(clips[activeIndex]?.duration||0,state.previousTime);
@@ -4020,6 +4433,26 @@ body.rendering-video dialog{display:none!important}
   $('skyboxUploadBtn').onclick = () => {$('skyboxUploadInput').value='';$('skyboxUploadInput').click();};
   $('skyboxUploadInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)applySkyFile(file);});
   $('skyboxClearBtn').onclick = () => {if(activeSkyTexture){const url=activeSkyTexture.userData?.editorSkyURL;activeSkyTexture.dispose();if(url)URL.revokeObjectURL(url);activeSkyTexture=null;}scene.background=null;scene.environment=null;activeSkyPreset='';$('skyboxDlg').close();showToast('Skybox cleared.',true);};
+  $('sequencerOpenBtn').onclick = () => { renderCinematicSequencer(); $('cinematicDlg').showModal(); };
+  $('cinematicClose').onclick = $('cinematicDoneBtn').onclick = () => $('cinematicDlg').close();
+  $('cinematicDlg').addEventListener('click', event => { if (event.target === $('cinematicDlg')) $('cinematicDlg').close(); });
+  $('cinematicSequenceName').addEventListener('change', persistCinematicSequence);
+  $('cinematicAddShotBtn').onclick = addCinematicShot;
+  $('cinematicApplyShotBtn').onclick = applyCinematicShotSettings;
+  $('cinematicUpdateViewBtn').onclick = updateCinematicShotView;
+  $('cinematicDuplicateBtn').onclick = duplicateCinematicShot;
+  $('cinematicMoveUpBtn').onclick = () => moveCinematicShot(-1);
+  $('cinematicMoveDownBtn').onclick = () => moveCinematicShot(1);
+  $('cinematicDeleteBtn').onclick = deleteCinematicShot;
+  $('cinematicClearBtn').onclick = clearCinematicSequence;
+  $('cinematicPlayBtn').onclick = startCinematicPlayback;
+  $('cinematicStopBtn').onclick = () => { if (renderCapture?.sequence) stopAnimationRender(); else stopCinematicPlayback(true); };
+  $('cinematicRenderBtn').onclick = beginCinematicRender;
+  $('cinematicShotClip').addEventListener('change', () => {
+    const clip = clips[Number($('cinematicShotClip').value)];
+    if (clip) { $('cinematicClipStart').value = 0; $('cinematicClipEnd').value = clip.duration.toFixed(2); }
+    else { $('cinematicClipStart').value = 0; $('cinematicClipEnd').value = 0; }
+  });
   $('renderBtn').onclick = () => $('renderDlg').showModal();
   $('renderClose').onclick = () => $('renderDlg').close();
   $('renderStillBtn').onclick = () => {$('renderDlg').close();renderStillImage();};
@@ -4096,6 +4529,11 @@ body.rendering-video dialog{display:none!important}
   $('resetBtn').onclick = resetView;
   document.querySelectorAll('#modeSeg button').forEach(b => b.onclick = () => applyMode(b.dataset.mode));
   document.querySelectorAll('[data-editor-add]').forEach(b=>b.addEventListener('click',()=>addEditorPreset(b.dataset.editorAdd)));
+  function filterEditorObjects(){const q=($('editorObjectSearch')?.value||'').trim().toLowerCase();let n=0;document.querySelectorAll('#editorObjectGrid [data-editor-add]').forEach(card=>{const show=!q||(card.dataset.search+' '+card.textContent).toLowerCase().includes(q);card.hidden=!show;if(show)n++;});$('editorObjectCount').textContent=`${n} object${n===1?'':'s'}`;}
+  $('editorObjectSearch').addEventListener('input',filterEditorObjects);
+  $('editorDuplicateBtn').onclick=duplicate;
+  $('editorBrowserUploadBtn').onclick=()=>{$('decorationInput').value='';$('decorationInput').click();};
+  $('editorLeaveModeBtn').onclick=()=>applyMode('complex');
   $('editorUploadAssetBtn').onclick=()=>{$('decorationInput').value='';$('decorationInput').click();};
   document.querySelectorAll('[data-act]').forEach(b => b.onclick = () => {
     if (!selected) { showToast('Select an object first.', true); return; }
@@ -4226,6 +4664,7 @@ body.rendering-video dialog{display:none!important}
     '?': () => $('helpDlg').showModal()
   };
   addEventListener('keydown', e => {
+    if (renderCapture && e.key === 'Escape') { e.preventDefault(); stopAnimationRender(); return; }
     if (/INPUT|SELECT|TEXTAREA/.test(e.target.tagName) && e.target.type !== 'range') return;
     if ($('helpDlg').open || $('tutorialDlg').open || e.altKey) return;
     const k = e.key.toLowerCase();
@@ -4239,7 +4678,7 @@ body.rendering-video dialog{display:none!important}
     }
     if (e.ctrlKey || e.metaKey) {
       if (k === 'o') { e.preventDefault(); openFiles(); return; }
-      if (k === 'd' && isComplex()) { e.preventDefault(); duplicate(); return; }
+      if (k === 'd' && (isComplex() || flyMode)) { e.preventDefault(); duplicate(); return; }
       if (k === 'z') { e.preventDefault(); e.shiftKey ? redo() : undo(); }
       else if (k === 'y') { e.preventDefault(); redo(); }
       return;
@@ -4261,8 +4700,10 @@ body.rendering-video dialog{display:none!important}
   function animate() {
     requestAnimationFrame(animate);
     const delta = Math.min(clock.getDelta(), 0.1);
-    if (flyMode) updateFlyMovement(delta);
-    if (mixer && activeAction && playing) {
+    if (flyMode && !cinematicPlayback?.playing) updateFlyMovement(delta);
+    if (cinematicPlayback?.playing) {
+      updateCinematicPlayback(delta);
+    } else if (mixer && activeAction && playing) {
       mixer.update(delta * speed);
       const now = performance.now();
       // Updating text, sliders and the keyframe editor at 10 Hz avoids expensive DOM churn at 60 FPS.
@@ -4270,16 +4711,17 @@ body.rendering-video dialog{display:none!important}
         updateTimeline();
         lastPlaybackUiUpdate = now;
       }
-      if (renderCapture && activeAction.time >= clips[activeIndex].duration - 0.02) stopAnimationRender();
+      if (renderCapture && !renderCapture.sequence && activeAction.time >= clips[activeIndex].duration - 0.02) stopAnimationRender();
     }
-    if (controls.enabled) controls.update();
-    if (mixer && activeAction && playing) applySceneAnimationKeys(activeAction.time);
+    if (controls.enabled && !cinematicPlayback?.playing) controls.update();
+    if (!cinematicPlayback?.playing && mixer && activeAction && playing) applySceneAnimationKeys(activeAction.time);
     renderFrame();
   }
   setupCompactControls();
   setAnimationPerformanceMode(animationPerformanceMode, false);
   renderProps(); renderOutliner(); renderClips(); updatePlaybackUi(); renderKeyframeEditor(); renderAddonBrowser(); renderMaterialTemplates();
   refreshLibraryData();
+  renderCinematicSequencer();
   animate();
   // Load the repository's real studio HDRI as the default environment.
   applySkyPreset('studio').then(()=>syncEnvironmentEditor());
