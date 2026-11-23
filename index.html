@@ -423,9 +423,9 @@ body{font-size:12px;background:var(--bg)}
 
 
 /* Workspace additions: modal Library, Editor mode, baseplate, camera and environment tracks. */
-.library-page{position:fixed;inset:auto;margin:auto;width:min(1180px,calc(100vw - 36px));height:min(820px,calc(100dvh - 48px));max-width:none;max-height:none;display:none;flex-direction:column;min-height:0;overflow:hidden;background:var(--bg);padding:clamp(14px,2vw,24px);gap:12px;border:1px solid var(--line);border-radius:16px;color:var(--text);box-shadow:0 24px 90px #0009}
+.library-page{position:fixed;inset:0;margin:auto;width:min(1180px,calc(100vw - 36px));height:min(820px,calc(100dvh - 48px));max-width:calc(100vw - 36px);max-height:calc(100dvh - 48px);display:none;flex-direction:column;min-height:0;overflow:hidden;background:linear-gradient(180deg,var(--panel2),var(--panel));padding:clamp(14px,2vw,24px);gap:12px;border:1px solid var(--line);border-radius:16px;color:var(--text);box-shadow:0 24px 90px #0009}
 .library-page[open]{display:flex}
-.library-page::backdrop{background:#02040bcc;backdrop-filter:blur(5px)}
+.library-page::backdrop{background:rgba(4,7,16,.58);backdrop-filter:blur(3px)}
 .editor-mode-tool{display:none!important}
 [data-mode=editor] .editor-mode-tool{display:flex!important}
 .editor-mode-tool.btn{width:32px;height:32px;padding:0;justify-content:center;font-size:15px}
@@ -447,7 +447,7 @@ body.rendering-video .viewer{position:fixed;inset:0;width:100vw;height:100dvh;z-
 body.rendering-video #canvasHost{position:fixed;inset:0;width:100vw;height:100dvh;z-index:1000}
 body.rendering-video #canvasHost canvas{width:100%!important;height:100%!important}
 body.rendering-video dialog{display:none!important}
-@media(max-width:720px){.library-page{width:calc(100vw - 16px);height:calc(100dvh - 24px);padding:11px;gap:8px}.environment-grid,.camera-grid,.baseplate-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:720px){.library-page{width:calc(100vw - 16px);height:calc(100dvh - 24px);max-width:calc(100vw - 16px);max-height:calc(100dvh - 24px);padding:11px;gap:8px}.environment-grid,.camera-grid,.baseplate-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:480px){.environment-grid,.camera-grid,.baseplate-grid{grid-template-columns:1fr}}
 
 /* Cinematic shot sequencer */
@@ -590,7 +590,7 @@ body.rendering-video dialog{display:none!important}
         <h1>Drop a model to start editing</h1>
         <p>FBX, GLB, GLTF, OBJ, STL or Blender (.blend). Textures and .bin files can be dropped together with the model.</p>
         <div class="chips"><span>1 Import</span><span>2 Select &amp; edit</span><span>3 Export GLB</span></div>
-        <div class="acts" style="margin-top:16px"><button class="btn primary" id="importWelcome">Import model</button><button class="btn" id="folderWelcome">Open folder</button><button class="btn" id="demoButton">Load Demo.fbx</button></div>
+        <div class="acts" style="margin-top:16px"><button class="btn primary" id="importWelcome">Import model</button><button class="btn" id="folderWelcome">Open folder</button><button class="btn" id="demoButton">Load Demo.fbx</button><button class="btn" id="templateWelcome" title="Start with a simple editable cube">Template</button></div>
       </div>
       <div id="toast" role="alert" title="Click to dismiss"></div>
       <div class="navigation-hud" id="navigationHud"><span id="navigationInstructions">WASD move · Hold right mouse to look · Shift faster · Space/E up · Q/Ctrl down</span><button class="btn" id="exitFlyBtn">Exit Fly</button></div>
@@ -3580,6 +3580,33 @@ body.rendering-video dialog{display:none!important}
     commit(() => { parent.remove(o); if (selected === o) select(null); else renderOutliner(); }, () => { parent.add(o); renderOutliner(); });
     select(o);
   }
+  function loadCubeTemplate() {
+    const root = new THREE.Group();
+    root.name = 'Template';
+    const cube = new THREE.Mesh(
+      new THREE.BoxGeometry(1, 1, 1),
+      new THREE.MeshStandardMaterial({ color: 0xb9c3e0, roughness: 0.6, metalness: 0.1 })
+    );
+    cube.name = 'Cube';
+    cube.castShadow = true;
+    cube.receiveShadow = true;
+    root.add(cube);
+    installModel(root, [], 'Template', 0);
+    // Keep the starter cube at a familiar one-unit size rather than scaling it to fill the viewport.
+    modelFrame.scale.setScalar(1);
+    grid.position.y = -0.525;
+    if (groundPlane.parent === scene) groundPlane.position.y = grid.position.y - 0.035;
+    modelFrame.updateMatrixWorld(true);
+    applyShading();
+    select(cube);
+    frame(cube);
+    refreshStats();
+    renderOutliner();
+    document.title = 'Template · Model Editor';
+    setStatus('Cube template ready');
+    showToast('Cube template loaded. Select the cube to edit it.', true);
+  }
+
   function cloneEditableObject(source) {
     const clone = source.clone(true), sourceMeshes = [], cloneMeshes = [];
     source.traverse(x => { if (x.isMesh) sourceMeshes.push(x); });
@@ -4561,6 +4588,7 @@ body.rendering-video dialog{display:none!important}
   folderInput.addEventListener('change', e => loadFiles(e.target.files));
   for (const id of ['importTop', 'importWelcome']) $(id).onclick = openFiles;
   for (const id of ['folderTop', 'folderWelcome']) $(id).onclick = openFolder;
+  $('templateWelcome').onclick = loadCubeTemplate;
   let dragCounter = 0;
   const hasFiles = (e) => Array.from(e.dataTransfer?.types || []).includes('Files');
   document.addEventListener('dragenter', e => { e.preventDefault(); if (!hasFiles(e)) return; dragCounter++; viewer.classList.add('dragover'); });
