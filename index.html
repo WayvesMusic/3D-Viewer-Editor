@@ -328,6 +328,65 @@ body{font-size:12px;background:var(--bg)}
   .keyframe-title{display:none}
 }
 
+
+/* ---------- Texture, UV, skybox, render and persistent Library workspace ---------- */
+.editor-dialog{width:min(760px,calc(100% - 24px));max-width:min(760px,calc(100% - 24px));max-height:90vh;overflow:auto}
+.uv-dialog{width:min(760px,calc(100% - 24px));max-width:min(760px,calc(100% - 24px));max-height:94vh;overflow:auto}
+.uv-controls,.texture-editor-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:10px 0}
+.uv-controls label,.texture-editor-grid label{display:flex;flex-direction:column;gap:4px;color:var(--muted);font-size:11px;min-width:0}
+.uv-controls input,.texture-editor-grid input,.texture-editor-grid select{width:100%;height:30px;min-width:0;padding:0 7px;background:var(--field);border:1px solid var(--line);border-radius:6px}
+.texture-property{display:grid;grid-template-columns:72px minmax(0,1fr);gap:9px;align-items:center;margin-top:8px;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--panel2)}
+.texture-property img,.texture-placeholder{width:72px;height:64px;object-fit:cover;border-radius:6px;background:var(--field);border:1px solid var(--line)}
+.texture-placeholder{display:grid;place-items:center;color:var(--muted);font-size:22px}
+.texture-property-info{min-width:0;display:flex;flex-direction:column;gap:5px}
+.texture-property-info b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px}
+.texture-property-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+.texture-property-actions .btn{height:25px;padding:0 7px;font-size:10px}
+.texture-select{width:100%;height:27px;background:var(--field);border:1px solid var(--line);border-radius:6px;font-size:10px}
+.texture-editor-preview{height:180px;display:grid;place-items:center;overflow:hidden;border:1px solid var(--line);border-radius:8px;background:linear-gradient(45deg,#202a40 25%,transparent 25%,transparent 75%,#202a40 75%),linear-gradient(45deg,#202a40 25%,#111827 25%,#111827 75%,#202a40 75%);background-size:24px 24px;background-position:0 0,12px 12px;color:var(--muted);margin:8px 0}
+.texture-editor-preview img{max-width:100%;max-height:100%;object-fit:contain}
+.skybox-presets{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:12px 0}
+.sky-preset{min-width:0;display:flex;flex-direction:column;gap:4px;text-align:left;padding:7px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;color:var(--text)}
+.sky-preset:hover{border-color:var(--accent)}
+.sky-preset b{font-size:11px}.sky-preset small{font-size:10px;color:var(--muted)}
+.sky-swatch{height:54px;border-radius:5px;border:1px solid #ffffff20;display:block}
+.sky-swatch.studio{background:linear-gradient(#8d98a7,#d6dbe1 55%,#858b92)}
+.sky-swatch.day{background:linear-gradient(#2873c8,#91c5ea 62%,#d7ddbe)}
+.sky-swatch.sunset{background:linear-gradient(#25254f,#d46c64 55%,#f4b16e)}
+.sky-swatch.overcast{background:linear-gradient(#657482,#b8c1c7 65%,#8b989b)}
+.sky-swatch.night{background:radial-gradient(circle at 70% 24%,#fff 0 1px,transparent 2px),radial-gradient(circle at 20% 40%,#d8e6ff 0 1px,transparent 2px),linear-gradient(#060b24,#17234b 70%,#111827)}
+.skybox-intensity{margin:12px 0}
+.render-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}
+.render-option{min-height:128px;display:flex;flex-direction:column;align-items:flex-start;gap:7px;padding:14px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;color:var(--text);text-align:left}
+.render-option>span{font-size:22px;color:var(--accent2)}.render-option b{font-size:13px}.render-option small{color:var(--muted);font-size:11px}
+.library-page{position:fixed;inset:44px 0 23px;z-index:20;display:flex;flex-direction:column;min-height:0;overflow:hidden;background:var(--bg);padding:clamp(14px,2vw,26px);gap:12px}
+.library-header{display:flex;align-items:center;gap:12px;min-width:0}.library-header h1{font-size:24px;margin:2px 0 1px}.library-header p{margin:0;color:var(--muted);font-size:12px}.library-kicker{font-size:9px;letter-spacing:.14em;color:var(--accent2);font-weight:700}
+.library-tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);padding-bottom:8px;flex:none}
+.library-tabs button{background:none;border:1px solid transparent;color:var(--muted);border-radius:6px;padding:7px 12px;font-size:12px}
+.library-tabs button.on{color:var(--text);background:var(--panel2);border-color:var(--line)}
+.library-section{min-height:0;overflow:auto;overscroll-behavior:contain;padding:2px 2px 16px}
+.library-toolbar{display:flex;gap:8px;align-items:center;margin-bottom:12px;max-width:900px}.library-toolbar .search{flex:1}.library-toolbar select{height:30px}
+.library-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;align-content:start}
+.library-asset{display:flex;flex-direction:column;gap:7px;padding:9px;background:var(--panel);border:1px solid var(--line);border-radius:9px;min-width:0}
+.library-asset-thumb{height:104px;border-radius:6px;background:var(--panel2);display:grid;place-items:center;overflow:hidden;color:var(--muted);font-size:30px}
+.library-asset-thumb img{width:100%;height:100%;object-fit:cover}
+.library-asset b{font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.library-asset small{font-size:10px;color:var(--muted)}
+.library-asset-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:auto}.library-asset-actions .btn{height:25px;padding:0 7px;font-size:10px}
+.library-intro h2{font-size:15px;margin:0 0 4px}.library-intro p{margin:0;color:var(--muted);font-size:12px}
+.material-template-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin:12px 0 18px}
+.material-template{display:flex;flex-direction:column;gap:7px;padding:9px;border:1px solid var(--line);background:var(--panel);border-radius:9px}
+.material-swatch{height:64px;border-radius:6px;border:1px solid #ffffff20}
+.material-template b{font-size:11px}.material-template small{font-size:10px;color:var(--muted)}
+.material-template .btn{height:26px;font-size:10px;margin-top:auto}
+.open-library-sources{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}
+.source-card{display:grid;grid-template-columns:42px minmax(0,1fr);gap:9px;padding:12px;border:1px solid var(--line);border-radius:9px;background:var(--panel)}
+.source-mark{width:38px;height:38px;display:grid;place-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:8px;font-size:12px;font-weight:800;color:var(--accent2)}
+.source-card h3{margin:0 0 4px;font-size:12px}.source-card p{margin:0 0 7px;color:var(--muted);font-size:11px;line-height:1.45}.source-card a{grid-column:2;color:var(--accent2);font-size:11px;text-decoration:none}.source-card a:hover{text-decoration:underline}
+.license-chip{display:inline-block;border:1px solid var(--line);border-radius:99px;padding:2px 7px;color:var(--ok);font-size:9px}
+.library-template-note{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px;border:1px solid var(--line);border-radius:9px;background:var(--panel)}.library-template-note span{color:var(--muted);font-size:11px;flex:1}
+@media(max-width:720px){.library-page{inset:44px 0 23px;padding:12px;gap:9px}.library-header h1{font-size:20px}.library-toolbar{flex-wrap:wrap}.library-toolbar .search{flex-basis:100%}.library-toolbar select{flex:1}.skybox-presets{grid-template-columns:repeat(3,minmax(0,1fr))}.uv-controls,.texture-editor-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.render-options,.open-library-sources{grid-template-columns:1fr}.source-card{grid-template-columns:38px minmax(0,1fr)}}
+
 </style>
 <script type="importmap">
 {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}
@@ -345,6 +404,8 @@ body{font-size:12px;background:var(--bg)}
     <button class="btn cx" id="objBtn" title="Export as OBJ">OBJ</button>
     <button class="btn cx" id="stlBtn" title="Export as STL">STL</button>
     <button class="btn cx" id="addonsBtn" title="Browse and manage extensions">Extensions</button>
+    <button class="btn" id="renderBtn" title="Render an image or animation">Render</button>
+    <button class="btn" id="libraryOpenBtn" title="Open your local asset library">Library</button>
     <button class="btn" id="shotBtn" title="Save a PNG of the viewport">Screenshot</button>
     <span class="sp"></span>
     <select id="themeSelect" aria-label="Theme" title="Theme"><option value="midnight">Midnight</option><option value="violet">Violet</option><option value="emerald">Emerald</option><option value="daylight">Daylight</option></select>
@@ -363,6 +424,27 @@ body{font-size:12px;background:var(--bg)}
       <button class="btn" id="snapBtn" title="Snap to steps" aria-label="Snap"><svg viewBox="0 0 24 24"><path d="M6 3v8a6 6 0 0 0 12 0V3h-4v8a2 2 0 0 1-4 0V3z"/></svg></button>
       <button class="btn" id="frameBtn" title="Frame selected (F)" aria-label="Frame selected"><svg viewBox="0 0 24 24"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button>
       <hr class="cx">
+      <button class="btn cx" data-act="dup" title="Duplicate selected object" aria-label="Duplicate">⧉</button>
+      <button class="btn cx" data-act="del" title="Delete selected object" aria-label="Delete">⌫</button>
+      <button class="btn cx" data-act="applyScale" title="Apply scale" aria-label="Apply scale">⇱</button>
+      <button class="btn cx" data-act="applyRotation" title="Apply rotation" aria-label="Apply rotation">⟳</button>
+      <button class="btn cx" data-act="reset" title="Reset transform" aria-label="Reset transform">↺</button>
+      <button class="btn cx" data-act="hide" title="Hide selected object" aria-label="Hide selected">◌</button>
+      <button class="btn cx" data-act="floor" title="Drop to floor" aria-label="Drop to floor">⇩</button>
+      <button class="btn cx" data-act="unparent" title="Unparent object" aria-label="Unparent">↗</button>
+      <button class="btn cx" data-act="origin" title="Move origin to geometry center" aria-label="Origin to center">⊙</button>
+      <button class="btn cx" data-act="mx" title="Mirror X" aria-label="Mirror X">⇆</button>
+      <button class="btn cx" data-act="my" title="Mirror Y" aria-label="Mirror Y">⇅</button>
+      <button class="btn cx" data-act="mz" title="Mirror Z" aria-label="Mirror Z">⇄</button>
+      <button class="btn cx" data-act="smooth" title="Smooth shading" aria-label="Smooth shading">◒</button>
+      <button class="btn cx" data-act="flat" title="Flat shading" aria-label="Flat shading">◧</button>
+      <button class="btn cx" data-act="isolate" title="Isolate selection" aria-label="Isolate">◉</button>
+      <button class="btn cx" id="revealAllBtn" title="Reveal all objects" aria-label="Reveal all">◎</button>
+      <button class="btn cx" id="spaceBtn" title="Toggle local transform space" aria-label="Transform space">⌖</button>
+      <hr class="cx">
+      <button class="btn cx" id="uvEditorBtn" title="Open UV map editor" aria-label="UV editor">▦</button>
+      <button class="btn cx" id="textureEditorBtn" title="Edit selected texture" aria-label="Texture editor">▧</button>
+      <button class="btn cx" id="skyboxEditorBtn" title="Edit skybox and lighting" aria-label="Skybox editor">☼</button>
       <button class="btn cx" id="measureToggleBtn" title="Measure distance" aria-label="Measure distance">⌖</button>
     </nav>
     <main class="viewer" id="viewer">
@@ -393,7 +475,44 @@ body{font-size:12px;background:var(--bg)}
         <div class="addon-footer"><button class="btn" id="installLocalAddon">Install JavaScript extension…</button><button class="btn" id="openBlenderExtensions">Browse Blender Extensions ↗</button><span class="sp"></span><button class="btn primary" id="addonDone">Done</button></div>
         <p class="addon-notice">Bundled extensions run inside this editor. Native Blender Python add-ons cannot run in a browser. A custom .js/.mjs file must default-export an object like { id, name, version, description, activate(api) }. The activate function can call api.registerTool({ id, label, description, run(context) }) and return a cleanup function. Custom JavaScript runs with this page's permissions, so only install code you trust. Third-party extensions are session-only and must be re-selected after refreshing.</p>
       </dialog>
-      <dialog id="uvDlg" class="uv-dialog"><h3>UV Layout Inspector</h3><p class="addon-notice" id="uvInfo">Selected mesh UV map</p><canvas id="uvCanvas" width="800" height="800"></canvas><p style="text-align:right;margin:10px 0 0"><button class="btn primary" id="uvClose">Close</button></p></dialog>
+      <dialog id="uvDlg" class="uv-dialog">
+        <div class="addon-head"><div><h3>UV Map Editor</h3><div class="addon-meta" id="uvInfo">Selected mesh UV map</div></div><span class="sp"></span><button class="btn ico" id="uvClose" aria-label="Close UV editor">×</button></div>
+        <canvas id="uvCanvas" width="800" height="800"></canvas>
+        <div class="uv-controls">
+          <label>Scale U<input id="uvScaleU" type="number" step="0.05" value="1"></label><label>Scale V<input id="uvScaleV" type="number" step="0.05" value="1"></label>
+          <label>Offset U<input id="uvOffsetU" type="number" step="0.01" value="0"></label><label>Offset V<input id="uvOffsetV" type="number" step="0.01" value="0"></label>
+        </div>
+        <div class="addon-footer"><button class="btn" id="uvPlanarBtn">Planar from top</button><button class="btn" id="uvResetBtn">Reset UVs</button><span class="sp"></span><button class="btn primary" id="uvApplyBtn">Apply transform</button></div>
+      </dialog>
+      <dialog id="textureEditorDlg" class="editor-dialog">
+        <div class="addon-head"><div><h3>Texture Editor</h3><div class="addon-meta" id="textureEditorInfo">Selected material texture</div></div><span class="sp"></span><button class="btn ico" id="textureEditorClose" aria-label="Close texture editor">×</button></div>
+        <div class="texture-editor-preview" id="textureEditorPreview"><span>No texture assigned</span></div>
+        <div class="texture-editor-grid">
+          <label>Texture channel<select id="textureEditorSlot"><option value="map">Base Color</option><option value="roughnessMap">Roughness</option><option value="metalnessMap">Metalness</option><option value="normalMap">Normal</option><option value="aoMap">Ambient Occlusion</option><option value="emissiveMap">Emissive</option><option value="alphaMap">Opacity</option></select></label>
+          <label>Repeat U<input id="texRepeatU" type="number" min="0.01" step="0.1" value="1"></label><label>Repeat V<input id="texRepeatV" type="number" min="0.01" step="0.1" value="1"></label>
+          <label>Offset U<input id="texOffsetU" type="number" step="0.01" value="0"></label><label>Offset V<input id="texOffsetV" type="number" step="0.01" value="0"></label>
+          <label>Rotation °<input id="texRotation" type="number" step="5" value="0"></label>
+          <label>Wrap mode<select id="texWrap"><option value="repeat">Repeat</option><option value="clamp">Clamp</option><option value="mirror">Mirrored repeat</option></select></label>
+        </div>
+        <div class="addon-footer"><button class="btn" id="textureChooseBtn">Choose uploaded texture</button><button class="btn" id="textureUploadBtn">Upload texture…</button><span class="sp"></span><button class="btn primary" id="textureApplySettingsBtn">Apply settings</button></div>
+      </dialog>
+      <dialog id="skyboxDlg" class="editor-dialog">
+        <div class="addon-head"><div><h3>Skybox & Environment</h3><div class="addon-meta">Choose a lighting and background template or use your own panorama</div></div><span class="sp"></span><button class="btn ico" id="skyboxClose" aria-label="Close skybox editor">×</button></div>
+        <div class="skybox-presets" id="skyboxPresets">
+          <button class="sky-preset" data-sky-preset="studio"><span class="sky-swatch studio"></span><b>Studio</b><small>Neutral soft light</small></button>
+          <button class="sky-preset" data-sky-preset="day"><span class="sky-swatch day"></span><b>Clear day</b><small>Blue sky and sun</small></button>
+          <button class="sky-preset" data-sky-preset="sunset"><span class="sky-swatch sunset"></span><b>Sunset</b><small>Warm horizon</small></button>
+          <button class="sky-preset" data-sky-preset="overcast"><span class="sky-swatch overcast"></span><b>Overcast</b><small>Soft cloudy light</small></button>
+          <button class="sky-preset" data-sky-preset="night"><span class="sky-swatch night"></span><b>Night</b><small>Dark sky and stars</small></button>
+        </div>
+        <div class="field skybox-intensity"><span>Environment</span><input id="skyIntensity" type="range" min="0" max="2" step="0.05" value="1"><b id="skyIntensityValue">1.00</b></div>
+        <div class="addon-footer"><button class="btn" id="skyboxUploadBtn">Use panorama…</button><button class="btn" id="skyboxClearBtn">Clear skybox</button><span class="sp"></span><span class="addon-meta">Panoramic JPG, PNG or HDR recommended (2:1)</span></div>
+      </dialog>
+      <dialog id="renderDlg" class="editor-dialog render-dialog">
+        <div class="addon-head"><div><h3>Render</h3><div class="addon-meta">Save a still image or record the active animation</div></div><span class="sp"></span><button class="btn ico" id="renderClose" aria-label="Close render dialog">×</button></div>
+        <div class="render-options"><button class="render-option" id="renderStillBtn"><span>▣</span><b>Render image</b><small>Save the current viewport as a PNG image</small></button><button class="render-option" id="renderAnimationBtn"><span>▶</span><b>Render animation</b><small>Record the active animation as a WebM video</small></button></div>
+        <p class="addon-notice" id="renderStatus">Animation rendering requires an active animation clip and browser MediaRecorder support.</p>
+      </dialog>
       <dialog id="tutorialDlg" class="tutorial-dialog" aria-labelledby="tutorialTitle">
         <div class="tutorial-kicker" id="tutorialKicker">Getting started · 1 of 5</div>
         <h2 id="tutorialTitle">Welcome to Model Editor</h2>
@@ -401,7 +520,7 @@ body{font-size:12px;background:var(--bg)}
         <div class="tutorial-progress" id="tutorialProgress"><span class="active"></span><span></span><span></span><span></span><span></span></div>
         <div class="tutorial-footer"><button class="btn" id="tutorialSkip">Skip tutorial</button><span class="sp"></span><button class="btn" id="tutorialBack" disabled>Back</button><button class="btn primary" id="tutorialNext">Next</button></div>
       </dialog>
-      <dialog id="helpDlg"><h3>Keyboard shortcuts</h3><table><tr><td>Q / G / R / S</td><td>Select / Move / Rotate / Scale</td></tr><tr><td>F or Home</td><td>Frame selection / reset view</td></tr><tr><td>1 / 3 / 7</td><td>Front / Right / Top view</td></tr><tr><td>Fly / WASD</td><td>Free camera. Hold right mouse to look, Shift faster, Space/E up, Q/Ctrl down, Fly button to exit</td></tr><tr><td>Space</td><td>Play or pause (outside Fly mode)</td></tr><tr><td>Keyframe Editor</td><td>New Animation creates a clip. Set Key records the selected object transform at the playhead. Select a diamond to remove a key.</td></tr><tr><td>← →</td><td>Step one frame</td></tr><tr><td>H</td><td>Hide selected</td></tr><tr><td>Delete</td><td>Delete selected</td></tr><tr><td>Shift+D / Ctrl+D</td><td>Duplicate (Complex)</td></tr><tr><td>/</td><td>Isolate selection (Complex)</td></tr><tr><td>Extensions</td><td>Install and manage editor add-ons (Complex)</td></tr><tr><td>Ctrl+Z / Ctrl+Shift+Z</td><td>Undo / Redo</td></tr><tr><td>Ctrl+O</td><td>Import</td></tr><tr><td>N</td><td>Toggle side panel</td></tr><tr><td>T</td><td>Next theme</td></tr><tr><td>?</td><td>This help</td></tr></table><p style="text-align:right;margin:14px 0 0;display:flex;justify-content:flex-end;gap:8px"><button class="btn" id="tutorialReplayBtn">Tutorial</button><button class="btn primary" id="helpClose">Close</button></p></dialog>
+      <dialog id="helpDlg"><h3>Keyboard shortcuts</h3><table><tr><td>Q / G / R / S</td><td>Select / Move / Rotate / Scale</td></tr><tr><td>F or Home</td><td>Frame selection / reset view</td></tr><tr><td>1 / 3 / 7</td><td>Front / Right / Top view</td></tr><tr><td>Fly / WASD</td><td>Free camera. Hold right mouse to look, Shift faster, Space/E up, Q/Ctrl down, Fly button to exit</td></tr><tr><td>Space</td><td>Play or pause (outside Fly mode)</td></tr><tr><td>Keyframe Editor</td><td>New Animation creates a clip. Set Key records the selected object transform at the playhead. Select a diamond to remove a key.</td></tr><tr><td>← →</td><td>Step one frame</td></tr><tr><td>H</td><td>Hide selected</td></tr><tr><td>Delete</td><td>Delete selected</td></tr><tr><td>Shift+D / Ctrl+D</td><td>Duplicate (Complex)</td></tr><tr><td>/</td><td>Isolate selection (Complex)</td></tr><tr><td>Complex tools</td><td>Left toolbar includes modeling, UV, texture and skybox tools.</td></tr><tr><td>Library</td><td>Uploads are stored locally in this browser/device.</td></tr><tr><td>Render</td><td>Save a PNG or record the active animation as WebM.</td></tr><tr><td>Extensions</td><td>Install and manage editor add-ons (Complex)</td></tr><tr><td>Ctrl+Z / Ctrl+Shift+Z</td><td>Undo / Redo</td></tr><tr><td>Ctrl+O</td><td>Import</td></tr><tr><td>N</td><td>Toggle side panel</td></tr><tr><td>T</td><td>Next theme</td></tr><tr><td>?</td><td>This help</td></tr></table><p style="text-align:right;margin:14px 0 0;display:flex;justify-content:flex-end;gap:8px"><button class="btn" id="tutorialReplayBtn">Tutorial</button><button class="btn primary" id="helpClose">Close</button></p></dialog>
     </main>
     <section class="timeline" aria-label="Animation timeline and keyframe editor">
       <div class="tl-row">
@@ -432,25 +551,6 @@ body{font-size:12px;background:var(--bg)}
     <aside class="side">
       <section class="panel outl"><h2>Scene</h2><input class="search" id="filter" placeholder="Search objects" aria-label="Search objects"><div class="olist" id="outliner"></div></section>
       <section class="panel" id="propsPanel"><h2>Selected object</h2><div id="props"></div></section>
-      <section class="panel cx"><h2>Edit tools</h2><div class="grid2">
-        <button class="btn" data-act="dup" title="Duplicate (Shift+D)">Duplicate</button>
-        <button class="btn" data-act="del" title="Delete (Del)">Delete</button>
-        <button class="btn" data-act="reset">Reset transform</button>
-        <button class="btn" data-act="applyScale">Apply scale</button>
-        <button class="btn" data-act="applyRotation">Apply rotation</button>
-        <button class="btn" data-act="hide">Hide selected</button>
-        <button class="btn" id="revealAllBtn">Reveal all</button>
-        <button class="btn" data-act="floor">Drop to floor</button>
-        <button class="btn" data-act="unparent" title="Move to model root">Unparent</button>
-        <button class="btn" data-act="mx">Mirror X</button>
-        <button class="btn" data-act="my">Mirror Y</button>
-        <button class="btn" data-act="mz">Mirror Z</button>
-        <button class="btn" data-act="origin" title="Move origin to geometry center">Origin to center</button>
-        <button class="btn" data-act="smooth">Smooth shade</button>
-        <button class="btn" data-act="flat">Flat shade</button>
-        <button class="btn" data-act="isolate" title="Isolate selection (/)">Isolate</button>
-        <button class="btn" id="spaceBtn" title="Gizmo local space">Local space</button>
-      </div></section>
       <section class="panel cx" id="addonToolsPanel" hidden><h2>Extension tools</h2><div id="addonTools" class="addon-tools-grid"></div></section>
       <section class="panel cx"><h2>Scene settings</h2>
         <div class="field"><span>Exposure</span><input type="range" id="expRange" min="0.2" max="3" step="0.1" value="1.3"><b id="expVal">1.3</b></div>
@@ -460,9 +560,40 @@ body{font-size:12px;background:var(--bg)}
       </section>
     </aside>
   </div>
+  <section class="library-page hidden" id="libraryPage" aria-label="Asset Library">
+    <div class="library-header"><div><div class="library-kicker">LOCAL WORKSPACE</div><h1>Library</h1><p>Assets you upload are stored in this browser on this device.</p></div><span class="sp"></span><button class="btn" id="libraryBackBtn">← Back to editor</button></div>
+    <nav class="library-tabs" id="libraryTabs" aria-label="Library sections"><button class="on" data-library-tab="assets">My assets</button><button data-library-tab="materials">Material library</button><button data-library-tab="templates">Templates</button></nav>
+    <section class="library-section" id="libraryAssetsPane">
+      <div class="library-toolbar"><input class="search" id="librarySearch" placeholder="Search your assets" aria-label="Search library"><select id="libraryFilter"><option value="all">All assets</option><option value="image">Textures & images</option><option value="model">3D models</option><option value="other">Other files</option></select><button class="btn primary" id="libraryUploadBtn">＋ Upload files</button></div>
+      <div class="library-grid" id="libraryAssetGrid"><p class="empty">Your library is empty. Upload models, textures or other assets to keep them on this device.</p></div>
+    </section>
+    <section class="library-section hidden" id="libraryMaterialsPane">
+      <div class="library-intro"><h2>Material Library</h2><p>Apply a quick material preset to the selected object, or download CC0 texture maps from the open libraries below and import them into My assets.</p></div>
+      <div class="material-template-grid" id="materialTemplateGrid"></div>
+      <div class="open-library-sources">
+        <article class="source-card"><div class="source-mark">PH</div><div><h3>Poly Haven</h3><p>Photogrammetry PBR textures, HDRIs and 3D assets. All assets are CC0.</p><span class="license-chip">CC0 · Public domain dedication</span></div><a href="https://polyhaven.com/textures" target="_blank" rel="noopener noreferrer">Browse textures ↗</a></article>
+        <article class="source-card"><div class="source-mark">aCG</div><div><h3>ambientCG</h3><p>Free PBR materials, HDRIs and models. All downloadable assets are CC0.</p><span class="license-chip">CC0 · Public domain dedication</span></div><a href="https://ambientcg.com/list?type=Material" target="_blank" rel="noopener noreferrer">Browse materials ↗</a></article>
+      </div>
+      <p class="addon-notice">Download the texture maps you need (Base Color, Roughness, Normal and optional Metalness/AO), extract the downloaded archive, then use Upload files to add the image maps to My assets. Select an object, choose a texture channel (Base Color, Roughness, Metalness, Normal, AO, Emissive or Opacity) in Properties, then choose a downloaded image. Use Texture Editor to tune repeats, offsets and rotation for that channel.</p>
+    </section>
+    <section class="library-section hidden" id="libraryTemplatesPane">
+      <div class="library-intro"><h2>Scene templates</h2><p>Start with a lighting environment or a material setup. These templates are generated locally and do not require downloads.</p></div>
+      <div class="skybox-presets library-sky-presets">
+        <button class="sky-preset" data-library-sky="studio"><span class="sky-swatch studio"></span><b>Studio</b><small>Neutral product lighting</small></button>
+        <button class="sky-preset" data-library-sky="day"><span class="sky-swatch day"></span><b>Clear day</b><small>Bright outdoor lighting</small></button>
+        <button class="sky-preset" data-library-sky="sunset"><span class="sky-swatch sunset"></span><b>Sunset</b><small>Warm cinematic lighting</small></button>
+        <button class="sky-preset" data-library-sky="overcast"><span class="sky-swatch overcast"></span><b>Overcast</b><small>Soft neutral lighting</small></button>
+        <button class="sky-preset" data-library-sky="night"><span class="sky-swatch night"></span><b>Night</b><small>Dark environment</small></button>
+      </div>
+      <div class="library-template-note"><b>Material templates</b><span>Matte plastic · Polished metal · Rubber · Glass · Ceramic · Wood finish</span><button class="btn" data-library-tab="materials">Open material library</button></div>
+    </section>
+  </section>
   <footer class="status"><span class="dot" id="statusDot"></span><span id="statusLabel">Ready</span><span id="selLabel"></span><span class="sp"></span><span id="stats"></span><span class="hint">Q select · G move · R rotate · S scale · F frame · H hide · N panel</span></footer>
 </div>
-<input id="fileInput" type="file" accept=".fbx,.glb,.gltf,.obj,.stl,.blend,.mtl,.bin,.png,.jpg,.jpeg,.webp,.tga,.bmp,.gif,.ktx2" multiple hidden>
+<input id="fileInput" type="file" accept=".fbx,.glb,.gltf,.obj,.stl,.blend,.mtl,.bin,.png,.jpg,.jpeg,.webp,.tga,.bmp,.gif,.ktx2,.hdr,.exr" multiple hidden>
+<input id="textureUploadInput" type="file" accept="image/png,image/jpeg,image/webp,image/bmp,.tga" hidden>
+<input id="libraryUploadInput" type="file" accept="*/*" multiple hidden>
+<input id="skyboxUploadInput" type="file" accept="image/png,image/jpeg,image/webp,.hdr,.exr" hidden>
 <input id="folderInput" type="file" webkitdirectory directory multiple hidden>
 <input id="addonFileInput" type="file" accept=".js,.mjs,text/javascript" hidden>
 <script type="module">
@@ -475,6 +606,9 @@ body{font-size:12px;background:var(--bg)}
   import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
   import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
   import { STLLoader } from 'three/addons/loaders/STLLoader.js';
+  import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
+  import { EXRLoader } from 'three/addons/loaders/EXRLoader.js';
+  import { TGALoader } from 'three/addons/loaders/TGALoader.js';
   import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
   import { OBJExporter } from 'three/addons/exporters/OBJExporter.js';
   import { STLExporter } from 'three/addons/exporters/STLExporter.js';
@@ -494,7 +628,7 @@ body{font-size:12px;background:var(--bg)}
     [
       ['importTop','⇧','Import model (Ctrl+O)'], ['folderTop','▱','Open folder'],
       ['exportBtn','⇩','Export GLB'], ['objBtn','O','Export OBJ'], ['stlBtn','△','Export STL'],
-      ['addonsBtn','⌘','Extensions'], ['shotBtn','▣','Screenshot'],
+      ['addonsBtn','⌘','Extensions'], ['renderBtn','◉','Render image or animation'], ['libraryOpenBtn','▤','Open local Library'], ['shotBtn','▣','Screenshot'],
       ['flyModeBtn','✥','Free camera'], ['gridBtn','▦','Toggle grid'], ['skelBtn','♧','Toggle bones'], ['rotBtn','⟳','Toggle auto-rotate'],
       ['resetBtn','↺','Reset camera view'], ['playButton','▶','Play animation'], ['newClipBtn','＋','New animation'], ['deleteKeyframeBtn','×','Delete keyframe'],
       ['deleteTrackBtn','≡','Remove animation track'], ['deleteClipBtn','▤','Remove animation'],
@@ -711,6 +845,11 @@ body{font-size:12px;background:var(--bg)}
   const keyframePlayheadEls = [];
   let boxWasVisibleBeforePlayback = false, lastPlaybackUiUpdate = 0;
   let assetUrls = [], loadTicket = 0, toastTimeout, isolated = null, matBefore = null;
+  let textureAssets = [], libraryEntries = [], libraryDbPromise = null;
+  let activeTextureSlot = 'map', pendingTextureSlot = 'map';
+  const libraryObjectUrls = new Map(), loadedTextureCache = new Map();
+  let activeSkyTexture = null, activeSkyPreset = 'studio', skyEnvironmentIntensity = 1;
+  let renderCapture = null;
   let selected = null, tool = 'select', shading = 'material', past = [], future = [], dragBefore = null;
   let measurementMode = false, measureFirstPoint = null, pingPongPlayback = false;
   const externalAddons = new Map(), externalAddonTools = new Map();
@@ -907,6 +1046,133 @@ body{font-size:12px;background:var(--bg)}
   }
   $('filter').addEventListener('input', renderOutliner);
 
+  /* ---------- persistent on-device asset library ---------- */
+  const LIBRARY_DB_NAME = 'model-editor-local-library-v1';
+  const LIBRARY_STORE = 'assets';
+  function openLibraryDB() {
+    if (libraryDbPromise) return libraryDbPromise;
+    libraryDbPromise = new Promise((resolve, reject) => {
+      if (!('indexedDB' in window)) { reject(new Error('This browser does not support local asset storage.')); return; }
+      const request = indexedDB.open(LIBRARY_DB_NAME, 1);
+      request.onupgradeneeded = () => {
+        const db = request.result;
+        if (!db.objectStoreNames.contains(LIBRARY_STORE)) db.createObjectStore(LIBRARY_STORE, { keyPath: 'id' });
+      };
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error || new Error('Could not open local asset storage.'));
+    });
+    return libraryDbPromise;
+  }
+  function libraryKind(file) {
+    const e = ext(file.name);
+    if (file.type.startsWith('image/') || ['png','jpg','jpeg','webp','bmp','gif','tga','hdr','exr'].includes(e)) return 'image';
+    if (supported.has(e)) return 'model';
+    return 'other';
+  }
+  function fileId(file) {
+    return (crypto?.randomUUID ? crypto.randomUUID() : `asset-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+  }
+  async function saveFilesToLibrary(files) {
+    const db = await openLibraryDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(LIBRARY_STORE, 'readwrite');
+      const store = tx.objectStore(LIBRARY_STORE);
+      for (const file of files) {
+        if (!file || !file.name) continue;
+        store.put({ id: fileId(file), name: file.name, type: file.type || '', size: file.size || 0, lastModified: file.lastModified || Date.now(), createdAt: Date.now(), kind: libraryKind(file), blob: file });
+      }
+      tx.oncomplete = resolve;
+      tx.onerror = () => reject(tx.error || new Error('Could not save uploaded files.'));
+      tx.onabort = () => reject(tx.error || new Error('Saving uploaded files was cancelled.'));
+    });
+  }
+  async function readLibraryEntries() {
+    const db = await openLibraryDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(LIBRARY_STORE, 'readonly'), request = tx.objectStore(LIBRARY_STORE).getAll();
+      request.onsuccess = () => resolve((request.result || []).sort((a,b) => b.createdAt - a.createdAt));
+      request.onerror = () => reject(request.error || new Error('Could not read the local library.'));
+    });
+  }
+  async function deleteLibraryEntry(id) {
+    const db = await openLibraryDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(LIBRARY_STORE, 'readwrite'); tx.objectStore(LIBRARY_STORE).delete(id);
+      tx.oncomplete = resolve; tx.onerror = () => reject(tx.error);
+    });
+  }
+  function libraryURL(entry) {
+    if (!libraryObjectUrls.has(entry.id)) libraryObjectUrls.set(entry.id, URL.createObjectURL(entry.blob));
+    return libraryObjectUrls.get(entry.id);
+  }
+  async function refreshLibraryData() {
+    try {
+      libraryEntries = await readLibraryEntries();
+      textureAssets = libraryEntries.filter(a => a.kind === 'image');
+      renderLibraryPage();
+      if ($('props')) renderProps();
+    } catch (error) {
+      console.warn('Local asset library unavailable:', error);
+      if ($('libraryAssetGrid')) $('libraryAssetGrid').innerHTML = `<p class="empty">Local storage could not be opened: ${safeText(error.message)}</p>`;
+    }
+  }
+  function selectedMeshes() {
+    const meshes = [];
+    if (!selected) return meshes;
+    if (selected.isMesh) meshes.push(selected);
+    else selected.traverse(o => { if (o.isMesh) meshes.push(o); });
+    return meshes;
+  }
+  function firstSelectedMaterial() {
+    const mesh = selectedMeshes()[0];
+    if (!mesh) return null;
+    return Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+  }
+  function texturePreviewURL(texture) {
+    if (!texture?.image) return texture?.userData?.editorPreviewURL || '';
+    if (texture.userData?.editorPreviewURL) return texture.userData.editorPreviewURL;
+    const image = texture.image;
+    if (typeof image.currentSrc === 'string' && image.currentSrc) return image.currentSrc;
+    if (typeof image.src === 'string' && image.src) return image.src;
+    try {
+      const canvas = document.createElement('canvas'); canvas.width = image.width || 256; canvas.height = image.height || 256;
+      canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+      texture.userData.editorPreviewURL = canvas.toDataURL('image/png');
+      return texture.userData.editorPreviewURL;
+    } catch (e) { return ''; }
+  }
+  async function applyTextureAsset(entry, slot = pendingTextureSlot || 'map') {
+    if (!entry || entry.kind !== 'image' || ['hdr','exr'].includes(ext(entry.name))) { showToast('Choose a regular image texture (PNG, JPG or WebP). HDR/EXR files are for the skybox editor.', true); return; }
+    const targets = selectedMeshes();
+    if (!targets.length) { showToast('Select a mesh first to apply a texture.', true); return; }
+    const cacheKey = `${entry.id}:${slot}`;
+    let texture = loadedTextureCache.get(cacheKey);
+    if (!texture) {
+      const url = libraryURL(entry);
+      texture = await (ext(entry.name) === 'tga' ? new TGALoader() : new THREE.TextureLoader()).loadAsync(url);
+      texture.colorSpace = THREE.SRGBColorSpace;
+      texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+      texture.userData.editorPreviewURL = url;
+      texture.userData.libraryAssetId = entry.id;
+      texture.userData.libraryAssetName = entry.name;
+      loadedTextureCache.set(cacheKey, texture);
+    }
+    for (const mesh of targets) {
+      const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      for (const material of materials) {
+        if (!material) continue;
+        material[slot] = texture;
+        if (slot === 'map' || slot === 'emissiveMap') texture.colorSpace = THREE.SRGBColorSpace;
+        else texture.colorSpace = THREE.NoColorSpace;
+        material.needsUpdate = true;
+      }
+    }
+    renderProps();
+    pendingTextureSlot = slot;
+    if ($('textureEditorDlg').open) openTextureEditor();
+    showToast(`Applied ${entry.name} as ${slot.replace('Map','')} texture to ${targets.length} mesh${targets.length === 1 ? '' : 'es'}.`, true);
+  }
+
   /* ---------- properties ---------- */
   const kv = (a, b) => `<div class="kv"><span>${a}</span><b>${b}</b></div>`;
   function renderProps() {
@@ -922,7 +1188,21 @@ body{font-size:12px;background:var(--bg)}
       + row('Location', 'p', o.position.toArray(), 0.1)
       + row('Rotation', 'r', ['x', 'y', 'z'].map(a => THREE.MathUtils.radToDeg(o.rotation[a])), 5)
       + row('Scale', 's', o.scale.toArray(), 0.1)
+      + texturePropertiesHTML(o)
       + extra(o);
+  }
+  function texturePropertiesHTML(o) {
+    const mesh = o.isMesh ? o : (() => { let found = null; o.traverse(x => { if (!found && x.isMesh) found = x; }); return found; })();
+    if (!mesh) return '';
+    const m = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+    const slot = activeTextureSlot || 'map';
+    const texture = m?.[slot] || null;
+    const preview = texturePreviewURL(texture);
+    const image = preview ? `<img src="${safeText(preview)}" alt="Current texture preview">` : '<div class="texture-placeholder">▧</div>';
+    const name = texture?.userData?.libraryAssetName || (texture ? 'Imported texture' : 'No texture assigned');
+    const options = textureAssets.filter(a=>!['hdr','exr'].includes(ext(a.name))).map(a => `<option value="${safeText(a.id)}">${safeText(a.name)}</option>`).join('');
+    const slots = [['map','Base Color'],['roughnessMap','Roughness'],['metalnessMap','Metalness'],['normalMap','Normal'],['aoMap','Ambient Occlusion'],['emissiveMap','Emissive'],['alphaMap','Opacity']].map(([v,l])=>`<option value="${v}" ${slot===v?'selected':''}>${l}</option>`).join('');
+    return `<div style="margin-top:12px"><h2>Texture</h2><div class="texture-property">${image}<div class="texture-property-info"><b title="${safeText(name)}">${safeText(name)}</b><select class="texture-select" id="textureSlotSelect" aria-label="Texture channel">${slots}</select><select class="texture-select" id="textureAssetSelect" aria-label="Choose an imported texture"><option value="">Choose from Library…</option>${options}</select></div></div><div class="texture-property-actions"><button class="btn" type="button" id="texturePropertyUpload">Upload texture</button><button class="btn" type="button" id="texturePropertyEdit">Texture editor</button><button class="btn" type="button" id="texturePropertyUV">UV editor</button></div></div>`;
   }
   const isComplex = () => document.documentElement.dataset.mode === 'complex';
   const matOf = (o) => { const m = o.userData.mat || o.material; return Array.isArray(m) ? m[0] : m; };
@@ -948,6 +1228,15 @@ body{font-size:12px;background:var(--bg)}
     if (st.m !== undefined) m.metalness = st.m;
     m.opacity = st.o; if (st.o < 1) m.transparent = true; m.needsUpdate = true;
   };
+  $('props').addEventListener('click', e => {
+    if (e.target.closest('#texturePropertyUpload')) { pendingTextureSlot=activeTextureSlot; $('textureUploadInput').value = ''; $('textureUploadInput').click(); }
+    if (e.target.closest('#texturePropertyEdit')) { $('textureEditorSlot').value=activeTextureSlot; openTextureEditor(); }
+    if (e.target.closest('#texturePropertyUV')) drawUVInspector();
+  });
+  $('props').addEventListener('change', e => {
+    if (e.target.id === 'textureSlotSelect') { activeTextureSlot=e.target.value||'map'; pendingTextureSlot=activeTextureSlot; renderProps(); return; }
+    if (e.target.id === 'textureAssetSelect' && e.target.value) { const asset = textureAssets.find(a => a.id === e.target.value); if (asset) applyTextureAsset(asset,activeTextureSlot).catch(error=>showToast('Could not load texture: '+(error?.message||error))); }
+  });
   $('props').addEventListener('input', (e) => {
     const t = e.target, k = t.dataset.m;
     if (!k || !selected?.isMesh) return;
@@ -1122,6 +1411,7 @@ body{font-size:12px;background:var(--bg)}
   }
 
   function selectClip(index, autoplay = true) {
+    if (renderCapture) stopAnimationRender();
     if (!mixer || !clips[index]) return;
     if (activeAction) activeAction.stop();
     activeIndex = index;
@@ -1348,6 +1638,7 @@ body{font-size:12px;background:var(--bg)}
 
   /* ---------- model lifecycle ---------- */
   function disposeModel() {
+    if (renderCapture) stopAnimationRender();
     tc.detach(); box.visible = false; selected = null;
     mixer?.stopAllAction();
     if (skeletonHelper) { scene.remove(skeletonHelper); skeletonHelper.dispose?.(); skeletonHelper = null; }
@@ -2014,11 +2305,19 @@ body{font-size:12px;background:var(--bg)}
     return { root: built.root, message: `Imported from Blender ${ver}. Meshes, materials, UVs and hierarchy are loaded; animation and image textures are not.` + (notes.length ? ' Note: ' + notes.join('; ') + '.' : '') };
   }
 
-  async function loadFiles(rawFiles) {
+  async function loadFiles(rawFiles, persistToLibrary = true) {
     const files = Array.from(rawFiles || []).filter(Boolean);
     if (!files.length) return;
+    if (persistToLibrary) {
+      try { await saveFilesToLibrary(files); await refreshLibraryData(); }
+      catch (error) { showToast('Upload could not be saved to the local Library: ' + error.message, true); }
+    }
     const main = files.find(file => supported.has(ext(file.name)));
-    if (!main) { showToast('No supported model found. Please select a .fbx, .glb, .gltf, .obj, .stl or .blend file.'); return; }
+    if (!main) {
+      const images = files.filter(f => libraryKind(f) === 'image');
+      if (images.length) { setStatus(`${images.length} texture${images.length === 1 ? '' : 's'} saved to Library`); showToast(`Saved ${images.length} image${images.length === 1 ? '' : 's'} to your on-device Library. Select a mesh to apply one.`, true); return; }
+      showToast('Files saved to Library. No supported 3D model was selected.', true); return;
+    }
     const ticket = ++loadTicket;
     setStatus(`Loading ${main.name}…`, true);
     const start = performance.now();
@@ -2274,22 +2573,6 @@ body{font-size:12px;background:var(--bg)}
     $('measureToggleBtn')?.classList.toggle('on', measurementMode);
     renderAddonTools();
     if (measurementMode) showToast('Measure mode: click two points on the model.', true);
-  }
-  function drawUVInspector() {
-    const o = selected, canvas = $('uvCanvas'), ctx = canvas.getContext('2d');
-    if (!o?.isMesh || !o.geometry?.getAttribute('uv')) { showToast('Select a mesh with UV coordinates first.', true); return; }
-    const uv = o.geometry.getAttribute('uv'), pos = o.geometry.getAttribute('position');
-    ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = '#101827'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeStyle = '#34425d'; ctx.lineWidth = 1;
-    for (let i = 0; i <= 10; i++) { const p = i * canvas.width / 10; ctx.beginPath(); ctx.moveTo(p, 0); ctx.lineTo(p, canvas.height); ctx.stroke(); ctx.beginPath(); ctx.moveTo(0, p); ctx.lineTo(canvas.width, p); ctx.stroke(); }
-    ctx.strokeStyle = '#91b8ff'; ctx.lineWidth = 1.3; ctx.beginPath();
-    for (let i = 0; i + 2 < uv.count; i += 3) {
-      const pts = [i, i + 1, i + 2].map(k => [uv.getX(k) * canvas.width, (1 - uv.getY(k)) * canvas.height]);
-      ctx.moveTo(...pts[0]); ctx.lineTo(...pts[1]); ctx.lineTo(...pts[2]); ctx.closePath();
-    }
-    ctx.stroke();
-    $('uvInfo').textContent = `${o.name || 'Selected mesh'} · ${uv.count.toLocaleString()} UV corners · ${pos?.count ? Math.floor(pos.count / 3).toLocaleString() : 0} triangles`;
-    $('uvDlg').showModal();
   }
   function dropSelectedToFloor() {
     const o = selected;
@@ -2549,6 +2832,280 @@ body{font-size:12px;background:var(--bg)}
     renderProps(); renderOutliner();
   }
 
+  /* ---------- texture editor ---------- */
+  function openTextureEditor() {
+    const material = firstSelectedMaterial();
+    if (!selectedMeshes().length) { showToast('Select a mesh to edit its texture.', true); return; }
+    const slot = $('textureEditorSlot').value || activeTextureSlot || 'map';
+    pendingTextureSlot = slot;
+    const map = material?.[slot];
+    const preview = texturePreviewURL(map);
+    $('textureEditorInfo').textContent = `${selected.name || selected.type} · ${slot.replace('Map','')} · ${map ? (map.userData?.libraryAssetName || 'Texture assigned') : 'No texture assigned'}`;
+    $('textureEditorPreview').innerHTML = preview ? `<img src="${safeText(preview)}" alt="Texture preview">` : '<span>No texture assigned. Upload one or choose it from the Library.</span>';
+    $('texRepeatU').value = map?.repeat?.x ?? 1; $('texRepeatV').value = map?.repeat?.y ?? 1;
+    $('texOffsetU').value = map?.offset?.x ?? 0; $('texOffsetV').value = map?.offset?.y ?? 0;
+    $('texRotation').value = THREE.MathUtils.radToDeg(map?.rotation || 0);
+    $('texWrap').value = map?.wrapS === THREE.ClampToEdgeWrapping ? 'clamp' : map?.wrapS === THREE.MirroredRepeatWrapping ? 'mirror' : 'repeat';
+    if (!$('textureEditorDlg').open) $('textureEditorDlg').showModal();
+  }
+  $('textureEditorSlot').addEventListener('change', openTextureEditor);
+  function applyTextureSettings() {
+    const targets = selectedMeshes();
+    if (!targets.length) { showToast('Select a mesh first.', true); return; }
+    let changed = 0;
+    const slot = $('textureEditorSlot').value || 'map';
+    for (const mesh of targets) {
+      const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      for (const m of mats) {
+        const map = m?.[slot]; if (!map) continue;
+        map.repeat.set(Math.max(.01, Number($('texRepeatU').value) || 1), Math.max(.01, Number($('texRepeatV').value) || 1));
+        map.offset.set(Number($('texOffsetU').value) || 0, Number($('texOffsetV').value) || 0);
+        map.rotation = THREE.MathUtils.degToRad(Number($('texRotation').value) || 0);
+        const mode = $('texWrap').value;
+        map.wrapS = map.wrapT = mode === 'clamp' ? THREE.ClampToEdgeWrapping : mode === 'mirror' ? THREE.MirroredRepeatWrapping : THREE.RepeatWrapping;
+        map.needsUpdate = true; changed++;
+      }
+    }
+    $('textureEditorDlg').close(); renderProps();
+    if (!changed) showToast('No texture is assigned yet. Upload or choose one first.', true);
+    else showToast('Texture mapping settings applied.', true);
+  }
+
+  /* ---------- editable UV layout ---------- */
+  function selectedUVGeometry() {
+    const mesh = selectedMeshes()[0];
+    return mesh?.geometry?.getAttribute('uv') ? mesh.geometry : null;
+  }
+  function drawUVInspector() {
+    const o = selectedMeshes()[0], geo = selectedUVGeometry(), canvas = $('uvCanvas');
+    if (!o || !geo) { showToast('Select a mesh with UV coordinates first.', true); return; }
+    const ctx = canvas.getContext('2d'), uv = geo.getAttribute('uv'), pos = geo.getAttribute('position');
+    ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = '#101827'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    const map = (Array.isArray(o.material) ? o.material[0] : o.material)?.map;
+    try { if (map?.image) { ctx.save(); ctx.globalAlpha = .35; ctx.drawImage(map.image, 0, 0, canvas.width, canvas.height); ctx.restore(); } } catch (e) {}
+    ctx.strokeStyle = '#34425d'; ctx.lineWidth = 1;
+    for (let i = 0; i <= 10; i++) { const p = i * canvas.width / 10; ctx.beginPath(); ctx.moveTo(p, 0); ctx.lineTo(p, canvas.height); ctx.stroke(); ctx.beginPath(); ctx.moveTo(0, p); ctx.lineTo(canvas.width, p); ctx.stroke(); }
+    ctx.strokeStyle = '#91b8ff'; ctx.lineWidth = 1.3;
+    const indices = geo.index?.array || null;
+    const triangleCorners = indices ? indices.length : uv.count;
+    ctx.beginPath();
+    for (let i = 0; i + 2 < triangleCorners; i += 3) {
+      const a = indices ? indices[i] : i, b = indices ? indices[i + 1] : i + 1, c = indices ? indices[i + 2] : i + 2;
+      if (a >= uv.count || b >= uv.count || c >= uv.count) continue;
+      const pts = [a, b, c].map(k => [uv.getX(k) * canvas.width, (1 - uv.getY(k)) * canvas.height]);
+      ctx.moveTo(...pts[0]); ctx.lineTo(...pts[1]); ctx.lineTo(...pts[2]); ctx.closePath();
+    }
+    ctx.stroke();
+    const triangles = Math.floor(triangleCorners / 3);
+    $('uvInfo').textContent = `${o.name || 'Selected mesh'} · ${uv.count.toLocaleString()} UV vertices · ${triangles.toLocaleString()} triangles`;
+    if (!$('uvDlg').open) $('uvDlg').showModal();
+  }
+  function setUVArray(geometry, values) {
+    const uv = geometry.getAttribute('uv'); if (!uv) return;
+    uv.array.set(values); uv.needsUpdate = true; uv.computeBoundingBox?.();
+  }
+  function commitUVArray(geometry, before, after, label) {
+    setUVArray(geometry, after);
+    commit(() => setUVArray(geometry, before), () => setUVArray(geometry, after));
+    showToast(`${label} applied.`, true); drawUVInspector();
+  }
+  function applyUVTransform() {
+    const geometry = selectedUVGeometry();
+    if (!geometry) { showToast('Select a mesh with UV coordinates first.', true); return; }
+    const uv = geometry.getAttribute('uv');
+    if (!geometry.userData.editorUVBase) geometry.userData.editorUVBase = new Float32Array(uv.array);
+    const base = geometry.userData.editorUVBase, before = new Float32Array(uv.array), after = new Float32Array(base.length);
+    const su = Number($('uvScaleU').value) || 1, sv = Number($('uvScaleV').value) || 1;
+    const ou = Number($('uvOffsetU').value) || 0, ov = Number($('uvOffsetV').value) || 0;
+    for (let i = 0; i < base.length; i += 2) { after[i] = base[i] * su + ou; after[i + 1] = base[i + 1] * sv + ov; }
+    commitUVArray(geometry, before, after, 'UV transform');
+  }
+  function resetUVs() {
+    const geometry = selectedUVGeometry();
+    if (!geometry) { showToast('Select a mesh with UV coordinates first.', true); return; }
+    const uv = geometry.getAttribute('uv');
+    if (!geometry.userData.editorUVBase) { showToast('No UV edits to reset.', true); return; }
+    commitUVArray(geometry, new Float32Array(uv.array), new Float32Array(geometry.userData.editorUVBase), 'UV reset');
+    $('uvScaleU').value = $('uvScaleV').value = 1; $('uvOffsetU').value = $('uvOffsetV').value = 0;
+  }
+  function planarUVFromTop() {
+    const geometry = selectedUVGeometry();
+    if (!geometry) { showToast('Select a mesh with UV coordinates first.', true); return; }
+    const pos = geometry.getAttribute('position'), uv = geometry.getAttribute('uv');
+    if (!pos || pos.count !== uv.count) { showToast('This mesh uses indexed or split UVs that cannot be projected by this simple planar tool.', true); return; }
+    const box = new THREE.Box3().setFromBufferAttribute(pos), size = box.getSize(new THREE.Vector3());
+    const w = Math.max(size.x, 1e-6), h = Math.max(size.z, 1e-6), before = new Float32Array(uv.array), after = new Float32Array(before.length);
+    for (let i = 0; i < pos.count; i++) { after[i*2] = (pos.getX(i) - box.min.x) / w; after[i*2+1] = (pos.getZ(i) - box.min.z) / h; }
+    geometry.userData.editorUVBase ??= new Float32Array(before);
+    commitUVArray(geometry, before, after, 'Planar UV projection');
+  }
+
+  /* ---------- generated skybox presets and user panoramas ---------- */
+  function makeSkyPreset(name) {
+    const w = 2048, h = 1024, canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    const configs = {
+      studio: ['#394553','#c2c9d1','#737c85','#edf0f2'], day: ['#1256a0','#70b4e5','#cbdff0','#fff1c9'],
+      sunset: ['#171b43','#b64f68','#f1a36c','#ffe0ad'], overcast: ['#495968','#9daeb9','#c4c9c8','#e0e0d9'],
+      night: ['#030817','#121b3c','#27334d','#dbe8ff']
+    };
+    const c = configs[name] || configs.studio, g = ctx.createLinearGradient(0,0,0,h); g.addColorStop(0,c[0]); g.addColorStop(.48,c[1]); g.addColorStop(.72,c[2]); g.addColorStop(1,c[3]); ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+    if (name === 'day' || name === 'sunset' || name === 'studio') {
+      const sunX = name === 'sunset' ? w*.68 : w*.28, sunY = name === 'sunset' ? h*.49 : h*.32;
+      const rg = ctx.createRadialGradient(sunX,sunY,8,sunX,sunY,190); rg.addColorStop(0,'#fff7d9'); rg.addColorStop(.2,'#ffe4a5aa'); rg.addColorStop(1,'#fff0c000'); ctx.fillStyle=rg; ctx.fillRect(sunX-200,sunY-200,400,400);
+    }
+    if (name === 'night') {
+      let seed=9321; const rnd=()=>{ seed=(seed*1664525+1013904223)>>>0; return seed/4294967296; };
+      for(let i=0;i<420;i++){const x=rnd()*w,y=rnd()*h*.63,r=.4+rnd()*1.5;ctx.fillStyle=`rgba(235,242,255,${.25+rnd()*.7})`;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();}
+    }
+    const tex = new THREE.CanvasTexture(canvas); tex.colorSpace = THREE.SRGBColorSpace; tex.mapping = THREE.EquirectangularReflectionMapping; tex.needsUpdate = true;
+    return tex;
+  }
+  function setSkyEnvironment(texture, name='Custom panorama') {
+    if (activeSkyTexture && activeSkyTexture !== texture) { const oldURL=activeSkyTexture.userData?.editorSkyURL; activeSkyTexture.dispose(); if(oldURL) URL.revokeObjectURL(oldURL); }
+    activeSkyTexture = texture; activeSkyPreset = name;
+    texture.mapping = THREE.EquirectangularReflectionMapping;
+    if (texture.colorSpace !== undefined && !(texture.isDataTexture)) texture.colorSpace = THREE.SRGBColorSpace;
+    scene.background = texture; scene.environment = texture;
+    scene.backgroundIntensity = skyEnvironmentIntensity; scene.environmentIntensity = skyEnvironmentIntensity;
+    showToast(`Environment set to ${name}.`, true);
+  }
+  function applySkyPreset(name) {
+    setSkyEnvironment(makeSkyPreset(name), name[0].toUpperCase()+name.slice(1));
+    document.querySelectorAll('[data-sky-preset],[data-library-sky]').forEach(b => b.classList.toggle('on', (b.dataset.skyPreset || b.dataset.librarySky) === name));
+  }
+  async function applySkyFile(file, persistToLibrary = true) {
+    try {
+      const url = URL.createObjectURL(file); let texture;
+      if (ext(file.name) === 'hdr') texture = await new RGBELoader().loadAsync(url);
+      else if (ext(file.name) === 'exr') texture = await new EXRLoader().loadAsync(url);
+      else texture = await new THREE.TextureLoader().loadAsync(url);
+      texture.userData.editorSkyURL = url;
+      setSkyEnvironment(texture, file.name);
+      if (persistToLibrary) { await saveFilesToLibrary([file]); await refreshLibraryData(); }
+    } catch (error) { showToast('Could not load panorama: ' + error.message); }
+  }
+
+  /* ---------- material templates ---------- */
+  const materialPresets = [
+    {id:'matte-plastic',name:'Matte plastic',color:'#b5c6dc',roughness:.78,metalness:0,swatch:'linear-gradient(135deg,#8095ad,#d3deeb)'},
+    {id:'polished-metal',name:'Polished metal',color:'#b8c2ce',roughness:.18,metalness:.92,swatch:'linear-gradient(135deg,#596b7c,#e7edf4,#73899e)'},
+    {id:'brushed-metal',name:'Brushed metal',color:'#8794a3',roughness:.42,metalness:.82,swatch:'repeating-linear-gradient(0deg,#6c7885,#c1cbd6 2px,#7d8894 4px)'},
+    {id:'rubber',name:'Rubber',color:'#262a32',roughness:.94,metalness:0,swatch:'linear-gradient(135deg,#11151b,#515862)'},
+    {id:'glass',name:'Glass',color:'#c2e5f0',roughness:.08,metalness:0,transparent:true,opacity:.38,transmission:.75,swatch:'linear-gradient(135deg,#77c7df88,#e6fbffcc)'},
+    {id:'ceramic',name:'Ceramic',color:'#e9e8e2',roughness:.22,metalness:0,clearcoat:1,swatch:'linear-gradient(135deg,#aab1b9,#f7f7f3)'},
+    {id:'wood-warm',name:'Warm wood finish',color:'#98603b',roughness:.72,metalness:0,swatch:'linear-gradient(135deg,#59351f,#d39a62,#704326)'},
+    {id:'stone',name:'Stone',color:'#777d80',roughness:.96,metalness:0,swatch:'linear-gradient(135deg,#52575a,#a4a7a5)'}
+  ];
+  function applyMaterialPreset(id) {
+    const preset = materialPresets.find(p=>p.id===id), targets = selectedMeshes();
+    if (!preset) return;
+    if (!targets.length) { showToast('Select a mesh before applying a material preset.', true); return; }
+    for (const mesh of targets) {
+      const previous = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      const next = previous.map(old => {
+        const opts = { color:preset.color, roughness:preset.roughness, metalness:preset.metalness, side:THREE.DoubleSide, map:old?.map || null, roughnessMap:old?.roughnessMap||null, metalnessMap:old?.metalnessMap||null, normalMap:old?.normalMap||null, aoMap:old?.aoMap||null, emissiveMap:old?.emissiveMap||null, alphaMap:old?.alphaMap||null, bumpMap:old?.bumpMap||null, displacementMap:old?.displacementMap||null };
+        if (preset.transparent) Object.assign(opts,{transparent:true,opacity:preset.opacity,transmission:preset.transmission,depthWrite:false});
+        if (preset.clearcoat) opts.clearcoat=preset.clearcoat;
+        const mat = preset.transmission ? new THREE.MeshPhysicalMaterial(opts) : new THREE.MeshStandardMaterial(opts);
+        mat.name = preset.name; return mat;
+      });
+      mesh.material = Array.isArray(mesh.material) ? next : next[0];
+    }
+    renderProps(); showToast(`Applied ${preset.name}.`, true);
+  }
+  function renderMaterialTemplates() {
+    const host = $('materialTemplateGrid'); if (!host) return;
+    host.innerHTML = materialPresets.map(p=>`<article class="material-template"><span class="material-swatch" style="background:${p.swatch}"></span><b>${safeText(p.name)}</b><small>Roughness ${p.roughness.toFixed(2)} · Metalness ${p.metalness.toFixed(2)}</small><button class="btn" data-material-preset="${p.id}">Apply to selection</button></article>`).join('');
+  }
+
+  /* ---------- Library page ---------- */
+  function openLibraryPage(tab='assets') {
+    $('libraryPage').classList.remove('hidden'); document.body.classList.add('library-open'); switchLibraryTab(tab); renderLibraryPage();
+  }
+  function closeLibraryPage() { $('libraryPage').classList.add('hidden'); document.body.classList.remove('library-open'); }
+  function switchLibraryTab(tab) {
+    document.querySelectorAll('#libraryTabs [data-library-tab]').forEach(b=>b.classList.toggle('on', b.dataset.libraryTab===tab));
+    $('libraryAssetsPane').classList.toggle('hidden',tab!=='assets'); $('libraryMaterialsPane').classList.toggle('hidden',tab!=='materials'); $('libraryTemplatesPane').classList.toggle('hidden',tab!=='templates');
+  }
+  function renderLibraryPage() {
+    if (!$('libraryAssetGrid')) return;
+    const q = ($('librarySearch')?.value || '').trim().toLowerCase(), filter = $('libraryFilter')?.value || 'all';
+    const list = libraryEntries.filter(a=>(filter==='all'||a.kind===filter) && (!q||a.name.toLowerCase().includes(q)));
+    $('libraryAssetGrid').innerHTML = list.length ? list.map(a=>{
+      const isImage=a.kind==='image', isModel=a.kind==='model', thumb=isImage?`<img src="${safeText(libraryURL(a))}" alt="">`:isModel?'⬡':'▤';
+      const size=a.size<1048576?`${(a.size/1024).toFixed(1)} KB`:`${(a.size/1048576).toFixed(2)} MB`;
+      const actions = `${isImage?`<button class="btn" data-library-action="apply-texture" data-library-id="${a.id}">Apply texture</button><button class="btn" data-library-action="apply-skybox" data-library-id="${a.id}">Use skybox</button>`:''}${isModel?`<button class="btn" data-library-action="import-model" data-library-id="${a.id}">Import</button>`:''}<button class="btn" data-library-action="download" data-library-id="${a.id}">Download</button><button class="btn" data-library-action="delete" data-library-id="${a.id}" title="Remove from this device">Delete</button>`;
+      return `<article class="library-asset"><div class="library-asset-thumb">${thumb}</div><b title="${safeText(a.name)}">${safeText(a.name)}</b><small>${a.kind==='image'?'Image / texture':a.kind==='model'?'3D model':'File'} · ${size}</small><div class="library-asset-actions">${actions}</div></article>`;
+    }).join('') : '<p class="empty">No matching assets. Upload files to add them to your local Library.</p>';
+    renderMaterialTemplates();
+  }
+  async function useLibraryEntry(id, action) {
+    const entry=libraryEntries.find(a=>a.id===id); if(!entry) return;
+    if(action==='download') { download(entry.blob,entry.name); return; }
+    if(action==='apply-texture') { const slot=activeTextureSlot||pendingTextureSlot||'map'; pendingTextureSlot=slot; await applyTextureAsset(entry,slot); closeLibraryPage(); return; }
+    if(action==='apply-skybox') { const file=new File([entry.blob],entry.name,{type:entry.type||'image/jpeg'}); closeLibraryPage(); await applySkyFile(file,false); return; }
+    if(action==='import-model') {
+      const file = new File([entry.blob],entry.name,{type:entry.type||'application/octet-stream',lastModified:entry.lastModified||Date.now()});
+      closeLibraryPage(); await loadFiles([file],false); return;
+    }
+    if(action==='delete') {
+      await deleteLibraryEntry(id); // Keep the current object URL alive so already-applied textures remain previewable in this session.
+      // Existing materials may still reference this texture; keep its GPU resource alive for the current scene.
+      for (const key of [...loadedTextureCache.keys()]) if (key.startsWith(id+':')) loadedTextureCache.delete(key); await refreshLibraryData();
+    }
+  }
+
+  /* ---------- render image and animation ---------- */
+  function renderStillImage() {
+    const oldGrid=grid.visible, oldBox=box.visible, oldHelper=tcHelper.visible;
+    let url;
+    try {
+      grid.visible=false; box.visible=false; tcHelper.visible=false;
+      renderer.render(scene,camera);
+      url=renderer.domElement.toDataURL('image/png');
+    } catch(error) {
+      showToast('Could not render PNG: '+(error?.message||'Canvas export failed.'));
+      return;
+    } finally {
+      grid.visible=oldGrid; box.visible=oldBox; tcHelper.visible=oldHelper;
+      renderer.render(scene,camera);
+    }
+    download(url,`${(info?.filename||'render').replace(/\.[^.]+$/,'')}-render.png`);
+    showToast('Rendered PNG image saved.',true);
+  }
+  function stopAnimationRender() {
+    if (!renderCapture) return;
+    const state=renderCapture; renderCapture=null;
+    if (state.recorder.state!=='inactive') state.recorder.stop();
+    else state.stream.getTracks().forEach(t=>t.stop());
+    if (activeAction && state.clipIndex===activeIndex) {
+      activeAction.setLoop(pingPongPlayback?THREE.LoopPingPong:(loop?THREE.LoopRepeat:THREE.LoopOnce),pingPongPlayback||loop?Infinity:1);
+      activeAction.clampWhenFinished=true;
+      activeAction.time=Math.min(clips[activeIndex]?.duration||0,state.previousTime);
+      mixer.update(0); playing=state.wasPlaying; activeAction.paused=!playing;
+    }
+    updatePlaybackUi(); $('renderAnimationBtn').textContent='▶ Render animation';
+  }
+  function startAnimationRender() {
+    if (renderCapture) { stopAnimationRender(); return; }
+    if (!activeAction || activeIndex<0) { showToast('Select an animation clip before rendering video.',true); return; }
+    if (!renderer.domElement.captureStream || !window.MediaRecorder) { showToast('This browser does not support video recording. Try a recent desktop version of Chrome or Edge.'); return; }
+    const mime=['video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'].find(t=>MediaRecorder.isTypeSupported(t));
+    if (!mime) { showToast('No supported WebM video format was found in this browser.'); return; }
+    const stream=renderer.domElement.captureStream(30), chunks=[], previousTime=activeAction.time, wasPlaying=playing;
+    const recorder=new MediaRecorder(stream,{mimeType:mime});
+    recorder.ondataavailable=e=>{if(e.data?.size) chunks.push(e.data);};
+    recorder.onerror=e=>{showToast('Animation recording failed: '+(e.error?.message||'MediaRecorder error'));stopAnimationRender();};
+    const renderClipName=clips[activeIndex]?.name||'animation';
+    recorder.onstop=()=>{stateStreamStop();if(chunks.length){const blob=new Blob(chunks,{type:mime});download(blob,`${(info?.filename||'animation').replace(/\.[^.]+$/,'')}-${renderClipName}.webm`);showToast('Animation video rendered as WebM.',true);}};
+    function stateStreamStop(){stream.getTracks().forEach(t=>t.stop());}
+    renderCapture={recorder,stream,clipIndex:activeIndex,previousTime,wasPlaying};
+    activeAction.reset(); activeAction.setLoop(THREE.LoopOnce,1); activeAction.clampWhenFinished=true; activeAction.paused=false; playing=true; mixer.update(0);
+    $('renderAnimationBtn').textContent='■ Stop rendering'; $('renderStatus').textContent=`Recording ${clips[activeIndex].name||'animation'} at 30 FPS. It will stop at the end of the clip.`;
+    recorder.start(250); updatePlaybackUi(); $('renderDlg').close(); showToast('Recording animation…',true);
+  }
+
   /* ---------- wiring ---------- */
 
   $('addonsBtn').onclick = () => { renderAddonBrowser(); $('addonDlg').showModal(); };
@@ -2561,6 +3118,44 @@ body{font-size:12px;background:var(--bg)}
   $('openBlenderExtensions').onclick = () => window.open('https://extensions.blender.org/', '_blank', 'noopener,noreferrer');
   $('uvClose').onclick = () => $('uvDlg').close();
   $('uvDlg').addEventListener('click', e => { if (e.target === $('uvDlg')) $('uvDlg').close(); });
+  $('uvEditorBtn').onclick = drawUVInspector;
+  $('uvApplyBtn').onclick = applyUVTransform;
+  $('uvResetBtn').onclick = resetUVs;
+  $('uvPlanarBtn').onclick = planarUVFromTop;
+  $('textureEditorBtn').onclick = openTextureEditor;
+  $('textureEditorClose').onclick = () => $('textureEditorDlg').close();
+  $('textureApplySettingsBtn').onclick = applyTextureSettings;
+  $('textureUploadBtn').onclick = () => { pendingTextureSlot=$('textureEditorSlot').value||'map'; $('textureUploadInput').value=''; $('textureUploadInput').click(); };
+  $('textureChooseBtn').onclick = () => { pendingTextureSlot=$('textureEditorSlot').value||'map'; $('textureEditorDlg').close(); openLibraryPage('assets'); };
+  $('textureUploadInput').addEventListener('change', async e => {
+    const file=e.target.files?.[0]; if(!file) return;
+    try { await saveFilesToLibrary([file]); await refreshLibraryData(); const entry=libraryEntries.find(a=>a.name===file.name&&a.size===file.size); if(entry) await applyTextureAsset(entry,pendingTextureSlot); }
+    catch(error){showToast('Texture upload failed: '+error.message);}
+  });
+  $('skyboxEditorBtn').onclick = () => $('skyboxDlg').showModal();
+  $('skyboxClose').onclick = () => $('skyboxDlg').close();
+  $('skyboxPresets').addEventListener('click',e=>{const b=e.target.closest('[data-sky-preset]');if(b)applySkyPreset(b.dataset.skyPreset);});
+  $('skyIntensity').oninput = e => {skyEnvironmentIntensity=Number(e.target.value);$('skyIntensityValue').textContent=skyEnvironmentIntensity.toFixed(2);scene.backgroundIntensity=skyEnvironmentIntensity;scene.environmentIntensity=skyEnvironmentIntensity;};
+  $('skyboxUploadBtn').onclick = () => {$('skyboxUploadInput').value='';$('skyboxUploadInput').click();};
+  $('skyboxUploadInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(file)applySkyFile(file);});
+  $('skyboxClearBtn').onclick = () => {if(activeSkyTexture){const url=activeSkyTexture.userData?.editorSkyURL;activeSkyTexture.dispose();if(url)URL.revokeObjectURL(url);activeSkyTexture=null;}scene.background=null;scene.environment=null;activeSkyPreset='';$('skyboxDlg').close();showToast('Skybox cleared.',true);};
+  $('renderBtn').onclick = () => $('renderDlg').showModal();
+  $('renderClose').onclick = () => $('renderDlg').close();
+  $('renderStillBtn').onclick = () => {$('renderDlg').close();renderStillImage();};
+  $('renderAnimationBtn').onclick = startAnimationRender;
+  $('libraryOpenBtn').onclick = () => openLibraryPage('assets');
+  $('libraryBackBtn').onclick = closeLibraryPage;
+  $('libraryUploadBtn').onclick = () => {$('libraryUploadInput').value='';$('libraryUploadInput').click();};
+  $('libraryUploadInput').addEventListener('change',async e=>{const files=Array.from(e.target.files||[]);if(!files.length)return;try{await saveFilesToLibrary(files);await refreshLibraryData();setStatus(`${files.length} file${files.length===1?'':'s'} saved to Library`);showToast(`Saved ${files.length} file${files.length===1?'':'s'} to your on-device Library.`,true);}catch(error){showToast('Could not save files to Library: '+(error?.message||error));}});
+  $('librarySearch').addEventListener('input',renderLibraryPage);
+  $('libraryFilter').addEventListener('change',renderLibraryPage);
+  $('libraryTabs').addEventListener('click',e=>{const b=e.target.closest('[data-library-tab]');if(b)switchLibraryTab(b.dataset.libraryTab);});
+  $('libraryPage').addEventListener('click',async e=>{
+    const tab=e.target.closest('[data-library-tab]');if(tab){switchLibraryTab(tab.dataset.libraryTab);return;}
+    const sky=e.target.closest('[data-library-sky]');if(sky){applySkyPreset(sky.dataset.librarySky);return;}
+    const mat=e.target.closest('[data-material-preset]');if(mat){applyMaterialPreset(mat.dataset.materialPreset);closeLibraryPage();return;}
+    const action=e.target.closest('[data-library-action]');if(action){try{await useLibraryEntry(action.dataset.libraryId,action.dataset.libraryAction);}catch(error){showToast(error.message||String(error));}}
+  });
   $('measureToggleBtn').onclick = () => setMeasurementMode(!measurementMode);
   $('revealAllBtn').onclick = revealAllObjects;
   const fileInput = $('fileInput'), folderInput = $('folderInput');
@@ -2623,7 +3218,7 @@ body{font-size:12px;background:var(--bg)}
     { kicker: 'Viewport · 2 of 5', title: 'Navigate the viewport', body: 'Orbit with the mouse or touch to inspect the scene. Press Fly to use Roblox Studio-style free movement: WASD to move, hold right mouse and drag to look, Shift to move faster, and Space/E or Q/Ctrl to move vertically. On mobile, use the joystick and drag the right side to look.' },
     { kicker: 'Editing · 3 of 5', title: 'Select and edit objects', body: 'Select an object in the viewport or Scene list. Use Move, Rotate and Scale tools, or edit exact values in the Selected Object panel. Use the visibility eye to hide parts of the model.' },
     { kicker: 'Animation · 4 of 5', title: 'Create and edit animations', body: 'Choose an animation clip or create a new one. Select an object, move the playhead, then press Set Key. Select keyframe diamonds to inspect or delete keys, and use the timeline controls to play, pause and scrub.' },
-    { kicker: 'Finish · 5 of 5', title: 'Export your work', body: 'Export GLB to save your edited model and animations. Complex mode also includes extra modeling tools and an extension browser. You can reopen this tutorial later from the ? Help menu.' }
+    { kicker: 'Finish · 5 of 5', title: 'Library, materials and rendering', body: 'Your uploads are saved in the Library on this device. Complex mode includes Texture and UV editors, skybox templates and material presets. Use Render to save a PNG or record the active animation as WebM, then export your model as GLB.' }
   ];
   let tutorialStepIndex = 0;
   function renderTutorialStep() {
@@ -2661,6 +3256,7 @@ body{font-size:12px;background:var(--bg)}
   $('tutorialReplayBtn').onclick = () => { $('helpDlg').close(); openTutorial(true); };
   $('tutorialDlg').addEventListener('cancel', () => { try { localStorage.setItem('me-tutorial-complete', '1'); } catch (error) {} });
   $('sideToggle').onclick = () => $('app').classList.toggle('noside');
+  addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('libraryPage').classList.contains('hidden'))closeLibraryPage();});
   $('toast').onclick = () => { $('toast').style.display = 'none'; };
   renderer.domElement.addEventListener('dblclick', () => frame(selected));
   addEventListener('beforeunload', e => { if (past.length) { e.preventDefault(); e.returnValue = ''; } });
@@ -2702,17 +3298,7 @@ body{font-size:12px;background:var(--bg)}
       setStatus('Exported GLB');
     }, err => { setStatus('Export failed'); showToast('Could not export: ' + (err?.message || err)); }, { binary: true, animations: clips });
   };
-  $('shotBtn').onclick = () => {
-    const g = grid.visible, b = box.visible;
-    tcHelper.visible = box.visible = grid.visible = false;
-    scene.background = new THREE.Color(cssNum('--vcol'));
-    renderer.render(scene, camera);
-    const url = renderer.domElement.toDataURL('image/png');
-    scene.background = null;
-    tcHelper.visible = true; box.visible = b; grid.visible = g;
-    download(url, ((info?.filename || 'screenshot').replace(/\.[^.]+$/, '')) + '.png');
-    showToast('Screenshot saved', true);
-  };
+  $('shotBtn').onclick = renderStillImage;
 
   /* ---------- keyboard ---------- */
   const keys = {
@@ -2773,12 +3359,14 @@ body{font-size:12px;background:var(--bg)}
         updateTimeline();
         lastPlaybackUiUpdate = now;
       }
+      if (renderCapture && activeAction.time >= clips[activeIndex].duration - 0.02) stopAnimationRender();
     }
     if (controls.enabled) controls.update();
     renderer.render(scene, camera);
   }
   setupCompactControls();
-  renderProps(); renderOutliner(); renderClips(); updatePlaybackUi(); renderKeyframeEditor(); renderAddonBrowser();
+  renderProps(); renderOutliner(); renderClips(); updatePlaybackUi(); renderKeyframeEditor(); renderAddonBrowser(); renderMaterialTemplates();
+  refreshLibraryData();
   animate();
   // The full guided tutorial is shown once per browser profile. Skip and Finish both remember completion.
   setTimeout(() => openTutorial(false), 450);
