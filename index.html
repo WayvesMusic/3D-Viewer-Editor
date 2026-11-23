@@ -65,6 +65,13 @@ select{padding-right:6px}
 .time{margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums}
 #timeline{width:100%;margin:0;accent-color:var(--accent)}
 .timeline{max-height:min(340px,42vh);overflow:hidden}
+.timeline.performance-mode .keyframe-editor{display:none!important}
+.timeline.performance-mode #newClipBtn{display:none!important}
+.performance-dialog{width:min(460px,calc(100% - 24px))}
+.performance-dialog h3{margin:0 0 10px}
+.performance-dialog p{color:var(--muted);line-height:1.6}
+.performance-stats{display:block;margin:12px 0;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--field);color:var(--text);font-size:12px}
+.performance-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:16px}
 .keyframe-editor{display:flex;flex-direction:column;gap:7px;min-height:0;border-top:1px solid var(--line);padding-top:8px}
 .keyframe-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}
 .keyframe-title{font-weight:700;color:var(--text);white-space:nowrap}
@@ -521,8 +528,14 @@ body{font-size:12px;background:var(--bg)}
         <div class="tutorial-footer"><button class="btn" id="tutorialSkip">Skip tutorial</button><span class="sp"></span><button class="btn" id="tutorialBack" disabled>Back</button><button class="btn primary" id="tutorialNext">Next</button></div>
       </dialog>
       <dialog id="helpDlg"><h3>Keyboard shortcuts</h3><table><tr><td>Q / G / R / S</td><td>Select / Move / Rotate / Scale</td></tr><tr><td>F or Home</td><td>Frame selection / reset view</td></tr><tr><td>1 / 3 / 7</td><td>Front / Right / Top view</td></tr><tr><td>Fly / WASD</td><td>Free camera. Hold right mouse to look, Shift faster, Space/E up, Q/Ctrl down, Fly button to exit</td></tr><tr><td>Space</td><td>Play or pause (outside Fly mode)</td></tr><tr><td>Keyframe Editor</td><td>New Animation creates a clip. Set Key records the selected object transform at the playhead. Select a diamond to remove a key.</td></tr><tr><td>← →</td><td>Step one frame</td></tr><tr><td>H</td><td>Hide selected</td></tr><tr><td>Delete</td><td>Delete selected</td></tr><tr><td>Shift+D / Ctrl+D</td><td>Duplicate (Complex)</td></tr><tr><td>/</td><td>Isolate selection (Complex)</td></tr><tr><td>Complex tools</td><td>Left toolbar includes modeling, UV, texture and skybox tools.</td></tr><tr><td>Library</td><td>Uploads are stored locally in this browser/device.</td></tr><tr><td>Render</td><td>Save a PNG or record the active animation as WebM.</td></tr><tr><td>Extensions</td><td>Install and manage editor add-ons (Complex)</td></tr><tr><td>Ctrl+Z / Ctrl+Shift+Z</td><td>Undo / Redo</td></tr><tr><td>Ctrl+O</td><td>Import</td></tr><tr><td>N</td><td>Toggle side panel</td></tr><tr><td>T</td><td>Next theme</td></tr><tr><td>?</td><td>This help</td></tr></table><p style="text-align:right;margin:14px 0 0;display:flex;justify-content:flex-end;gap:8px"><button class="btn" id="tutorialReplayBtn">Tutorial</button><button class="btn primary" id="helpClose">Close</button></p></dialog>
+      <dialog id="animationPerfDlg" class="performance-dialog" aria-labelledby="animationPerfTitle">
+        <h3 id="animationPerfTitle">This model has a lot of animation data</h3>
+        <p>Drawing every animation track and keyframe can make the editor slow, especially on larger rigs. Performance view hides the keyframe lanes and keeps animation selection and playback available. You can switch back to the full keyframe editor at any time.</p>
+        <span class="performance-stats" id="animationPerfStats">Animation complexity will appear here.</span>
+        <div class="performance-actions"><button class="btn" id="animationPerfKeep">Keep full editor</button><button class="btn primary" id="animationPerfEnable">Use performance view</button></div>
+      </dialog>
     </main>
-    <section class="timeline" aria-label="Animation timeline and keyframe editor">
+    <section class="timeline" id="animationTimelinePanel" aria-label="Animation timeline and keyframe editor">
       <div class="tl-row">
         <select id="clipSelect" disabled aria-label="Animation clip"></select>
         <button class="btn" id="newClipBtn" disabled title="Create a new animation clip">＋ New Animation</button>
@@ -531,6 +544,7 @@ body{font-size:12px;background:var(--bg)}
         <button class="btn primary" id="playButton" style="min-width:84px;justify-content:center" disabled title="Play / pause (Space)">▶ Play</button>
         <button class="btn ico" id="stepFwd" title="Forward one frame (→)" aria-label="Forward one frame" disabled>▸</button>
         <button class="btn on" id="loopButton" aria-pressed="true" disabled>Loop</button>
+        <button class="btn ico" id="keyframeModeBtn" type="button" aria-label="Enable performance view" aria-pressed="false" title="Hide keyframe tracks for smoother playback">⚡</button>
         <select id="speedSelect" disabled aria-label="Playback speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="1.5">1.5×</option><option value="2">2×</option></select>
         <span class="time" id="timeText">0.00s / 0.00s · frame 0</span>
       </div>
@@ -843,6 +857,8 @@ body{font-size:12px;background:var(--bg)}
   let clips = [], activeAction = null, activeIndex = -1, playing = false, loop = true, speed = 1;
   let selectedTrackIndex = -1, selectedKeyframe = null;
   const keyframePlayheadEls = [];
+  let animationPerformanceMode = false;
+  try { animationPerformanceMode = localStorage.getItem('me-animation-performance-view') === '1'; } catch (e) {}
   let boxWasVisibleBeforePlayback = false, lastPlaybackUiUpdate = 0;
   let assetUrls = [], loadTicket = 0, toastTimeout, isolated = null, matBefore = null;
   let textureAssets = [], libraryEntries = [], libraryDbPromise = null;
@@ -1267,6 +1283,54 @@ body{font-size:12px;background:var(--bg)}
   });
 
   /* ---------- animation timeline & keyframe editor ---------- */
+  function setAnimationPerformanceMode(enabled, persist = true) {
+    animationPerformanceMode = !!enabled;
+    const panel = $('animationTimelinePanel');
+    const button = $('keyframeModeBtn');
+    panel?.classList.toggle('performance-mode', animationPerformanceMode);
+    if (button) {
+      button.textContent = animationPerformanceMode ? '▤' : '⚡';
+      button.title = animationPerformanceMode
+        ? 'Show the full keyframe editor'
+        : 'Use performance view. Hide keyframe tracks for smoother playback';
+      button.setAttribute('aria-label', animationPerformanceMode ? 'Show keyframe editor' : 'Enable performance view');
+      button.setAttribute('aria-pressed', String(animationPerformanceMode));
+    }
+    if (persist) {
+      try { localStorage.setItem('me-animation-performance-view', animationPerformanceMode ? '1' : '0'); } catch (e) {}
+    }
+    if (animationPerformanceMode) {
+      // Remove thousands of keyframe DOM nodes and cached playhead references, not just hide them.
+      keyframePlayheadEls.length = 0;
+      $('keyframeTracks').replaceChildren();
+      $('keyframeSummary').textContent = 'Keyframe editor hidden for performance';
+      updateKeyframeButtons();
+    } else {
+      renderKeyframeEditor();
+    }
+  }
+
+  function inspectAnimationComplexity() {
+    let trackCount = 0;
+    let keyCount = 0;
+    for (const clip of clips) {
+      trackCount += clip.tracks?.length || 0;
+      for (const track of clip.tracks || []) keyCount += track.times?.length || 0;
+    }
+    // A large number of rows or keyframe markers can overwhelm the editor UI.
+    const heavy = trackCount >= 120 || keyCount >= 1500 || clips.length >= 15 || (trackCount >= 70 && (info?.meshes || 0) >= 700);
+    return { heavy, trackCount, keyCount, clipCount: clips.length };
+  }
+
+  function warnAboutAnimationPerformance() {
+    if (animationPerformanceMode) return;
+    const stats = inspectAnimationComplexity();
+    if (!stats.heavy) return;
+    $('animationPerfStats').textContent = `${stats.clipCount} animations · ${stats.trackCount.toLocaleString()} tracks · ${stats.keyCount.toLocaleString()} keyframes`;
+    const dialog = $('animationPerfDlg');
+    if (!dialog.open) dialog.showModal();
+  }
+
   function renderClips() {
     const selectEl = $('clipSelect');
     selectEl.replaceChildren();
@@ -1310,6 +1374,11 @@ body{font-size:12px;background:var(--bg)}
     const clip = clips[activeIndex];
     keyframePlayheadEls.length = 0;
     host.replaceChildren();
+    if (animationPerformanceMode) {
+      $('keyframeSummary').textContent = 'Keyframe editor hidden for performance';
+      updateKeyframeButtons();
+      return;
+    }
     if (!clip) {
       $('keyframeSummary').textContent = 'No animation selected';
       host.innerHTML = '<p class="keyframe-empty">Import a model with animations, or add an animation before editing keyframes.</p>';
@@ -1687,6 +1756,7 @@ body{font-size:12px;background:var(--bg)}
     if (clips.length) selectClip(0, true); else { renderClips(); updatePlaybackUi(); renderKeyframeEditor(); }
     renderOutliner(); renderProps(); setStatus('Model loaded');
     if (!clips.length && ['fbx', 'glb', 'gltf'].includes(ext(filename))) showToast('Imported. No animation clips were found in this file.', true);
+    else warnAboutAnimationPerformance();
   }
 
   function buildAssets(files) {
@@ -3269,6 +3339,10 @@ body{font-size:12px;background:var(--bg)}
   $('redoBtn').onclick = redo;
 
   $('clipSelect').onchange = e => selectClip(+e.target.value, true);
+  $('keyframeModeBtn').onclick = () => setAnimationPerformanceMode(!animationPerformanceMode);
+  $('animationPerfEnable').onclick = () => { setAnimationPerformanceMode(true); $('animationPerfDlg').close(); };
+  $('animationPerfKeep').onclick = () => { setAnimationPerformanceMode(false); $('animationPerfDlg').close(); };
+  $('animationPerfDlg').addEventListener('click', e => { if (e.target === $('animationPerfDlg')) $('animationPerfDlg').close(); });
   $('newClipBtn').onclick = createAnimationClip;
   $('deleteClipBtn').onclick = () => removeAnimationClip(activeIndex);
   $('addKeyframeBtn').onclick = addKeyframeForSelection;
@@ -3365,6 +3439,7 @@ body{font-size:12px;background:var(--bg)}
     renderer.render(scene, camera);
   }
   setupCompactControls();
+  setAnimationPerformanceMode(animationPerformanceMode, false);
   renderProps(); renderOutliner(); renderClips(); updatePlaybackUi(); renderKeyframeEditor(); renderAddonBrowser(); renderMaterialTemplates();
   refreshLibraryData();
   animate();
